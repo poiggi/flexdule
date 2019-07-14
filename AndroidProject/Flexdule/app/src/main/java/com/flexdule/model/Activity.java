@@ -8,10 +8,11 @@ public class Activity implements Serializable {
     private ActivityVars configVars;
     private ActivityVars finalVars;
     private Integer positionInSchedule;
-    private String color;
+    private int color;
 
-    public Activity(){
-
+    public Activity() {
+        configVars = new ActivityVars();
+        finalVars = new ActivityVars();
     }
 
     public String getName() {
@@ -46,11 +47,11 @@ public class Activity implements Serializable {
         this.positionInSchedule = positionInSchedule;
     }
 
-    public String getColor() {
+    public int getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(int color) {
         this.color = color;
     }
 

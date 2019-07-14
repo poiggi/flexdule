@@ -1,4 +1,4 @@
-package com.flexdule.util;
+package com.flexdule.Core;
 
 import java.time.Duration;
 import java.util.regex.Matcher;

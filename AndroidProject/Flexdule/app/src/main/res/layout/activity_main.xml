@@ -10,6 +10,13 @@
 
     <include layout="@layout/main_header"/>
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="test"
+        android:text="Button" />
+
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
@@ -29,21 +36,6 @@
 
             <include layout="@layout/main_card_activity_dummy" />
 
-            <include layout="@layout/main_card_activity_dummy" />
-
-            <include layout="@layout/main_card_activity_dummy" />
-
-            <include layout="@layout/main_card_activity_dummy" />
-
-            <include layout="@layout/main_card_activity_dummy" />
-
-            <include layout="@layout/main_card_activity_dummy" />
-
-            <include layout="@layout/main_card_activity_dummy" />
-
-            <include layout="@layout/main_card_activity_dummy" />
-
-            <include layout="@layout/main_card_activity_dummy" />
 
         </LinearLayout>
     </ScrollView>

@@ -1,10 +1,11 @@
 package com.flexdule;
 
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +13,20 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.flexdule.Core.K;
+import com.flexdule.Core.U;
+import com.flexdule.model.Activity;
+
+import java.time.Duration;
 import java.util.ArrayList;
 
 public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapter.MainActivityViewHolder> implements View.OnClickListener {
 
-    private ArrayList<String> items;
+    private ArrayList<Activity> items;
     private AdapterView.OnItemClickListener onItemClickListener;
 
-    public MainActivityAdapter(ArrayList<String> items) {
+    public MainActivityAdapter(ArrayList<Activity> items) {
         this.items = items;
     }
 
@@ -36,12 +41,13 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         return new MainActivityViewHolder(v);
     }
 
-    public void updateData(ArrayList<String> viewModels) {
+    public void updateData(ArrayList<Activity> viewModels) {
         items.clear();
         items.addAll(viewModels);
         notifyDataSetChanged();
     }
-    public void addItem(int position, String viewModel) {
+
+    public void addItem(int position, Activity viewModel) {
         items.add(position, viewModel);
         notifyItemInserted(position);
     }
@@ -53,8 +59,58 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
     @Override
     public void onBindViewHolder(MainActivityViewHolder h, int position) {
-        String item = items.get(position);
-        h.getNameView().setText(item);
+        Context ctxt = h.getCardView().getContext();
+        Activity ac = items.get(position);
+
+        // Nombre
+        h.getNameView().setText(ac.getName());
+
+        // Color
+        h.getCardView().setCardBackgroundColor(ac.getColor());
+
+        // Inicio
+        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getIn(), ac.getFinalVars().getIx(), h.getLeftLayout(), K.DISPLAY_HOUR);
+        // Duración
+        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getDn(), ac.getFinalVars().getDx(), h.getMidLayout(), K.DISPLAY_STRING);
+        // Finalización
+        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getFn(), ac.getFinalVars().getFx(), h.getRightLayout(), K.DISPLAY_HOUR);
+
+    }
+
+    public void bindDurationPairsToLayout(Context ctxt, Duration varN, Duration varX, LinearLayout layout, int displayMode) {
+
+        if (varN != null || varX != null) {
+            // Si las dos variables son iguales, se muestra solo una etiqueta
+            if (varN != null && varN.equals(varX)) {
+                bindDurationToLabel(ctxt, varN, layout, displayMode);
+            } else {
+                bindDurationToLabel(ctxt, varN, layout, displayMode);
+                bindDurationToLabel(ctxt, varX, layout, displayMode);
+            }
+        } else {
+            // vacío
+            bindDurationToLabel(ctxt, null, layout, displayMode);
+        }
+    }
+
+    public void bindDurationToLabel(Context ctxt, Duration dur, LinearLayout layout, int displayMode) {
+        TextView tv = new TextView(ctxt);
+        String s;
+        int align = View.TEXT_ALIGNMENT_TEXT_END;
+        if (dur != null) {
+            if (displayMode == K.DISPLAY_STRING) {
+                s = U.durToString(dur);
+                align = View.TEXT_ALIGNMENT_CENTER;
+            } else {
+                s = U.durToHour(dur);
+            }
+        } else {
+            s = "-";
+        }
+        tv.setText(s);
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        tv.setTextAlignment(align);
+        layout.addView(tv);
     }
 
     @Override
