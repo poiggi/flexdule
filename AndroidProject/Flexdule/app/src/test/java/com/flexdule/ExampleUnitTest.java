@@ -1,10 +1,6 @@
 package com.flexdule;
 
-import com.flexdule.Core.U;
-
 import org.junit.Test;
-
-import java.time.Duration;
 
 import static org.junit.Assert.assertTrue;
 
@@ -18,14 +14,7 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
 
         try {
-            Duration d = U.hourToDur("1:4");
-            System.out.println(d);
-            System.out.println(d.isNegative());
-            System.out.println(U.durToString(d));
-            System.out.println(U.durToHour(d));
 
-            Duration d2 = U.hourToDur("1:4");
-            System.out.println(d.equals(d2));
 
         } catch (Exception e) {
             e.printStackTrace();

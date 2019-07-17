@@ -17,27 +17,27 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageViewEdit"
                 android:layout_width="15pt"
                 android:layout_height="15pt"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="10dp"
-                app:layout_constraintStart_toEndOf="@+id/imageView3"
+                app:layout_constraintStart_toEndOf="@+id/imageViewChange"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/edit_pencil" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/imageViewChange"
                 android:layout_width="15pt"
                 android:layout_height="15pt"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="10dp"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintStart_toEndOf="@+id/imageViewMenu"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/change" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/imageViewMenu"
                 android:layout_width="15pt"
                 android:layout_height="15pt"
                 android:layout_marginStart="10dp"
@@ -71,7 +71,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+                app:layout_constraintTop_toBottomOf="@+id/imageViewMenu" />
 
             <ImageView
                 android:layout_width="15pt"
@@ -79,7 +79,7 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="10dp"
                 android:onClick="test"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/imageViewEdit"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/add_button" />
 

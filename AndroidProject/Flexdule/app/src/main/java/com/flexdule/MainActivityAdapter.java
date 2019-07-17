@@ -1,8 +1,8 @@
 package com.flexdule;
 
-import android.arch.lifecycle.ViewModel;
 import android.content.Context;
-import android.os.Handler;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -13,15 +13,17 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.flexdule.Core.K;
-import com.flexdule.Core.U;
-import com.flexdule.model.Activity;
+import com.flexdule.Core.CU;
+import com.flexdule.Core.CK;
+import com.flexdule.model.dtos.Activity;
+import com.flexdule.model.dtos.NX;
 
 import java.time.Duration;
 import java.util.ArrayList;
 
-public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapter.MainActivityViewHolder> implements View.OnClickListener {
+public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapter.MainActivityViewHolder> {
 
     private ArrayList<Activity> items;
     private AdapterView.OnItemClickListener onItemClickListener;
@@ -30,14 +32,9 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         this.items = items;
     }
 
-    public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
-
     @Override
     public MainActivityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_card_activity, parent, false);
-        v.setOnClickListener(this);
         return new MainActivityViewHolder(v);
     }
 
@@ -62,51 +59,71 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         Context ctxt = h.getCardView().getContext();
         Activity ac = items.get(position);
 
+        // Dto de Actividad
+        h.setActivity(ac);
+
         // Nombre
         h.getNameView().setText(ac.getName());
 
         // Color
-        h.getCardView().setCardBackgroundColor(ac.getColor());
+        h.getCardView().setCardBackgroundColor(Color.parseColor(ac.getColor()));
 
         // Inicio
-        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getIn(), ac.getFinalVars().getIx(), h.getLeftLayout(), K.DISPLAY_HOUR);
+        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getS(), ac.getConfigVars().getS(), h.getLeftLayout(), CK.DISPLAY_HOUR);
         // Duración
-        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getDn(), ac.getFinalVars().getDx(), h.getMidLayout(), K.DISPLAY_STRING);
+        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getD(), ac.getConfigVars().getD(), h.getMidLayout(), CK.DISPLAY_STRING);
         // Finalización
-        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getFn(), ac.getFinalVars().getFx(), h.getRightLayout(), K.DISPLAY_HOUR);
+        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getF(), ac.getConfigVars().getF(), h.getRightLayout(), CK.DISPLAY_HOUR);
 
     }
 
-    public void bindDurationPairsToLayout(Context ctxt, Duration varN, Duration varX, LinearLayout layout, int displayMode) {
+    public void bindDurationPairsToLayout(Context ctxt, NX fin, NX conf, LinearLayout layout, int displayMode) {
 
-        if (varN != null || varX != null) {
+        boolean bold = false;
+
+        if (fin.getN() != null || fin.getX() != null) {
             // Si las dos variables son iguales, se muestra solo una etiqueta
-            if (varN != null && varN.equals(varX)) {
-                bindDurationToLabel(ctxt, varN, layout, displayMode);
+            if (fin.getN() != null && fin.getN().equals(fin.getX())) {
+
+                if (fin.getN().equals(conf.getN()) && fin.getX().equals(conf.getX())) bold = true;
+                bindDurationToLabel(ctxt, fin.getN(), layout, displayMode, bold);
+
             } else {
-                bindDurationToLabel(ctxt, varN, layout, displayMode);
-                bindDurationToLabel(ctxt, varX, layout, displayMode);
+
+                if (fin.getN()!=null && fin.getN().equals(conf.getN())) bold = true;
+                else bold = false;
+                bindDurationToLabel(ctxt, fin.getN(), layout, displayMode, bold);
+                if (fin.getX() != null && fin.getX().equals(conf.getX())) bold = true;
+                else bold = false;
+                bindDurationToLabel(ctxt, fin.getX(), layout, displayMode, bold);
+
             }
         } else {
             // vacío
-            bindDurationToLabel(ctxt, null, layout, displayMode);
+            bold = true;
+            bindDurationToLabel(ctxt, null, layout, displayMode, bold);
         }
     }
 
-    public void bindDurationToLabel(Context ctxt, Duration dur, LinearLayout layout, int displayMode) {
+    public void bindDurationToLabel(Context ctxt, Duration dur, LinearLayout layout, int displayMode, boolean bold) {
         TextView tv = new TextView(ctxt);
         String s;
         int align = View.TEXT_ALIGNMENT_TEXT_END;
         if (dur != null) {
-            if (displayMode == K.DISPLAY_STRING) {
-                s = U.durToString(dur);
+            if (displayMode == CK.DISPLAY_STRING) {
+                s = CU.durToString(dur);
                 align = View.TEXT_ALIGNMENT_CENTER;
             } else {
-                s = U.durToHour(dur);
+                s = CU.durToHour(dur);
             }
         } else {
             s = "-";
         }
+
+        if (bold) {
+            tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
+        }
+
         tv.setText(s);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         tv.setTextAlignment(align);
@@ -118,22 +135,6 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         return items.size();
     }
 
-
-    @Override
-    public void onClick(final View v) {
-        // Give some time to the ripple to finish the effect
-        if (onItemClickListener != null) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-//                    onItemClickListener.onItemClick(v, (ViewModel) v.getTag());
-                }
-            }, 0);
-        }
-    }
-
-
     protected static class MainActivityViewHolder extends RecyclerView.ViewHolder {
 
         private TextView nameView;
@@ -141,6 +142,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         private ImageView editButtonView;
         private LinearLayout leftLayout, midLayout, rightLayout;
         private CardView cardView;
+        private Activity activity;
 
         public MainActivityViewHolder(View v) {
             super(v);
@@ -151,11 +153,39 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
             midLayout = (LinearLayout) v.findViewById(R.id.midLayout);
             rightLayout = (LinearLayout) v.findViewById(R.id.rightLayout);
             cardView = (CardView) v.findViewById(R.id.card);
+
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onCardClick();
+                }
+            });
+            actionButtonView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onActionClick();
+                }
+            });
+            editButtonView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onEditClick();
+                }
+            });
         }
 
-        public interface OnItemClickListener {
-            void onItemClick(View view, ViewModel viewModel);
+        public void onCardClick() {
+            Toast.makeText(cardView.getContext(), "clic en card " + getAdapterPosition() + " de " + activity.getName(), Toast.LENGTH_SHORT).show();
         }
+
+        public void onActionClick() {
+            Toast.makeText(cardView.getContext(), "clic en action " + getAdapterPosition() + " de " + activity.getName(), Toast.LENGTH_SHORT).show();
+        }
+
+        public void onEditClick() {
+            Toast.makeText(cardView.getContext(), "clic en edit " + getAdapterPosition() + " de " + activity.getName(), Toast.LENGTH_SHORT).show();
+        }
+
 
         public TextView getNameView() {
             return nameView;
@@ -184,5 +214,14 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         public CardView getCardView() {
             return cardView;
         }
+
+        public Activity getActivity() {
+            return activity;
+        }
+
+        public void setActivity(Activity activity) {
+            this.activity = activity;
+        }
     }
+
 }
