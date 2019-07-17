@@ -4,7 +4,10 @@ import java.time.Duration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class U {
+/**
+ * Clase de útils pertenecientes al Core
+ */
+public class CU {
 
     /**
      * Convierte un string que reprente una duracíón en formato HH:MM a la clase Duration

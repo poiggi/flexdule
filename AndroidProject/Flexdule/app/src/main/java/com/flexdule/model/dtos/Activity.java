@@ -1,4 +1,4 @@
-package com.flexdule.model;
+package com.flexdule.model.dtos;
 
 import java.io.Serializable;
 
@@ -8,7 +8,7 @@ public class Activity implements Serializable {
     private ActivityVars configVars;
     private ActivityVars finalVars;
     private Integer positionInSchedule;
-    private int color;
+    private String color;
 
     public Activity() {
         configVars = new ActivityVars();
@@ -28,7 +28,13 @@ public class Activity implements Serializable {
     }
 
     public void setConfigVars(ActivityVars configVars) {
-        this.configVars = configVars;
+        if(configVars != null) {
+            this.configVars = configVars;
+        }else{
+            this.configVars.setS(null);
+            this.configVars.setD(null);
+            this.configVars.setF(null);
+        }
     }
 
     public ActivityVars getFinalVars() {
@@ -36,7 +42,13 @@ public class Activity implements Serializable {
     }
 
     public void setFinalVars(ActivityVars finalVars) {
-        this.finalVars = finalVars;
+        if(finalVars != null) {
+            this.finalVars = finalVars;
+        }else{
+            this.finalVars.setS(null);
+            this.finalVars.setD(null);
+            this.finalVars.setF(null);
+        }
     }
 
     public Integer getPositionInSchedule() {
@@ -47,11 +59,11 @@ public class Activity implements Serializable {
         this.positionInSchedule = positionInSchedule;
     }
 
-    public int getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(int color) {
+    public void setColor(String color) {
         this.color = color;
     }
 
