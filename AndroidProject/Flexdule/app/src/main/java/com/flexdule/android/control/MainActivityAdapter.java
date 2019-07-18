@@ -1,4 +1,4 @@
-package com.flexdule;
+package com.flexdule.android.control;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,21 +15,28 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.flexdule.Core.CU;
-import com.flexdule.Core.CK;
-import com.flexdule.model.dtos.Activity;
-import com.flexdule.model.dtos.NX;
+import com.flexdule.R;
+import com.flexdule.core.utils.CK;
+import com.flexdule.core.utils.CU;
+import com.flexdule.core.dtos.Activity;
+import com.flexdule.core.dtos.NX;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapter.MainActivityViewHolder> {
 
-    private ArrayList<Activity> items;
+    private List<Activity> items;
     private AdapterView.OnItemClickListener onItemClickListener;
 
-    public MainActivityAdapter(ArrayList<Activity> items) {
-        this.items = items;
+    public MainActivityAdapter(List<Activity> items) {
+
+        if (items != null) {
+            this.items = items;
+        } else {
+            items = new ArrayList<>();
+        }
     }
 
     @Override
@@ -66,7 +73,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         h.getNameView().setText(ac.getName());
 
         // Color
-        h.getCardView().setCardBackgroundColor(Color.parseColor(ac.getColor()));
+        h.getCardView().setCardBackgroundColor(Color.parseColor("#"+ac.getColor()));
 
         // Inicio
         bindDurationPairsToLayout(ctxt, ac.getFinalVars().getS(), ac.getConfigVars().getS(), h.getLeftLayout(), CK.DISPLAY_HOUR);
@@ -90,7 +97,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
             } else {
 
-                if (fin.getN()!=null && fin.getN().equals(conf.getN())) bold = true;
+                if (fin.getN() != null && fin.getN().equals(conf.getN())) bold = true;
                 else bold = false;
                 bindDurationToLabel(ctxt, fin.getN(), layout, displayMode, bold);
                 if (fin.getX() != null && fin.getX().equals(conf.getX())) bold = true;

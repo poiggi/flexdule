@@ -1,18 +1,37 @@
-package com.flexdule.model.dtos;
+package com.flexdule.core.dtos;
 
 import java.io.Serializable;
 
 public class Activity implements Serializable {
 
+
+    private Integer idActivity;
+    private Integer idSchedule;
     private String name;
     private ActivityVars configVars;
     private ActivityVars finalVars;
-    private Integer positionInSchedule;
     private String color;
+    private Integer positionInSchedule;
 
     public Activity() {
         configVars = new ActivityVars();
         finalVars = new ActivityVars();
+    }
+
+    public Integer getIdActivity() {
+        return idActivity;
+    }
+
+    public void setIdActivity(Integer idActivity) {
+        this.idActivity = idActivity;
+    }
+
+    public Integer getIdSchedule() {
+        return idSchedule;
+    }
+
+    public void setIdSchedule(Integer idSchedule) {
+        this.idSchedule = idSchedule;
     }
 
     public String getName() {
@@ -51,14 +70,6 @@ public class Activity implements Serializable {
         }
     }
 
-    public Integer getPositionInSchedule() {
-        return positionInSchedule;
-    }
-
-    public void setPositionInSchedule(Integer positionInSchedule) {
-        this.positionInSchedule = positionInSchedule;
-    }
-
     public String getColor() {
         return color;
     }
@@ -67,14 +78,24 @@ public class Activity implements Serializable {
         this.color = color;
     }
 
+    public Integer getPositionInSchedule() {
+        return positionInSchedule;
+    }
+
+    public void setPositionInSchedule(Integer positionInSchedule) {
+        this.positionInSchedule = positionInSchedule;
+    }
+
     @Override
     public String toString() {
         return "Activity{" +
-                "name='" + name + '\'' +
+                "idActivity=" + idActivity +
+                ", idSchedule=" + idSchedule +
+                ", name='" + name + '\'' +
                 ", configVars=" + configVars +
                 ", finalVars=" + finalVars +
-                ", positionInSchedule=" + positionInSchedule +
                 ", color='" + color + '\'' +
+                ", positionInSchedule=" + positionInSchedule +
                 '}';
     }
 }

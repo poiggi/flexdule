@@ -1,4 +1,4 @@
-package com.flexdule.model.sqlite.entities;
+package com.flexdule.android.model.sqlite.entities;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -13,7 +13,7 @@ public class ActivityBean implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private Integer idActivity;
 
-    @ColumnInfo(name = "Scheme_idScheme")
+    @ColumnInfo(name = "Schedule_idSchedule")
     private Integer idSchedule;
 
     private String name;

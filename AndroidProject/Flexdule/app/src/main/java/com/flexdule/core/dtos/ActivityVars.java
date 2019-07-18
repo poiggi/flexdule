@@ -1,4 +1,4 @@
-package com.flexdule.model.dtos;
+package com.flexdule.core.dtos;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -105,11 +105,10 @@ public class ActivityVars implements Serializable {
 
     @Override
     public String toString() {
-        return "ActivityVars{" +
-                "s=" + s +
-                ", d=" + d +
-                ", f=" + f +
-                '}';
+        return "ActivityVars{ " +
+                "Sn="+getSn()+", Sx="+getSx()+", " +
+                "Dn="+getDn()+", Dx="+getDx()+", " +
+                "Fn="+getFn()+", Fx="+getFx()+", }";
     }
 
     @Override
