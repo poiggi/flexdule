@@ -1,21 +1,15 @@
-package com.flexdule.model.sqlite.entities;
-
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+package com.flexdule.core.dtos;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity(tableName = "Schedule")
-public class ScheduleBean implements Serializable {
+public class Schedule implements Serializable {
 
-    @PrimaryKey(autoGenerate = true)
     private Integer idSchedule;
     private String name;
     private String color;
 
-    public ScheduleBean() {
-    }
+    public Schedule(){}
 
     public Integer getIdSchedule() {
         return idSchedule;
@@ -43,7 +37,7 @@ public class ScheduleBean implements Serializable {
 
     @Override
     public String toString() {
-        return "ScheduleBean{" +
+        return "Schedule{" +
                 "idSchedule=" + idSchedule +
                 ", name='" + name + '\'' +
                 ", color='" + color + '\'' +
@@ -54,10 +48,10 @@ public class ScheduleBean implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ScheduleBean that = (ScheduleBean) o;
-        return Objects.equals(idSchedule, that.idSchedule) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(color, that.color);
+        Schedule schedule = (Schedule) o;
+        return Objects.equals(idSchedule, schedule.idSchedule) &&
+                Objects.equals(name, schedule.name) &&
+                Objects.equals(color, schedule.color);
     }
 
     @Override

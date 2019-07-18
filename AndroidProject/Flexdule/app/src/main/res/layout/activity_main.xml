@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".android.control.MainActivity">
 
     <!--<include layout="@layout/main_header"/>-->
 
@@ -115,8 +115,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"/>
-
-            <include layout="@layout/main_card_activity_dummy" />
 
 
         </LinearLayout>

@@ -1,4 +1,4 @@
-package com.flexdule.model.sqlite.entities;
+package com.flexdule.android.model.sqlite.entities;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
@@ -9,7 +9,7 @@ import java.util.Objects;
 @Entity(tableName = "Cookie")
 public class CookieBean implements Serializable {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     private Integer idCookie;
     private String label;
     private String name;
