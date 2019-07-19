@@ -8,10 +8,12 @@ public class Activity implements Serializable {
     private Integer idActivity;
     private Integer idSchedule;
     private String name;
+    private Integer positionInSchedule;
+    private String color;
     private ActivityVars configVars;
     private ActivityVars finalVars;
-    private String color;
-    private Integer positionInSchedule;
+
+
 
     public Activity() {
         configVars = new ActivityVars();
@@ -92,10 +94,10 @@ public class Activity implements Serializable {
                 "idActivity=" + idActivity +
                 ", idSchedule=" + idSchedule +
                 ", name='" + name + '\'' +
-                ", configVars=" + configVars +
-                ", finalVars=" + finalVars +
                 ", color='" + color + '\'' +
                 ", positionInSchedule=" + positionInSchedule +
+                ", configVars=" + configVars +
+                ", finalVars=" + finalVars +
                 '}';
     }
 }

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.flexdule.android.model.sqlite.FlexduleDataBase;
-import com.flexdule.android.model.sqlite.SqliteHelper;
 
 public class AccessContext {
     private static final String tag = AccessContext.class.getSimpleName();
@@ -15,12 +14,10 @@ public class AccessContext {
     public static void createDataBase(Context context) throws Exception {
         try {
             if (flexduleDataBase == null) {
-                SqliteHelper helper = new SqliteHelper(context);
-                flexduleDataBase = Room.databaseBuilder(context,
-                        FlexduleDataBase.class, "flexdule-database").allowMainThreadQueries().build();
+                flexduleDataBase = Room.databaseBuilder(context, FlexduleDataBase.class, "flexdule-database").allowMainThreadQueries().build();
             }
-        }catch (Exception e){
-            Log.e(tag,"Error in createDataBase: "+e);
+        } catch (Exception e) {
+            Log.e(tag, "Error in createDataBase: " + e);
         }
     }
 

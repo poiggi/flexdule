@@ -3,21 +3,20 @@ package com.flexdule.android.util;
 import android.content.Context;
 import android.util.Log;
 
+import com.flexdule.android.manager.AndroidActivityAccessManager;
+import com.flexdule.android.manager.AndroidCookieAccessManager;
+import com.flexdule.android.manager.AndroidScheduleAccessManager;
 import com.flexdule.core.dtos.Activity;
 import com.flexdule.core.dtos.Cookie;
 import com.flexdule.core.dtos.Schedule;
 import com.flexdule.core.manager.ActivityAccessManager;
 import com.flexdule.core.manager.CookieAccesManager;
 import com.flexdule.core.manager.ScheduleAccessManager;
-import com.flexdule.android.manager.AndroidActivityAccessManager;
-import com.flexdule.android.manager.AndroidCookieAccessManager;
-import com.flexdule.android.manager.AndroidScheduleAccessManager;
-import com.flexdule.android.model.sqlite.SqliteHelper;
 
 import java.util.List;
 
 public class DebugU {
-    private static final String tag = SqliteHelper.class.getName();
+    private static final String tag = DebugU.class.getName();
 
     public static void printAllPersistentActivities(Context c) throws Exception {
         ActivityAccessManager am = new AndroidActivityAccessManager(c);

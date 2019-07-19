@@ -133,6 +133,7 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
             ac.setIdSchedule(activityBean.getIdSchedule());
             ac.setName(activityBean.getName());
             ac.setColor(activityBean.getColor());
+            ac.setPositionInSchedule(activityBean.getPositionInSchedule());
 
             ActivityVars durs = new ActivityVars();
             if (activityBean.getSn() != null) durs.setSn(Duration.parse(activityBean.getSn()));
@@ -142,6 +143,15 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
             if (activityBean.getFn() != null) durs.setFn(Duration.parse(activityBean.getFn()));
             if (activityBean.getFx() != null) durs.setFx(Duration.parse(activityBean.getFx()));
             ac.setConfigVars(durs);
+
+            ActivityVars dursF = new ActivityVars();
+            if (activityBean.getSn() != null) dursF.setSn(Duration.parse(activityBean.getSn()));
+            if (activityBean.getSx() != null) dursF.setSx(Duration.parse(activityBean.getSx()));
+            if (activityBean.getDn() != null) dursF.setDn(Duration.parse(activityBean.getDn()));
+            if (activityBean.getDx() != null) dursF.setDx(Duration.parse(activityBean.getDx()));
+            if (activityBean.getFn() != null) dursF.setFn(Duration.parse(activityBean.getFn()));
+            if (activityBean.getFx() != null) dursF.setFx(Duration.parse(activityBean.getFx()));
+            ac.setFinalVars(dursF);
         }
         return ac;
     }

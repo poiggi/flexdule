@@ -16,8 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flexdule.R;
-import com.flexdule.core.utils.CK;
-import com.flexdule.core.utils.CU;
+import com.flexdule.core.util.CK;
+import com.flexdule.core.util.CU;
 import com.flexdule.core.dtos.Activity;
 import com.flexdule.core.dtos.NX;
 
@@ -63,59 +63,65 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
     @Override
     public void onBindViewHolder(MainActivityViewHolder h, int position) {
-        Context ctxt = h.getCardView().getContext();
+        Context ctxt = h.cardView.getContext();
         Activity ac = items.get(position);
 
         // Dto de Actividad
-        h.setActivity(ac);
+        h.activity = ac;
 
         // Nombre
-        h.getNameView().setText(ac.getName());
+        h.nameView.setText(ac.getName());
 
         // Color
-        h.getCardView().setCardBackgroundColor(Color.parseColor("#"+ac.getColor()));
+        h.cardView.setCardBackgroundColor(Color.parseColor("#"+ac.getColor()));
 
         // Inicio
-        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getS(), ac.getConfigVars().getS(), h.getLeftLayout(), CK.DISPLAY_HOUR);
+        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getS(), ac.getConfigVars().getS(), h.textS1, h.textS2, CK.DISPLAY_HOUR);
         // Duración
-        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getD(), ac.getConfigVars().getD(), h.getMidLayout(), CK.DISPLAY_STRING);
+        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getD(), ac.getConfigVars().getD(), h.textD1, h.textD2, CK.DISPLAY_STRING);
         // Finalización
-        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getF(), ac.getConfigVars().getF(), h.getRightLayout(), CK.DISPLAY_HOUR);
+        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getF(), ac.getConfigVars().getF(), h.textF1, h.textF2, CK.DISPLAY_HOUR);
 
     }
 
-    public void bindDurationPairsToLayout(Context ctxt, NX fin, NX conf, LinearLayout layout, int displayMode) {
+    public void bindDurationPairsToLayout(Context ctxt, NX fin, NX conf, TextView tv1, TextView tv2, int displayMode) {
 
         boolean bold = false;
 
         if (fin.getN() != null || fin.getX() != null) {
-            // Si las dos variables son iguales, se muestra solo una etiqueta
+
             if (fin.getN() != null && fin.getN().equals(fin.getX())) {
+                // Si las dos variables son iguales, se muestra solo una etiqueta
 
                 if (fin.getN().equals(conf.getN()) && fin.getX().equals(conf.getX())) bold = true;
-                bindDurationToLabel(ctxt, fin.getN(), layout, displayMode, bold);
+                bindDurationToLabel(fin.getN(), tv1, displayMode, bold);
+                tv2.setVisibility(View.GONE);
 
             } else {
+                // Se muestran las dos etiquetas
 
                 if (fin.getN() != null && fin.getN().equals(conf.getN())) bold = true;
                 else bold = false;
-                bindDurationToLabel(ctxt, fin.getN(), layout, displayMode, bold);
+                bindDurationToLabel(fin.getN(), tv1, displayMode, bold);
+
                 if (fin.getX() != null && fin.getX().equals(conf.getX())) bold = true;
                 else bold = false;
-                bindDurationToLabel(ctxt, fin.getX(), layout, displayMode, bold);
+                bindDurationToLabel(fin.getX(), tv2, displayMode, bold);
 
             }
         } else {
-            // vacío
+            // Solo una etiqueta vacía
             bold = true;
-            bindDurationToLabel(ctxt, null, layout, displayMode, bold);
+            bindDurationToLabel(null, tv1, displayMode, bold);
+            tv2.setVisibility(View.GONE);
         }
     }
 
-    public void bindDurationToLabel(Context ctxt, Duration dur, LinearLayout layout, int displayMode, boolean bold) {
-        TextView tv = new TextView(ctxt);
+    public void bindDurationToLabel(Duration dur, TextView tv, int displayMode, boolean bold) {
         String s;
         int align = View.TEXT_ALIGNMENT_TEXT_END;
+        tv.setVisibility(View.VISIBLE);
+
         if (dur != null) {
             if (displayMode == CK.DISPLAY_STRING) {
                 s = CU.durToString(dur);
@@ -124,6 +130,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
                 s = CU.durToHour(dur);
             }
         } else {
+            align = View.TEXT_ALIGNMENT_CENTER;
             s = "-";
         }
 
@@ -134,7 +141,6 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         tv.setText(s);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         tv.setTextAlignment(align);
-        layout.addView(tv);
     }
 
     @Override
@@ -144,22 +150,32 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
     protected static class MainActivityViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView nameView;
-        private ImageView actionButtonView;
-        private ImageView editButtonView;
-        private LinearLayout leftLayout, midLayout, rightLayout;
-        private CardView cardView;
-        private Activity activity;
+        TextView nameView;
+        ImageView actionButtonView;
+        ImageView editButtonView;
+        CardView cardView;
+        Activity activity;
 
-        public MainActivityViewHolder(View v) {
+        TextView textS1;
+        TextView textS2;
+        TextView textD1;
+        TextView textD2;
+        TextView textF1;
+        TextView textF2;
+
+        protected MainActivityViewHolder(View v) {
             super(v);
             nameView = (TextView) v.findViewById(R.id.name);
             actionButtonView = (ImageView) v.findViewById(R.id.actionButton);
             editButtonView = (ImageView) v.findViewById(R.id.editButton);
-            leftLayout = (LinearLayout) v.findViewById(R.id.leftLayout);
-            midLayout = (LinearLayout) v.findViewById(R.id.midLayout);
-            rightLayout = (LinearLayout) v.findViewById(R.id.rightLayout);
             cardView = (CardView) v.findViewById(R.id.card);
+            textS1 = (TextView) v.findViewById(R.id.textS1);
+            textS2 = (TextView) v.findViewById(R.id.textS2);
+            textD1 = (TextView) v.findViewById(R.id.textD1);
+            textD2 = (TextView) v.findViewById(R.id.textD2);
+            textF1 = (TextView) v.findViewById(R.id.textF1);
+            textF2 = (TextView) v.findViewById(R.id.textF2);
+
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -193,42 +209,6 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
             Toast.makeText(cardView.getContext(), "clic en edit " + getAdapterPosition() + " de " + activity.getName(), Toast.LENGTH_SHORT).show();
         }
 
-
-        public TextView getNameView() {
-            return nameView;
-        }
-
-        public ImageView getActionButtonView() {
-            return actionButtonView;
-        }
-
-        public ImageView getEditButtonView() {
-            return editButtonView;
-        }
-
-        public LinearLayout getLeftLayout() {
-            return leftLayout;
-        }
-
-        public LinearLayout getMidLayout() {
-            return midLayout;
-        }
-
-        public LinearLayout getRightLayout() {
-            return rightLayout;
-        }
-
-        public CardView getCardView() {
-            return cardView;
-        }
-
-        public Activity getActivity() {
-            return activity;
-        }
-
-        public void setActivity(Activity activity) {
-            this.activity = activity;
-        }
     }
 
 }

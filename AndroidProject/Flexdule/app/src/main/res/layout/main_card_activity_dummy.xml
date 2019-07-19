@@ -109,7 +109,8 @@
                     android:text="45m 30s"
                     android:textAlignment="center"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="visible" />
             </LinearLayout>
 
             <LinearLayout
