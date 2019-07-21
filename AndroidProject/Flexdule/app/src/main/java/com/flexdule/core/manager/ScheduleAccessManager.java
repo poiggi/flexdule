@@ -1,20 +1,19 @@
 package com.flexdule.core.manager;
 
-import android.content.Context;
-
 import com.flexdule.core.dtos.Schedule;
 
 import java.util.List;
 
 public interface ScheduleAccessManager {
 
-    Schedule findFirstOne() throws Exception;
 
-    Schedule findById(Integer idSchedule) throws Exception;
+    Schedule findFirstSchedule() throws Exception;
 
-    List<Schedule> findAll() throws Exception;
+    Schedule findScheduleById(Integer idSchedule) throws Exception;
 
-    long save(Schedule schedule) throws Exception;
+    List<Schedule> findAllSchedules() throws Exception;
 
-    int deleteById(Integer idSchedule) throws Exception;
+    Integer saveSchedule(Schedule schedule) throws Exception;
+
+    int deleteScheduleById(Integer idSchedule) throws Exception;
 }

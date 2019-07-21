@@ -1,6 +1,9 @@
-package com.flexdule.core.utils;
+package com.flexdule.core.util;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -177,5 +180,18 @@ public class CU {
             }
         }
         return str;
+    }
+
+
+
+
+
+
+    public static int getRandomNumberInRange(int min, int max) {
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
     }
 }

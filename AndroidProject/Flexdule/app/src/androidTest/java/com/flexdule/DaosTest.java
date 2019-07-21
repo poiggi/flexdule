@@ -49,41 +49,39 @@ public class DaosTest {
         CookieDao dao = db.getCookieDao();
 
         CookieBean c = new CookieBean();
-        c.setIdCookie(1);
         c.setName("ctest");
         c.setValue("cValue");
         c.setLabel("cLabel");
         Log.i(tag, "CookieBean creada: " + c);
 
-        Log.i(tag, "Insertando cookie....");
+        Log.i(tag, "1. Insertando cookie....");
         long insertResult = dao.save(c);
         Log.i(tag, "insertResult= " + insertResult);
         assertEquals(insertResult, 1);
 
         Log.i(tag, "Buscando cookie by name " + c.getName() + " ...");
-        CookieBean fc = dao.findById(c.getIdCookie());
+        CookieBean fc = dao.findByName(c.getName());
         Log.i(tag, "foundCookie= " + fc);
         assertNotNull(fc);
-        c.setIdCookie(fc.getIdCookie());
         assertEquals(c, fc);
 
+        String newName = "c1NewName";
+        c.setName(newName);
         c.setValue("c1NewValue");
         c.setLabel("c1NewLabel");
-        Log.i(tag, "Actualizando CookieBean: " + c + " ...");
+        Log.i(tag, "2. Actualizando CookieBean: " + c + " ...");
         Log.i(tag, dao.save(c) + "");
 
-        Log.i(tag, "Buscando cookie by name " + c.getName() + " ...");
-        fc = dao.findById(c.getIdCookie());
+        Log.i(tag, "Buscando cookie by name " + newName + " ...");
+        fc = dao.findByName(newName);
         Log.i(tag, "foundCookie= " + fc);
-        assertEquals(fc, c);
+        assertEquals(c, fc);
 
-        CookieBean cd = new CookieBean();
-        cd.setIdCookie(fc.getIdCookie());
-        Log.i(tag, "Borrando CookieBean: " + c + " ...");
-        Log.i(tag, dao.deleteById(cd.getIdCookie())+"");
+        Log.i(tag, "3. Borrando CookieBean: " + c + " ...");
+        Log.i(tag, dao.deleteByName(newName)+"");
 
-        Log.i(tag, "Buscando cookie by name " + c.getName() + " ...");
-        fc = dao.findById(c.getIdCookie());
+        Log.i(tag, "Buscando cookie by name " + newName + " ...");
+        fc = dao.findByName(newName);
         Log.i(tag, "foundCookie= " + fc);
         assertNull(fc);
     }
@@ -98,7 +96,7 @@ public class DaosTest {
         bean.setColor("colorSc");
         bean.setName("nameSc");
 
-        dao.save(bean);
+        dao.insert(bean);
         ScheduleBean found = dao.findById(1);
         assertEquals(bean, found);
     }
@@ -106,7 +104,14 @@ public class DaosTest {
     @Test
     public void activityDaoTest() {
         Log.i(tag, "BEGIN scheduleDaoTest()");
+        ScheduleDao daoSch = db.getScheduleDao();
         ActivityDao dao = db.getActivityDao();
+
+        ScheduleBean scheduleBean = new ScheduleBean();
+        scheduleBean.setIdSchedule(2);
+        scheduleBean.setColor("colorSc");
+        scheduleBean.setName("nameSc");
+        daoSch.insert(scheduleBean);
 
         ActivityBean bean = new ActivityBean();
         bean.setIdActivity(1);

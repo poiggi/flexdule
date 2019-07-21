@@ -3,25 +3,24 @@ package com.flexdule.android.util;
 import android.content.Context;
 import android.util.Log;
 
+import com.flexdule.android.manager.AndroidActivityAccessManager;
+import com.flexdule.android.manager.AndroidCookieAccessManager;
+import com.flexdule.android.manager.AndroidScheduleAccessManager;
 import com.flexdule.core.dtos.Activity;
 import com.flexdule.core.dtos.Cookie;
 import com.flexdule.core.dtos.Schedule;
 import com.flexdule.core.manager.ActivityAccessManager;
 import com.flexdule.core.manager.CookieAccesManager;
 import com.flexdule.core.manager.ScheduleAccessManager;
-import com.flexdule.android.manager.AndroidActivityAccessManager;
-import com.flexdule.android.manager.AndroidCookieAccessManager;
-import com.flexdule.android.manager.AndroidScheduleAccessManager;
-import com.flexdule.android.model.sqlite.SqliteHelper;
 
 import java.util.List;
 
 public class DebugU {
-    private static final String tag = SqliteHelper.class.getName();
+    private static final String tag = DebugU.class.getName();
 
     public static void printAllPersistentActivities(Context c) throws Exception {
         ActivityAccessManager am = new AndroidActivityAccessManager(c);
-        List<Activity> list = am.findAll();
+        List<Activity> list = am.findAllActivities();
         for (Activity item : list) {
             Log.i(tag, item.toString());
         }
@@ -30,7 +29,7 @@ public class DebugU {
     public static void printAllPersistentSchedules(Context c) throws Exception {
 
         ScheduleAccessManager am = new AndroidScheduleAccessManager(c);
-        List<Schedule> list = am.findAll();
+        List<Schedule> list = am.findAllSchedules();
         for (Schedule item : list) {
             Log.i(tag, item.toString());
         }
@@ -39,7 +38,7 @@ public class DebugU {
 
     public static void printAllPersistentCookies(Context c) throws Exception {
         CookieAccesManager am = new AndroidCookieAccessManager(c);
-        List<Cookie> list = am.findAll();
+        List<Cookie> list = am.findAllCookies();
         for (Cookie item : list) {
             Log.i(tag, item.toString());
         }

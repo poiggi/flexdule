@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/editLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".android.control.ScheduleEditActivity">
+
+    <EditText
+        android:id="@+id/editName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10pt"
+        android:layout_marginTop="40pt"
+        android:layout_marginEnd="10pt"
+        android:ems="10"
+        android:hint="Nombre"
+        android:inputType="textPersonName"
+        android:textAlignment="viewStart"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="12pt"
+        android:layout_height="12pt"
+        android:layout_marginStart="10pt"
+        android:layout_marginTop="10pt"
+        android:onClick="onClickBack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back" />
+
+    <LinearLayout
+        android:id="@+id/colorOption"
+        android:layout_width="80pt"
+        android:layout_height="15pt"
+        android:layout_marginStart="10pt"
+        android:layout_marginTop="20pt"
+        android:onClick="onClickColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editName">
+
+        <ImageView
+            android:layout_width="10pt"
+            android:layout_height="10pt"
+            android:layout_gravity="center_vertical"
+            app:srcCompat="@drawable/palette" />
+
+        <TextView
+            android:id="@+id/textColor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="7pt"
+            android:text="Cambiar color"
+            android:textColor="@android:color/primary_text_light"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/deleteAction"
+        android:layout_width="80pt"
+        android:layout_height="15pt"
+        android:layout_marginStart="10pt"
+        android:layout_marginTop="10pt"
+        android:onClick="onClickDelete"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colorOption">
+
+        <ImageView
+            android:layout_width="10pt"
+            android:layout_height="10pt"
+            android:layout_gravity="center_vertical"
+            app:srcCompat="@drawable/delete" />
+
+        <TextView
+            android:id="@+id/textDelete"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="7pt"
+            android:text="Eliminar"
+            android:textColor="@android:color/primary_text_light"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -1,6 +1,9 @@
 package com.flexdule;
 
-import com.flexdule.core.utils.CU;
+import com.flexdule.core.dtos.ActivityVars;
+import com.flexdule.core.dtos.NX;
+import com.flexdule.core.util.AppColors;
+import com.flexdule.core.util.CU;
 import com.flexdule.core.dtos.Activity;
 
 import org.junit.Test;
@@ -23,17 +26,19 @@ public class ExampleUnitTest {
 
         try {
 
-            Duration d = Duration.parse("PT9H");
-            System.out.println(CU.durToHour(d));
-            ArrayList<Activity> acs = new ArrayList<>();
+            ActivityVars var1 = new ActivityVars();
+            var1.setFn(Duration.ofHours(1));
+            Activity ac = new Activity();
+            ac.setFinalVars(var1);
+            ac.setConfigVars(var1);
+            System.out.println(ac);
 
-            Activity ac1 = new Activity();
-            ac1.getConfigVars().setDn(CU.hourToDur("10:20"));
-            System.out.println(ac1);
-//            acs.sort(Comparator.comparing(Activity::getPositionInSchedule));
+            var1.setFn(Duration.ofHours(2));
+            System.out.println(ac);
 
+            ac.getFinalVars().setFn(Duration.ofHours(3));
+            System.out.println(ac);
 
-            System.out.println(String.valueOf(null));
         } catch (Exception e) {
             e.printStackTrace();
         }

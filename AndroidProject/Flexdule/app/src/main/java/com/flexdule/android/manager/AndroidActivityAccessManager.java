@@ -27,73 +27,73 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
     }
 
     @Override
-    public List<Activity> findBySchedule(Integer idSchedule) throws Exception {
+    public List<Activity> findActivitiesBySchedule(Integer idSchedule) throws Exception {
         List<Activity> activities = null;
 
         try {
             List<ActivityBean> activityBeans = getDao().findBySchedule(idSchedule);
             activities = activityBeansToActivities(activityBeans);
         } catch (Exception e) {
-            Log.e(tag, "Error en findBySchedule()= " + e);
+            Log.e(tag, "Error en findActivitiesBySchedule()= " + e);
             throw e;
         }
-        Log.i(tag, "END findBySchedule(). activities=" + activities);
+        Log.i(tag, "findActivitiesBySchedule(). idSchedule="+idSchedule+" => activities=" + activities);
         return activities;
     }
 
     @Override
-    public List<Activity> findAll() throws Exception {
+    public List<Activity> findAllActivities() throws Exception {
         List<Activity> activities = null;
 
         try {
             List<ActivityBean> activityBeans = getDao().findAll();
             activities = activityBeansToActivities(activityBeans);
         } catch (Exception e) {
-            Log.e(tag, "Error en findAll()= " + e);
+            Log.e(tag, "Error en findAllActivities()= " + e);
             throw e;
         }
-        Log.i(tag, "END findAll(). foundSize=" + activities.size());
+        Log.i(tag, "findAllActivities(). foundSize=" + activities.size());
         return activities;
     }
 
     @Override
-    public long save(Activity activity) throws Exception {
+    public long saveActivity(Activity activity) throws Exception {
         long result;
         try {
             ActivityBean bean = activityToActivityBean(activity);
             result = getDao().save(bean);
         } catch (Exception e) {
-            Log.e(tag, "Error en save()= " + e);
+            Log.e(tag, "Error en saveActivity()= " + e);
             throw e;
         }
-        Log.i(tag, "END save(). result=" + result);
+        Log.i(tag, "saveActivity(). activity="+activity+" => result=" + result);
         return result;
     }
 
     @Override
-    public List<Long> save(List<Activity> activities) throws Exception {
+    public List<Long> saveActivities(List<Activity> activities) throws Exception {
         List<Long> result;
         try {
             List<ActivityBean> beans = activitiesToActivityBeans(activities);
             result = getDao().save(beans);
         } catch (Exception e) {
-            Log.e(tag, "Error en save()= " + e);
+            Log.e(tag, "Error en saveActivity()= " + e);
             throw e;
         }
-        Log.i(tag, "END save(). result=" + result);
+        Log.i(tag, "saveActivity(). result=" + result);
         return result;
     }
 
     @Override
-    public int deleteById(Integer idActivity) throws Exception {
+    public int deleteActivityById(Integer idActivity) throws Exception {
         Integer result = null;
         try{
             result = getDao().deleteById(idActivity);
         }catch(Exception e){
-            Log.e(tag, "Error en deleteById()= " + e);
+            Log.e(tag, "Error en deleteActivityById()= " + e);
             throw e;
         }
-        Log.i(tag, "END deleteById(). result=" + result);
+        Log.i(tag, "deleteActivityById(). idActivity="+idActivity+" => result=" + result);
         return result;
     }
 
@@ -133,6 +133,7 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
             ac.setIdSchedule(activityBean.getIdSchedule());
             ac.setName(activityBean.getName());
             ac.setColor(activityBean.getColor());
+            ac.setPositionInSchedule(activityBean.getPositionInSchedule());
 
             ActivityVars durs = new ActivityVars();
             if (activityBean.getSn() != null) durs.setSn(Duration.parse(activityBean.getSn()));
@@ -142,6 +143,15 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
             if (activityBean.getFn() != null) durs.setFn(Duration.parse(activityBean.getFn()));
             if (activityBean.getFx() != null) durs.setFx(Duration.parse(activityBean.getFx()));
             ac.setConfigVars(durs);
+
+            ActivityVars dursF = new ActivityVars();
+            if (activityBean.getSn() != null) dursF.setSn(Duration.parse(activityBean.getSn()));
+            if (activityBean.getSx() != null) dursF.setSx(Duration.parse(activityBean.getSx()));
+            if (activityBean.getDn() != null) dursF.setDn(Duration.parse(activityBean.getDn()));
+            if (activityBean.getDx() != null) dursF.setDx(Duration.parse(activityBean.getDx()));
+            if (activityBean.getFn() != null) dursF.setFn(Duration.parse(activityBean.getFn()));
+            if (activityBean.getFx() != null) dursF.setFx(Duration.parse(activityBean.getFx()));
+            ac.setFinalVars(dursF);
         }
         return ac;
     }

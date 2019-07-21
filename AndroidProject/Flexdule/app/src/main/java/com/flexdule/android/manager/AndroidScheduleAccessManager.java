@@ -3,11 +3,11 @@ package com.flexdule.android.manager;
 import android.content.Context;
 import android.util.Log;
 
-import com.flexdule.core.dtos.Schedule;
-import com.flexdule.core.manager.ScheduleAccessManager;
 import com.flexdule.android.model.sqlite.FlexduleDataBase;
 import com.flexdule.android.model.sqlite.daos.ScheduleDao;
 import com.flexdule.android.model.sqlite.entities.ScheduleBean;
+import com.flexdule.core.dtos.Schedule;
+import com.flexdule.core.manager.ScheduleAccessManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,85 +17,91 @@ public class AndroidScheduleAccessManager implements ScheduleAccessManager {
 
     private FlexduleDataBase db;
 
-    public AndroidScheduleAccessManager(Context context) throws Exception{
+    public AndroidScheduleAccessManager(Context context) throws Exception {
         try {
             AccessContext.createDataBase(context);
         } catch (Exception e) {
-            Log.e(tag,"Error in AndroidScheduleAccessManager: "+e);
+            Log.e(tag, "Error in AndroidScheduleAccessManager: " + e);
             throw e;
         }
     }
 
     @Override
-    public Schedule findFirstOne() throws Exception {
+    public Schedule findFirstSchedule() throws Exception {
         Schedule schedule = null;
 
         try {
             ScheduleBean scheduleBean = getDao().findFirstOne();
             schedule = scheduleBeanToSchedule(scheduleBean);
         } catch (Exception e) {
-            Log.e(tag, "Error in findFirstOne()= " + e);
+            Log.e(tag, "Error in findFirstSchedule()= " + e);
             throw e;
         }
-        Log.i(tag, "END findById(). schedule=" + schedule);
+        Log.i(tag, "findFirstSchedule(). schedule=" + schedule);
         return schedule;
     }
 
     @Override
-    public Schedule findById(Integer idSchedule) throws Exception {
+    public Schedule findScheduleById(Integer idSchedule) throws Exception {
         Schedule schedule = null;
 
         try {
             ScheduleBean scheduleBean = getDao().findById(idSchedule);
             schedule = scheduleBeanToSchedule(scheduleBean);
         } catch (Exception e) {
-            Log.e(tag, "Error in findById()= " + e);
+            Log.e(tag, "Error in findScheduleById()= " + e);
             throw e;
         }
-        Log.i(tag, "END findById(). schedule=" + schedule);
+        Log.i(tag, "findScheduleById(). idSchedule="+idSchedule+" => schedule=" + schedule);
         return schedule;
     }
 
     @Override
-    public List<Schedule> findAll() throws Exception {
+    public List<Schedule> findAllSchedules() throws Exception {
         List<Schedule> schedules = null;
 
         try {
             List<ScheduleBean> activityBeans = getDao().findAll();
             schedules = scheduleBeansToSchedules(activityBeans);
         } catch (Exception e) {
-            Log.e(tag, "Error in findAll()= " + e);
+            Log.e(tag, "Error in findAllSchedules()= " + e);
             throw e;
         }
-        Log.i(tag, "END findAll(). foundSize=" + schedules.size());
+        Log.i(tag, "findAllSchedules(). foundSize=" + schedules.size());
         return schedules;
     }
 
     @Override
-    public long save(Schedule schedule) throws Exception{
-        long result = 0;
-        try{
+    public Integer saveSchedule(Schedule schedule) throws Exception {
+        Integer result = null;
+        try {
             ScheduleBean bean = scheduleToScheduleBean(schedule);
-            result= getDao().save(bean);
-        }catch (Exception e){
-            Log.e(tag, "Error in save()= " + e);
+            if (schedule.getIdSchedule() == null) {
+                result = (int) getDao().insert(bean);
+            } else {
+                int update = getDao().update(bean);
+                if (update > 0) {
+                    result = 0;
+                }
+            }
+        } catch (Exception e) {
+            Log.e(tag, "Error in saveSchedule(): " + e);
             throw e;
         }
-        Log.i(tag, "END save(). result=" + result);
+        Log.i(tag, "saveSchedule(). result= " + result);
         return result;
-
     }
 
     @Override
-    public int deleteById(Integer idSchedule) throws Exception {
+    public int deleteScheduleById(Integer idSchedule) throws Exception {
         Integer result = null;
-        try{
+        try {
             result = getDao().deleteById(idSchedule);
-        }catch(Exception e){
-            Log.e(tag, "Error in deleteById()= " + e);
+        } catch (Exception e) {
+            Log.e(tag, "Error in deleteScheduleById()= " + e);
             throw e;
         }
-        Log.i(tag, "END deleteById(). result=" + result);
+        Log.i(tag, "END deleteScheduleById(). result=" + result);
         return result;
     }
 
@@ -103,7 +109,7 @@ public class AndroidScheduleAccessManager implements ScheduleAccessManager {
     public static List<Schedule> scheduleBeansToSchedules(List<ScheduleBean> scheduleBeans) {
         List<Schedule> scs = new ArrayList<>();
 
-        if(scheduleBeans!=null) {
+        if (scheduleBeans != null) {
             for (ScheduleBean bean : scheduleBeans) {
                 Schedule sc = scheduleBeanToSchedule(bean);
                 scs.add(sc);
@@ -115,8 +121,8 @@ public class AndroidScheduleAccessManager implements ScheduleAccessManager {
     public static List<ScheduleBean> schedulesToScheduleBeans(List<Schedule> schedules) {
         List<ScheduleBean> beans = new ArrayList<>();
 
-        if(schedules!=null) {
-            for (Schedule item: schedules) {
+        if (schedules != null) {
+            for (Schedule item : schedules) {
                 ScheduleBean bean = scheduleToScheduleBean(item);
                 beans.add(bean);
             }
@@ -124,10 +130,10 @@ public class AndroidScheduleAccessManager implements ScheduleAccessManager {
         return beans;
     }
 
-    public static Schedule scheduleBeanToSchedule(ScheduleBean scheduleBean){
+    public static Schedule scheduleBeanToSchedule(ScheduleBean scheduleBean) {
         Schedule sc = null;
 
-        if(scheduleBean != null){
+        if (scheduleBean != null) {
             sc = new Schedule();
 
             sc.setIdSchedule(scheduleBean.getIdSchedule());
@@ -138,10 +144,10 @@ public class AndroidScheduleAccessManager implements ScheduleAccessManager {
     }
 
 
-    public static ScheduleBean scheduleToScheduleBean(Schedule schedule){
+    public static ScheduleBean scheduleToScheduleBean(Schedule schedule) {
         ScheduleBean bean = null;
 
-        if(schedule!=null){
+        if (schedule != null) {
             bean = new ScheduleBean();
 
             bean.setIdSchedule(schedule.getIdSchedule());
@@ -152,10 +158,10 @@ public class AndroidScheduleAccessManager implements ScheduleAccessManager {
     }
 
     private ScheduleDao getDao() throws Exception {
-        ScheduleDao dao=null;
+        ScheduleDao dao = null;
         try {
             dao = AccessContext.getDataBase().getScheduleDao();
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e(tag, "Error in getDao()= " + e);
             throw e;
         }

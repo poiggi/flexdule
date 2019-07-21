@@ -43,19 +43,4 @@ public class Schedule implements Serializable {
                 ", color='" + color + '\'' +
                 '}';
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Schedule schedule = (Schedule) o;
-        return Objects.equals(idSchedule, schedule.idSchedule) &&
-                Objects.equals(name, schedule.name) &&
-                Objects.equals(color, schedule.color);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idSchedule, name, color);
-    }
 }

@@ -6,11 +6,12 @@ import java.util.List;
 
 public interface CookieAccesManager {
 
-    long save(Cookie cookie) throws Exception;
 
-    List<Cookie> findAll() throws Exception;
+    List<Cookie> findAllCookies() throws Exception;
 
-    Cookie findById(Integer idSchedule) throws Exception;
+    Cookie findCookieByName(String name) throws Exception;
 
-    int deleteById(Integer idCookie) throws Exception;
+    long saveCookie(Cookie cookie) throws Exception;
+
+    int deleteCookieByName(String name) throws Exception;
 }
