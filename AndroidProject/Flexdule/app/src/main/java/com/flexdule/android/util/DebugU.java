@@ -20,7 +20,7 @@ public class DebugU {
 
     public static void printAllPersistentActivities(Context c) throws Exception {
         ActivityAccessManager am = new AndroidActivityAccessManager(c);
-        List<Activity> list = am.findAll();
+        List<Activity> list = am.findAllActivities();
         for (Activity item : list) {
             Log.i(tag, item.toString());
         }
@@ -29,7 +29,7 @@ public class DebugU {
     public static void printAllPersistentSchedules(Context c) throws Exception {
 
         ScheduleAccessManager am = new AndroidScheduleAccessManager(c);
-        List<Schedule> list = am.findAll();
+        List<Schedule> list = am.findAllSchedules();
         for (Schedule item : list) {
             Log.i(tag, item.toString());
         }
@@ -38,7 +38,7 @@ public class DebugU {
 
     public static void printAllPersistentCookies(Context c) throws Exception {
         CookieAccesManager am = new AndroidCookieAccessManager(c);
-        List<Cookie> list = am.findAll();
+        List<Cookie> list = am.findAllCookies();
         for (Cookie item : list) {
             Log.i(tag, item.toString());
         }

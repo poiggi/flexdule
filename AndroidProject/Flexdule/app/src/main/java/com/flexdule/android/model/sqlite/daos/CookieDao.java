@@ -6,14 +6,15 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.flexdule.android.model.sqlite.entities.CookieBean;
+import com.flexdule.android.model.sqlite.entities.ScheduleBean;
 
 import java.util.List;
 
 @Dao
 public interface CookieDao {
 
-    @Query("SELECT * FROM Cookie WHERE idCookie = :idCookie")
-    public CookieBean findById(Integer idCookie);
+    @Query("SELECT * FROM Cookie WHERE name = :name")
+    public CookieBean findByName(String name);
 
     @Query("SELECT * FROM Cookie")
     public List<CookieBean> findAll();
@@ -21,8 +22,8 @@ public interface CookieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public long save(CookieBean cookieBean);
 
-    @Query("DELETE FROM Cookie WHERE idCookie = :idCookie")
-    public int deleteById(Integer idCookie);
+    @Query("DELETE FROM Cookie WHERE name = :name")
+    public int deleteByName(String name);
 
 
 }

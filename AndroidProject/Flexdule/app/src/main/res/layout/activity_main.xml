@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#FFFFFF"
-        app:cardElevation="10pt"
+        app:cardElevation="5pt"
         app:contentPadding="0pt">
 
         <android.support.constraint.ConstraintLayout
@@ -63,6 +63,7 @@
                 android:gravity="center"
                 android:text="-23h 23min"
                 android:textAlignment="textEnd"
+                android:textColorLink="?attr/colorPrimaryDark"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/imageViewAdd"
                 app:layout_constraintEnd_toEndOf="parent"

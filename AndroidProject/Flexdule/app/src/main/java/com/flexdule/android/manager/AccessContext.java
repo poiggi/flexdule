@@ -14,6 +14,7 @@ public class AccessContext {
     public static void createDataBase(Context context) throws Exception {
         try {
             if (flexduleDataBase == null) {
+                Log.i(tag, "Creating new Room Database instance.");
                 flexduleDataBase = Room.databaseBuilder(context, FlexduleDataBase.class, "flexdule-database").allowMainThreadQueries().build();
             }
         } catch (Exception e) {

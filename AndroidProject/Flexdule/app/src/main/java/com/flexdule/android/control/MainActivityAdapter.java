@@ -3,6 +3,8 @@ package com.flexdule.android.control;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -11,11 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flexdule.R;
+import com.flexdule.android.util.U;
 import com.flexdule.core.util.CK;
 import com.flexdule.core.util.CU;
 import com.flexdule.core.dtos.Activity;
@@ -63,7 +65,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
     @Override
     public void onBindViewHolder(MainActivityViewHolder h, int position) {
-        Context ctxt = h.cardView.getContext();
+        Context ctxt = h.card.getContext();
         Activity ac = items.get(position);
 
         // Dto de Actividad
@@ -73,7 +75,8 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         h.nameView.setText(ac.getName());
 
         // Color
-        h.cardView.setCardBackgroundColor(Color.parseColor("#"+ac.getColor()));
+        GradientDrawable gradientDrawable = (GradientDrawable) h.card.getBackground().mutate();
+        gradientDrawable.setColor(Color.parseColor("#" + ac.getColor()));
 
         // Inicio
         bindDurationPairsToLayout(ctxt, ac.getFinalVars().getS(), ac.getConfigVars().getS(), h.textS1, h.textS2, CK.DISPLAY_HOUR);
@@ -153,7 +156,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         TextView nameView;
         ImageView actionButtonView;
         ImageView editButtonView;
-        CardView cardView;
+        ConstraintLayout card;
         Activity activity;
 
         TextView textS1;
@@ -168,7 +171,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
             nameView = (TextView) v.findViewById(R.id.name);
             actionButtonView = (ImageView) v.findViewById(R.id.actionButton);
             editButtonView = (ImageView) v.findViewById(R.id.editButton);
-            cardView = (CardView) v.findViewById(R.id.card);
+            card = (ConstraintLayout) v.findViewById(R.id.card);
             textS1 = (TextView) v.findViewById(R.id.textS1);
             textS2 = (TextView) v.findViewById(R.id.textS2);
             textD1 = (TextView) v.findViewById(R.id.textD1);
@@ -198,15 +201,15 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         }
 
         public void onCardClick() {
-            Toast.makeText(cardView.getContext(), "clic en card " + getAdapterPosition() + " de " + activity.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(card.getContext(), "clic en card " + getAdapterPosition() + " de " + activity.getName(), Toast.LENGTH_SHORT).show();
         }
 
         public void onActionClick() {
-            Toast.makeText(cardView.getContext(), "clic en action " + getAdapterPosition() + " de " + activity.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(card.getContext(), "clic en action " + getAdapterPosition() + " de " + activity.getName(), Toast.LENGTH_SHORT).show();
         }
 
         public void onEditClick() {
-            Toast.makeText(cardView.getContext(), "clic en edit " + getAdapterPosition() + " de " + activity.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(card.getContext(), "clic en edit " + getAdapterPosition() + " de " + activity.getName(), Toast.LENGTH_SHORT).show();
         }
 
     }

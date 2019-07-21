@@ -6,19 +6,14 @@ import java.util.List;
 
 public interface ActivityAccessManager {
 
-    public List<Activity> findBySchedule(Integer idSchedule) throws Exception;
 
-    List<Activity> findAll() throws Exception;
+    List<Activity> findActivitiesBySchedule(Integer idSchedule) throws Exception;
 
-    public long save(Activity activity) throws Exception;
+    List<Activity> findAllActivities() throws Exception;
 
-    public List<Long> save(List<Activity> activities) throws Exception;
+    long saveActivity(Activity activity) throws Exception;
 
-    public int deleteById(Integer idActivity) throws Exception;
+    List<Long> saveActivities(List<Activity> activities) throws Exception;
 
-
-
-
-
-
+    int deleteActivityById(Integer idActivity) throws Exception;
 }

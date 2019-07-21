@@ -22,8 +22,8 @@ public interface ScheduleDao {
     @Query("SELECT * FROM Schedule")
     public List<ScheduleBean> findAll();
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public long save(ScheduleBean scheduleBean);
+    @Insert
+    public long insert(ScheduleBean scheduleBean);
 
     @Update
     public int update(ScheduleBean scheduleBean);
