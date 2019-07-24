@@ -1,11 +1,10 @@
-package com.flexdule.android.control;
+package com.flexdule.android.control.sub;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flexdule.R;
-import com.flexdule.android.util.U;
 import com.flexdule.core.util.CK;
 import com.flexdule.core.util.CU;
 import com.flexdule.core.dtos.Activity;

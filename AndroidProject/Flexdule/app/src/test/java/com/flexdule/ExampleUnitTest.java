@@ -9,6 +9,7 @@ import com.flexdule.core.dtos.Activity;
 import org.junit.Test;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
@@ -26,18 +27,11 @@ public class ExampleUnitTest {
 
         try {
 
-            ActivityVars var1 = new ActivityVars();
-            var1.setFn(Duration.ofHours(1));
-            Activity ac = new Activity();
-            ac.setFinalVars(var1);
-            ac.setConfigVars(var1);
-            System.out.println(ac);
+            Duration d = CU.hourToDur("12:6");
+            d = d.minus(d);
+            d.plusHours(1);
+            System.out.println(d);
 
-            var1.setFn(Duration.ofHours(2));
-            System.out.println(ac);
-
-            ac.getFinalVars().setFn(Duration.ofHours(3));
-            System.out.println(ac);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,8 +1,6 @@
 package com.flexdule.core.util;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -154,7 +152,7 @@ public class CU {
      * @return la duración en formato "Xh Xm Xs".
      */
     public static String durToString(Duration duration) {
-        String str=null;
+        String str = null;
         if (duration != null) {
             long d = duration.toMillis();
             boolean negative = duration.isNegative();
@@ -182,9 +180,41 @@ public class CU {
         return str;
     }
 
+    public static Integer durHours(Duration duration) {
+        Integer result = null;
+        if (duration != null) {
+            long d = duration.toMillis()/1000;
+            if (duration.isNegative()) {
+                d *= -1;
+            }
+            result = (int) (d / 3600);
+        }
+        return result;
+    }
 
+    public static Integer durMinutes(Duration duration) {
+        Integer result = null;
+        if (duration != null) {
+            long d = duration.toMillis()/1000;
+            if (duration.isNegative()) {
+                d *= -1;
+            }
+            result = (int) ((d % 3600) / 60);
+        }
+        return result;
+    }
 
-
+    public static Integer durSeconds(Duration duration) {
+        Integer result = null;
+        if (duration != null) {
+            long d = duration.toMillis()/1000;
+            if (duration.isNegative()) {
+                d *= -1;
+            }
+            result = (int) (d % 60);
+        }
+        return result;
+    }
 
 
     public static int getRandomNumberInRange(int min, int max) {

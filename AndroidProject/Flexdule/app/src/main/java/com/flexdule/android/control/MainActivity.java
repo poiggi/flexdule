@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flexdule.R;
+import com.flexdule.android.control.sub.MainActivityAdapter;
 import com.flexdule.android.manager.AndroidActivityAccessManager;
 import com.flexdule.android.manager.AndroidCookieAccessManager;
 import com.flexdule.android.manager.AndroidScheduleAccessManager;
@@ -207,7 +208,10 @@ public class MainActivity extends AppCompatActivity {
     public void onClickAdd(View v) {
         Log.i(tag, "BEGIN onClickAdd()");
 //        Toast.makeText(this, "click add", Toast.LENGTH_SHORT).show();
-        U.toast("My toast", getApplicationContext());
+//        U.toast("My toast", getApplicationContext());
+        Intent intent = new Intent(this, ActivityEditActivity.class);
+//        intent.putExtra(K.EXTRA_ID_SCHEDULE, schedule.getIdSchedule());
+        startActivity(intent);
     }
 
     public void createSampleSchedule() throws Exception {

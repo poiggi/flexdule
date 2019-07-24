@@ -1,12 +1,9 @@
 package com.flexdule.android.control;
 
 import android.app.AlertDialog;
-import android.arch.persistence.room.util.StringUtil;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +11,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,11 +26,12 @@ import com.flexdule.core.util.AppColors;
 public class ScheduleEditActivity extends AppCompatActivity {
     private static final String tag = ScheduleEditActivity.class.getName();
 
-    Schedule schedule = new Schedule();
+    Schedule schedule;
     AppColors colors = new AppColors();
     ScheduleAccessManager schM;
-    EditText editName ;
-    ConstraintLayout editLayout ;
+    EditText editName;
+    ConstraintLayout editLayout;
+    boolean saveScheduleEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,22 +39,6 @@ public class ScheduleEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_schedule_edit);
         editName = findViewById(R.id.editName);
         editLayout = findViewById(R.id.editLayout);
-
-//        editName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (!hasFocus) {
-//                    if(TextUtils.isEmpty(editName.getText()) && schedule.getName() != null){
-//                        U.toast("El horario debe tener nombre", getApplicationContext());
-//                        editName.setText(schedule.getName());
-//                    }else{
-//                        if(TextUtils.isEmpty(editName.getText()))
-//                            schedule.setName(editName.getText().toString());
-//                    }
-//                }
-//            }
-//        });
-
 
         try {
             schM = new AndroidScheduleAccessManager(getApplicationContext());
@@ -69,9 +50,11 @@ public class ScheduleEditActivity extends AppCompatActivity {
                 Log.i(tag, "schedule = " + schedule);
             }
 
-            if(schedule != null){
+            if (schedule != null) {
                 editName.setText(schedule.getName());
-                editLayout.setBackgroundColor(Color.parseColor("#"+schedule.getColor()));
+                editLayout.setBackgroundColor(Color.parseColor("#" + schedule.getColor()));
+            } else {
+                schedule = new Schedule();
             }
 
         } catch (Exception e) {
@@ -87,30 +70,37 @@ public class ScheduleEditActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    public void exitOperations(){
-        Log.i(tag,"BEGIN exitOperations()");
+    public void exitOperations() {
+        Log.i(tag, "BEGIN exitOperations()");
 
         String name = editName.getText().toString();
-        Log.i(tag,"name="+name);
+        Log.i(tag, "name=" + name);
 
         if (!TextUtils.isEmpty(name)) {
+            // Si el nombre es válido, se guarda
             schedule.setName(name);
-        }else{
-            if(schedule.getIdSchedule()!=null){
+            saveScheduleEdit = true;
+        } else {
+            if (schedule.getIdSchedule() != null) {
+                // Si el nombre no es válido, pero es edición, se guarda sin el nombre
                 U.toast("No se puede guardar el nombre de horario vacío", getApplicationContext());
-            }else{
+                saveScheduleEdit = true;
+            } else {
+                // Si el nombre no es válido y es creación, se desecha
                 U.toast("Horario sin nombre desechado", getApplicationContext());
             }
         }
 
-        try {
-            schM.saveSchedule(schedule);
-        } catch (Exception e) {
-            e.printStackTrace();
-            U.toast("Error al guardar el horario", getApplicationContext());
+        if (saveScheduleEdit) {
+            try {
+                schM.saveSchedule(schedule);
+            } catch (Exception e) {
+                e.printStackTrace();
+                U.toast("Error al guardar el horario", getApplicationContext());
+            }
         }
 
-        Log.i(tag,"BEGIN exitOperations()");
+        Log.i(tag, "BEGIN exitOperations()");
     }
 
     public void onClickBack(View v) {
@@ -119,7 +109,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
 
     public void onClickColor(View v) {
         schedule.setColor(colors.getNextColor());
-        editLayout.setBackgroundColor(Color.parseColor("#"+schedule.getColor()));
+        editLayout.setBackgroundColor(Color.parseColor("#" + schedule.getColor()));
     }
 
     public void onClickDelete(View v) {
@@ -129,7 +119,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
     private void confirmDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Eliminar horario?");
-        builder.setPositiveButton("Sí",  new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 try {
@@ -142,7 +132,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog,int id) {
+            public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }
         });
@@ -152,7 +142,5 @@ public class ScheduleEditActivity extends AppCompatActivity {
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.DKGRAY);
         TextView tv = dialog.findViewById(android.R.id.message);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-
-
     }
 }
