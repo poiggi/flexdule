@@ -14,11 +14,12 @@ import com.flexdule.R;
 import com.flexdule.android.util.AppTimePickerDialog;
 import com.flexdule.android.util.U;
 import com.flexdule.core.dtos.Activity;
+import com.flexdule.core.dtos.Time;
 import com.flexdule.core.util.CU;
 
 public class ActivityEditActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
-    Activity ac;
+    Time time = new Time();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +28,11 @@ public class ActivityEditActivity extends AppCompatActivity implements TimePicke
 
         setFlexibleListeners();
 
-        ac = new Activity();
-        ac.getFinalVars().setDn(CU.hourToDur("10:30"));
-
         LinearLayout l = findViewById(R.id.optionDn);
         l.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppTimePickerDialog d = new AppTimePickerDialog(ActivityEditActivity.this, "Duración inventada minmaxima", CU.hourToDur("0:10"), CU.hourToDur("23:45"), false, ac);
+                AppTimePickerDialog d = new AppTimePickerDialog(ActivityEditActivity.this, "Duración inventada minmaxima", new Time("0:10"), new Time("23:45"), false, time);
                 d.show();
 
             }
@@ -109,7 +107,7 @@ public class ActivityEditActivity extends AppCompatActivity implements TimePicke
     }
 
     public void onClickColor(View view) {
-        U.toast(ac.toString(), getApplicationContext());
+        U.toast(time+"", getApplicationContext());
     }
 
     @Override

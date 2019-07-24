@@ -10,7 +10,7 @@ import java.util.List;
 public class CK {
 
     public static final int DISPLAY_HOUR = 1;
-    public static final int DISPLAY_STRING = 2;
+    public static final int DISPLAY_TEXT = 2;
 
     public static final String COOKIE_USING_SCHEDULE = "usingSchedule";
 

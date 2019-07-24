@@ -16,12 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flexdule.R;
+import com.flexdule.core.dtos.Time;
 import com.flexdule.core.util.CK;
 import com.flexdule.core.util.CU;
 import com.flexdule.core.dtos.Activity;
 import com.flexdule.core.dtos.NX;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +79,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         // Inicio
         bindDurationPairsToLayout(ctxt, ac.getFinalVars().getS(), ac.getConfigVars().getS(), h.textS1, h.textS2, CK.DISPLAY_HOUR);
         // Duración
-        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getD(), ac.getConfigVars().getD(), h.textD1, h.textD2, CK.DISPLAY_STRING);
+        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getD(), ac.getConfigVars().getD(), h.textD1, h.textD2, CK.DISPLAY_TEXT);
         // Finalización
         bindDurationPairsToLayout(ctxt, ac.getFinalVars().getF(), ac.getConfigVars().getF(), h.textF1, h.textF2, CK.DISPLAY_HOUR);
 
@@ -118,17 +118,17 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         }
     }
 
-    public void bindDurationToLabel(Duration dur, TextView tv, int displayMode, boolean bold) {
+    public void bindDurationToLabel(Time time, TextView tv, int displayMode, boolean bold) {
         String s;
         int align = View.TEXT_ALIGNMENT_TEXT_END;
         tv.setVisibility(View.VISIBLE);
 
-        if (dur != null) {
-            if (displayMode == CK.DISPLAY_STRING) {
-                s = CU.durToString(dur);
+        if (time != null) {
+            if (displayMode == CK.DISPLAY_TEXT) {
+                s = time.formatText();
                 align = View.TEXT_ALIGNMENT_CENTER;
             } else {
-                s = CU.durToHour(dur);
+                s = time.toString();
             }
         } else {
             align = View.TEXT_ALIGNMENT_CENTER;

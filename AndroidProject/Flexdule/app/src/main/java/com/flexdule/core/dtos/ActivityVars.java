@@ -55,51 +55,51 @@ public class ActivityVars implements Serializable {
         }
     }
 
-    public void setSn(Duration duration) {
-        this.s.setN(duration);
+    public void setSn(Time time) {
+        this.s.setN(time);
     }
 
-    public void setSx(Duration duration) {
-        this.s.setX(duration);
+    public void setSx(Time time) {
+        this.s.setX(time);
     }
 
-    public void setDn(Duration duration) {
-        this.d.setN(duration);
+    public void setDn(Time time) {
+        this.d.setN(time);
     }
 
-    public void setDx(Duration duration) {
-        this.d.setX(duration);
+    public void setDx(Time time) {
+        this.d.setX(time);
     }
 
-    public void setFn(Duration duration) {
-        this.f.setN(duration);
+    public void setFn(Time time) {
+        this.f.setN(time);
     }
 
-    public void setFx(Duration duration) {
-        this.f.setX(duration);
+    public void setFx(Time time) {
+        this.f.setX(time);
     }
 
-    public Duration getSn() {
+    public Time getSn() {
         return this.s.getN();
     }
 
-    public Duration getSx() {
+    public Time getSx() {
         return this.s.getX();
     }
 
-    public Duration getDn() {
+    public Time getDn() {
         return this.d.getN();
     }
 
-    public Duration getDx() {
+    public Time getDx() {
         return this.d.getX();
     }
 
-    public Duration getFn() {
+    public Time getFn() {
         return this.f.getN();
     }
 
-    public Duration getFx() {
+    public Time getFx() {
         return this.f.getX();
     }
 

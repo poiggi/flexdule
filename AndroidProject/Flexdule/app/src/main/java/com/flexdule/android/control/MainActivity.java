@@ -23,6 +23,7 @@ import com.flexdule.android.util.U;
 import com.flexdule.core.dtos.Activity;
 import com.flexdule.core.dtos.Cookie;
 import com.flexdule.core.dtos.Schedule;
+import com.flexdule.core.dtos.Time;
 import com.flexdule.core.manager.ActivityAccessManager;
 import com.flexdule.core.manager.CookieAccesManager;
 import com.flexdule.core.manager.ScheduleAccessManager;
@@ -230,12 +231,12 @@ public class MainActivity extends AppCompatActivity {
             ac1.setName("Desayunar");
             ac1.setPositionInSchedule(1);
             ac1.setColor(AppColors.getRandomColor());
-            ac1.getConfigVars().setSn(CU.hourToDur("8:00"));
-            ac1.getConfigVars().setSx(CU.hourToDur("9:00"));
-            ac1.getConfigVars().setDn(CU.hourToDur("0:10"));
-            ac1.getConfigVars().setDx(CU.hourToDur(null));
-            ac1.getConfigVars().setFn(CU.hourToDur(null));
-            ac1.getConfigVars().setFx(CU.hourToDur(null));
+            ac1.getConfigVars().setSn(Time.parse("8:00"));
+            ac1.getConfigVars().setSx(Time.parse("9:00"));
+            ac1.getConfigVars().setDn(Time.parse("0:10"));
+            ac1.getConfigVars().setDx(Time.parse(null));
+            ac1.getConfigVars().setFn(Time.parse(null));
+            ac1.getConfigVars().setFx(Time.parse(null));
             activities.add(ac1);
 
             Activity ac2 = new Activity();
@@ -243,12 +244,12 @@ public class MainActivity extends AppCompatActivity {
             ac2.setName("Trabajar");
             ac2.setPositionInSchedule(2);
             ac2.setColor(AppColors.getRandomColor());
-            ac2.getConfigVars().setSn(CU.hourToDur("10:30"));
-            ac2.getConfigVars().setSx(CU.hourToDur("10:30"));
-            ac2.getConfigVars().setDn(CU.hourToDur(null));
-            ac2.getConfigVars().setDx(CU.hourToDur(null));
-            ac2.getConfigVars().setFn(CU.hourToDur("18:30"));
-            ac2.getConfigVars().setFx(CU.hourToDur("19:15"));
+            ac2.getConfigVars().setSn(Time.parse("10:30"));
+            ac2.getConfigVars().setSx(Time.parse("10:30"));
+            ac2.getConfigVars().setDn(Time.parse(null));
+            ac2.getConfigVars().setDx(Time.parse(null));
+            ac2.getConfigVars().setFn(Time.parse("18:30"));
+            ac2.getConfigVars().setFx(Time.parse("19:15"));
             activities.add(ac2);
 
             Activity ac3 = new Activity();
@@ -256,12 +257,12 @@ public class MainActivity extends AppCompatActivity {
             ac3.setName("Hacer deporte");
             ac3.setPositionInSchedule(3);
             ac3.setColor(AppColors.getRandomColor());
-            ac3.getConfigVars().setSn(CU.hourToDur(null));
-            ac3.getConfigVars().setSx(CU.hourToDur(null));
-            ac3.getConfigVars().setDn(CU.hourToDur(null));
-            ac3.getConfigVars().setDx(CU.hourToDur(null));
-            ac3.getConfigVars().setFn(CU.hourToDur(null));
-            ac3.getConfigVars().setFx(CU.hourToDur("21:30"));
+            ac3.getConfigVars().setSn(Time.parse(null));
+            ac3.getConfigVars().setSx(Time.parse(null));
+            ac3.getConfigVars().setDn(Time.parse(null));
+            ac3.getConfigVars().setDx(Time.parse(null));
+            ac3.getConfigVars().setFn(Time.parse(null));
+            ac3.getConfigVars().setFx(Time.parse("21:30"));
             activities.add(ac3);
 
             actM.saveActivities(activities);

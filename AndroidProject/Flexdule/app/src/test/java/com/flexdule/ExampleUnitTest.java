@@ -1,16 +1,8 @@
 package com.flexdule;
 
-import com.flexdule.core.dtos.ActivityVars;
-import com.flexdule.core.dtos.NX;
-import com.flexdule.core.util.AppColors;
-import com.flexdule.core.util.CU;
-import com.flexdule.core.dtos.Activity;
+import com.flexdule.core.dtos.Time;
 
 import org.junit.Test;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
 
@@ -27,10 +19,71 @@ public class ExampleUnitTest {
 
         try {
 
-            Duration d = CU.hourToDur("12:6");
-            d = d.minus(d);
-            d.plusHours(1);
-            System.out.println(d);
+
+            Time t = new Time();
+
+            t.addSeconds(11);
+            System.out.println(t);
+            System.out.println(t.parse(t.toString()));
+
+            t = new Time();
+
+            t.addMinutes(3);
+            System.out.println(t);
+            System.out.println(t.parse(t.toString()));
+            System.out.println(t.formatHour());
+
+
+            t.addHours(2);
+            System.out.println(t);
+
+            t.addSeconds(0);
+            System.out.println(t);
+            System.out.println(t.parse(t.toString()));
+
+            t.addSeconds(10);
+            System.out.println(t);
+            System.out.println(t.formatHour());
+
+            t.addSeconds(-10);
+            System.out.println(t);
+            System.out.println(t.formatHour());
+
+
+            t.addMinutes(-10);
+            System.out.println(t);
+
+            t = t.parse(t.toString());
+            System.out.println(t);
+
+            t.addHours(99);
+            t.addMinutes(603);
+            System.out.println(t);
+            System.out.println(t.parse(t.toString()));
+
+            t.negate();
+            System.out.println(t);
+            System.out.println(t.parse(t.toString()));
+            System.out.println(t.formatHour());
+
+
+            t = t.parse("00:00:14");
+            System.out.println(t);
+            t.addMinutes(25);
+            System.out.println(t);
+            t.addHours(999);
+            System.out.println(t);
+
+            System.out.println(t.formatHour());
+            System.out.println(t.parseHour(t.formatHour()));
+
+            System.out.println(t);
+            t.negate();
+            t.addSeconds(-34);
+            System.out.println(t.formatHour());
+            System.out.println(t);
+
+
 
 
         } catch (Exception e) {

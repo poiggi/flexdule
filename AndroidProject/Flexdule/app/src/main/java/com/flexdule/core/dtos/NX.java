@@ -6,22 +6,22 @@ import java.util.Objects;
 
 public class NX implements Serializable {
 
-    private Duration n;
-    private Duration x;
+    private Time n;
+    private Time x;
 
-    public Duration getN() {
+    public Time getN() {
         return n;
     }
 
-    public void setN(Duration n) {
+    public void setN(Time n) {
         this.n = n;
     }
 
-    public Duration getX() {
+    public Time getX() {
         return x;
     }
 
-    public void setX(Duration x) {
+    public void setX(Time x) {
         this.x = x;
     }
 
@@ -46,4 +46,6 @@ public class NX implements Serializable {
     public int hashCode() {
         return Objects.hash(n, x);
     }
+
+
 }
