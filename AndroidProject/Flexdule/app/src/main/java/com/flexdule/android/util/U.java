@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ public class U {
 
     public static void toast(String msg, Context context, int length ){
         Toast toast = Toast.makeText(context, msg, length);
+        toast.setGravity(Gravity.BOTTOM , 0, 5);
         View view = toast.getView();
 
         //Gets the actual oval background of the Toast then sets the colour filter

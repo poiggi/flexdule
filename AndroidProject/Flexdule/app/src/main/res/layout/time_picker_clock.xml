@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="150pt"
-    android:layout_height="match_parent"
+    android:layout_width="165pt"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <View
@@ -15,20 +15,22 @@
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:gravity="bottom|center_horizontal"
+        android:paddingTop="2pt"
         android:text="Hora de Finalización Mínima"
         android:textColor="@android:color/primary_text_light"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/minMaxSubtitle"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal|top"
+        android:paddingBottom="2pt"
         android:text="[ 10:05 - 23:45 ]"
         android:textColor="@android:color/secondary_text_light"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <View
         android:id="@+id/divider3"
@@ -38,9 +40,10 @@
 
     <TimePicker
         android:id="@+id/picker"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:timePickerMode="clock"></TimePicker>
+        android:paddingBottom="15dp"
+        android:timePickerMode="clock" />
 
     <View
         android:id="@+id/divider2"
@@ -56,12 +59,28 @@
         <TextView
             android:id="@+id/cancelButton"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="Cancelar"
             android:textColor="@android:color/secondary_text_light"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/divider7"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/deleteButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Borrar"
+            android:textColor="@android:color/secondary_text_light"
+            android:textSize="16sp" />
 
         <View
             android:id="@+id/divider4"
@@ -72,12 +91,12 @@
         <TextView
             android:id="@+id/acceptButton"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="Aceptar"
             android:textColor="@android:color/secondary_text_light"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 

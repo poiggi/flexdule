@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/editLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:orientation="vertical"
     tools:context=".android.control.ActivityEditActivity">
 
 
@@ -26,11 +27,11 @@
                 android:layout_height="12pt"
                 android:layout_marginStart="10pt"
                 android:layout_marginTop="10pt"
-                android:contentDescription="TODO"
                 android:onClick="onClickBack"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/back" />
+                app:srcCompat="@drawable/back"
+                tools:ignore="ContentDescription" />
 
             <EditText
                 android:id="@+id/editName"
@@ -48,7 +49,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="Autofill" />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -83,13 +85,15 @@
                 android:layout_marginTop="15pt"
                 android:onClick="onClickColor"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="10pt"
                     android:layout_height="10pt"
                     android:layout_gravity="center_vertical"
-                    app:srcCompat="@drawable/palette" />
+                    app:srcCompat="@drawable/palette"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/textColor"
@@ -99,7 +103,8 @@
                     android:paddingStart="7pt"
                     android:text="Cambiar color"
                     android:textColor="@android:color/primary_text_light"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    tools:ignore="RtlSymmetry" />
 
             </LinearLayout>
 
@@ -112,13 +117,15 @@
                 android:layout_marginTop="10pt"
                 android:onClick="onClickDelete"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/colorOption">
+                app:layout_constraintTop_toBottomOf="@+id/colorOption"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="10pt"
                     android:layout_height="10pt"
                     android:layout_gravity="center_vertical"
-                    app:srcCompat="@drawable/delete" />
+                    app:srcCompat="@drawable/delete"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/textDelete"
@@ -128,7 +135,8 @@
                     android:paddingStart="7pt"
                     android:text="Eliminar"
                     android:textColor="@android:color/primary_text_light"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    tools:ignore="RtlSymmetry" />
 
             </LinearLayout>
 
@@ -141,14 +149,16 @@
                 android:layout_marginTop="10pt"
                 android:layout_marginEnd="8pt"
                 android:background="@drawable/shape_borders"
-                android:paddingVertical="2pt"
                 android:paddingStart="10pt"
+                android:paddingTop="2pt"
+                android:paddingBottom="2pt"
                 android:text="Inicio"
                 android:textColor="@android:color/secondary_text_light"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/deleteAction" />
+                app:layout_constraintTop_toBottomOf="@+id/deleteAction"
+                tools:ignore="RtlSymmetry" />
 
             <LinearLayout
                 android:id="@+id/optionsS"
@@ -167,10 +177,11 @@
                     android:layout_height="18pt"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    tools:ignore="InefficientWeight">
 
                     <Switch
-                        android:id="@+id/optionSwitchS"
+                        android:id="@+id/flexibleS"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
@@ -185,6 +196,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="18pt"
                     android:gravity="center_vertical"
+                    android:onClick="onClickSn"
                     android:orientation="horizontal">
 
                     <TextView
@@ -197,7 +209,7 @@
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/ghostOptionSn"
+                        android:id="@+id/ghostSn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -212,10 +224,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="18pt"
                     android:gravity="center_vertical"
+                    android:onClick="onClickSx"
                     android:orientation="horizontal"
                     android:visibility="visible">
 
                     <TextView
+                        android:id="@+id/labelOptionSx"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -244,15 +258,17 @@
                 android:layout_marginTop="10pt"
                 android:layout_marginEnd="8pt"
                 android:background="@drawable/shape_borders"
-                android:paddingVertical="2pt"
                 android:paddingStart="10pt"
+                android:paddingTop="2pt"
+                android:paddingBottom="2pt"
                 android:text="Duración"
                 android:textColor="@android:color/secondary_text_light"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/optionsS" />
+                app:layout_constraintTop_toBottomOf="@+id/optionsS"
+                tools:ignore="RtlSymmetry" />
 
             <LinearLayout
                 android:id="@+id/optionsD"
@@ -271,10 +287,11 @@
                     android:layout_height="18pt"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    tools:ignore="InefficientWeight">
 
                     <Switch
-                        android:id="@+id/optionSwitchD"
+                        android:id="@+id/flexibleD"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
@@ -289,6 +306,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="18pt"
                     android:gravity="center_vertical"
+                    android:onClick="onClickDn"
                     android:orientation="horizontal">
 
                     <TextView
@@ -301,7 +319,7 @@
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/ghostOptionDn"
+                        android:id="@+id/ghostDn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -316,10 +334,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="18pt"
                     android:gravity="center_vertical"
+                    android:onClick="onClickDx"
                     android:orientation="horizontal"
                     android:visibility="visible">
 
                     <TextView
+                        android:id="@+id/labelOptionDx"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -328,7 +348,7 @@
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/ghostOptionDx"
+                        android:id="@+id/ghostDx"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -348,15 +368,17 @@
                 android:layout_marginTop="10pt"
                 android:layout_marginEnd="8pt"
                 android:background="@drawable/shape_borders"
-                android:paddingVertical="2pt"
                 android:paddingStart="10pt"
+                android:paddingTop="2pt"
+                android:paddingBottom="2pt"
                 android:text="Duración"
                 android:textColor="@android:color/secondary_text_light"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/optionsD" />
+                app:layout_constraintTop_toBottomOf="@+id/optionsD"
+                tools:ignore="RtlSymmetry" />
 
             <LinearLayout
                 android:id="@+id/optionsF"
@@ -377,10 +399,11 @@
                     android:layout_height="18pt"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    tools:ignore="InefficientWeight">
 
                     <Switch
-                        android:id="@+id/optionSwitchF"
+                        android:id="@+id/flexibleF"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
@@ -395,6 +418,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="18pt"
                     android:gravity="center_vertical"
+                    android:onClick="onClickFn"
                     android:orientation="horizontal">
 
                     <TextView
@@ -407,7 +431,7 @@
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/ghostOptionFn"
+                        android:id="@+id/ghostFn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -422,10 +446,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="18pt"
                     android:gravity="center_vertical"
+                    android:onClick="onClickFx"
                     android:orientation="horizontal"
                     android:visibility="visible">
 
                     <TextView
+                        android:id="@+id/labelOptionFx"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -434,7 +460,7 @@
                         android:textSize="17sp" />
 
                     <TextView
-                        android:id="@+id/ghostOptionFx"
+                        android:id="@+id/ghostFx"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

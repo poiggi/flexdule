@@ -31,12 +31,13 @@ public class ScheduleEditActivity extends AppCompatActivity {
     ScheduleAccessManager schM;
     EditText editName;
     ConstraintLayout editLayout;
-    boolean saveScheduleEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_edit);
+        Log.i(tag, "==========[ BEGIN onCreate ]==========");
+
         editName = findViewById(R.id.editName);
         editLayout = findViewById(R.id.editLayout);
 
@@ -61,17 +62,18 @@ public class ScheduleEditActivity extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(this, "Error: " + e, Toast.LENGTH_SHORT).show();
         }
-
+        Log.i(tag, "==========[ END onCreate ]==========");
     }
 
     @Override
     public void onPause() {
-        exitOperations();
+        if (schedule != null) saveOnExit();
         super.onPause();
     }
 
-    public void exitOperations() {
-        Log.i(tag, "BEGIN exitOperations()");
+    protected void saveOnExit() {
+        Log.i(tag, "BEGIN saveOnExit()");
+        boolean saveScheduleEdit = false;
 
         String name = editName.getText().toString();
         Log.i(tag, "name=" + name);
@@ -83,7 +85,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
         } else {
             if (schedule.getIdSchedule() != null) {
                 // Si el nombre no es válido, pero es edición, se guarda sin el nombre
-                U.toast("No se puede guardar el nombre de horario vacío", getApplicationContext());
+                U.toast("No se puede guardar horario sin un nombre", getApplicationContext());
                 saveScheduleEdit = true;
             } else {
                 // Si el nombre no es válido y es creación, se desecha
@@ -100,7 +102,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
             }
         }
 
-        Log.i(tag, "BEGIN exitOperations()");
+        Log.i(tag, "BEGIN saveOnExit()");
     }
 
     public void onClickBack(View v) {
@@ -113,17 +115,14 @@ public class ScheduleEditActivity extends AppCompatActivity {
     }
 
     public void onClickDelete(View v) {
-        confirmDialog();
-    }
-
-    private void confirmDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Eliminar horario?");
+        builder.setMessage("¿Eliminar horario?");
         builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 try {
                     schM.deleteScheduleById(schedule.getIdSchedule());
+                    schedule = null; // Se elimina de memoria para que no se guarde al salir
                     finish();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -143,4 +142,5 @@ public class ScheduleEditActivity extends AppCompatActivity {
         TextView tv = dialog.findViewById(android.R.id.message);
         tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
     }
+
 }

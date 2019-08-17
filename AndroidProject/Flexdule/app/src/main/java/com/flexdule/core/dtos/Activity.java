@@ -2,22 +2,20 @@ package com.flexdule.core.dtos;
 
 import java.io.Serializable;
 
-public class Activity implements Serializable {
 
+// algunos getters y setters directos de atributos, por referencia antinula ( es decir en caso de nulo la referencia es al hijo final)
+public class Activity implements Serializable {
 
     private Integer idActivity;
     private Integer idSchedule;
     private String name;
-    private Integer positionInSchedule;
     private String color;
-    private ActivityVars configVars;
-    private ActivityVars finalVars;
-
-
+    private Integer positionInSchedule;
+    private ActivityVars configVars = new ActivityVars();
+    private ActivityVars finalVars = new ActivityVars();
+    private Limits limits = new Limits();
 
     public Activity() {
-        configVars = new ActivityVars();
-        finalVars = new ActivityVars();
     }
 
     public Integer getIdActivity() {
@@ -38,6 +36,22 @@ public class Activity implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public Integer getPositionInSchedule() {
+        return positionInSchedule;
+    }
+
+    public void setPositionInSchedule(Integer positionInSchedule) {
+        this.positionInSchedule = positionInSchedule;
     }
 
     public void setName(String name) {
@@ -72,20 +86,17 @@ public class Activity implements Serializable {
         }
     }
 
-    public String getColor() {
-        return color;
+    public Limits getLimits() {
+        return limits;
     }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public Integer getPositionInSchedule() {
-        return positionInSchedule;
-    }
-
-    public void setPositionInSchedule(Integer positionInSchedule) {
-        this.positionInSchedule = positionInSchedule;
+    public void setLimits(Limits limits) {
+        if(limits != null){
+            this.limits = limits;
+        }else{
+            this.limits.setS(null);
+            this.limits.setF(null);
+        }
     }
 
     @Override
@@ -98,6 +109,7 @@ public class Activity implements Serializable {
                 ", positionInSchedule=" + positionInSchedule +
                 ", configVars=" + configVars +
                 ", finalVars=" + finalVars +
+                ", limits=" + limits +
                 '}';
     }
 }

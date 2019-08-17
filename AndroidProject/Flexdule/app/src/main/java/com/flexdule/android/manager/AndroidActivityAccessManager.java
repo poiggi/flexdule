@@ -3,7 +3,7 @@ package com.flexdule.android.manager;
 import android.content.Context;
 import android.util.Log;
 
-import com.flexdule.core.dtos.Time;
+import com.flexdule.core.util.Time;
 import com.flexdule.core.manager.ActivityAccessManager;
 import com.flexdule.core.dtos.Activity;
 import com.flexdule.core.dtos.ActivityVars;
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AndroidActivityAccessManager implements ActivityAccessManager {
-
     private static final String tag = AndroidActivityAccessManager.class.getSimpleName();
 
     public AndroidActivityAccessManager(Context context) throws Exception {
@@ -143,15 +142,6 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
             if (activityBean.getFn() != null) durs.setFn(Time.parse(activityBean.getFn()));
             if (activityBean.getFx() != null) durs.setFx(Time.parse(activityBean.getFx()));
             ac.setConfigVars(durs);
-
-            ActivityVars dursF = new ActivityVars();
-            if (activityBean.getSn() != null) dursF.setSn(Time.parse(activityBean.getSn()));
-            if (activityBean.getSx() != null) dursF.setSx(Time.parse(activityBean.getSx()));
-            if (activityBean.getDn() != null) dursF.setDn(Time.parse(activityBean.getDn()));
-            if (activityBean.getDx() != null) dursF.setDx(Time.parse(activityBean.getDx()));
-            if (activityBean.getFn() != null) dursF.setFn(Time.parse(activityBean.getFn()));
-            if (activityBean.getFx() != null) dursF.setFx(Time.parse(activityBean.getFx()));
-            ac.setFinalVars(dursF);
         }
         return ac;
     }

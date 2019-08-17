@@ -1,9 +1,11 @@
 package com.flexdule.android.control.sub;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -16,9 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flexdule.R;
-import com.flexdule.core.dtos.Time;
+import com.flexdule.android.control.ActivityEditActivity;
+import com.flexdule.android.util.K;
+import com.flexdule.core.util.Time;
 import com.flexdule.core.util.CK;
-import com.flexdule.core.util.CU;
 import com.flexdule.core.dtos.Activity;
 import com.flexdule.core.dtos.NX;
 
@@ -91,7 +94,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
         if (fin.getN() != null || fin.getX() != null) {
 
-            if (fin.getN() != null && fin.getN().equals(fin.getX())) {
+            if (conf.getN() != null && conf.getN().equals(conf.getX())) {
                 // Si las dos variables son iguales, se muestra solo una etiqueta
 
                 if (fin.getN().equals(conf.getN()) && fin.getX().equals(conf.getX())) bold = true;
@@ -208,8 +211,16 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
         public void onEditClick() {
             Toast.makeText(card.getContext(), "clic en edit " + getAdapterPosition() + " de " + activity.getName(), Toast.LENGTH_SHORT).show();
-        }
 
+            Intent intent = new Intent(card.getContext(), ActivityEditActivity.class);
+            Bundle bundle = new Bundle();
+
+            bundle.putBoolean(K.IS_EDITION, true);
+            bundle.putSerializable(K.SERIALIZED_ACTIVITY, activity);
+
+            intent.putExtras(bundle);
+            card.getContext().startActivity(intent);
+        }
     }
 
 }

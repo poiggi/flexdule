@@ -1,13 +1,43 @@
 package com.flexdule.core.dtos;
 
+import com.flexdule.core.util.Time;
+
 import java.io.Serializable;
-import java.time.Duration;
 import java.util.Objects;
 
+// getters y setters directos de atributos, por referencia, nulable
+// copyValues y copyRefs completos de su misma clase
 public class NX implements Serializable {
 
     private Time n;
     private Time x;
+
+    public NX() {
+    }
+
+    public NX(NX nx) {
+        copyValues(nx);
+    }
+
+    public void copyValues(NX nx) {
+        if (nx != null) {
+            this.n.copyValue(nx.getN());
+            this.x.copyValue(nx.getX());
+        } else {
+            this.n = null;
+            this.x = null;
+        }
+    }
+
+    public void copyRefs(NX nx) {
+        if (nx != null) {
+            n = nx.getN();
+            x = nx.getX();
+        } else {
+            this.n = null;
+            this.x = null;
+        }
+    }
 
     public Time getN() {
         return n;

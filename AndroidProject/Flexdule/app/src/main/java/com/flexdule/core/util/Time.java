@@ -1,5 +1,6 @@
-package com.flexdule.core.dtos;
+package com.flexdule.core.util;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -7,14 +8,18 @@ import java.util.regex.Pattern;
 /**
  * Representa tiempo en horas, minutos y segundos.
  */
-public class Time implements Comparable<Time> {
+public class Time implements Comparable<Time>, Serializable {
 
     /**
      * Duración total en segundos
      */
-    private int s;
+    protected int s;
 
     public Time() {
+    }
+
+    public Time(int seconds) {
+        this.s = seconds;
     }
 
     public Time(int h, int m) {
@@ -27,7 +32,22 @@ public class Time implements Comparable<Time> {
 
     public Time(String hour) {
         Time t = Time.parseHour(hour);
-        s = t.getTimeAsSeconds();
+        s = t.asSeconds();
+    }
+
+    public static Time copy(Time time) {
+        Time r = null;
+        if (time != null) {
+            r = new Time(time.asSeconds());
+        }
+        return r;
+    }
+
+    public void copyValue(Time time) {
+        if (time != null)
+            this.s = time.asSeconds();
+        else
+            this.s = 0;
     }
 
     public void addSeconds(int s) {
@@ -64,7 +84,7 @@ public class Time implements Comparable<Time> {
         return s % 60;
     }
 
-    public int getTimeAsSeconds() {
+    public int asSeconds() {
         return s;
     }
 
@@ -72,9 +92,37 @@ public class Time implements Comparable<Time> {
         return s < 0;
     }
 
-    public void negate() {
+    public Time negate() {
         s *= -1;
+        return this;
     }
+
+    public Time plus(Time t) {
+        if (t != null)
+            s += t.asSeconds();
+        return this;
+    }
+
+    public Time minus(Time t) {
+        if (t != null)
+            s -= t.asSeconds();
+        return this;
+    }
+
+    public static Time sum(Time t1, Time t2) {
+        Time t = new Time();
+        t.plus(t1);
+        t.plus(t2);
+        return t;
+    }
+
+    public static Time sub(Time t1, Time t2) {
+        Time t = new Time();
+        t.plus(t1);
+        t.minus(t2);
+        return t;
+    }
+
 
     /**
      * Convierte el objeto a una cadena de texto en formato HH:MM:SS.
@@ -82,7 +130,7 @@ public class Time implements Comparable<Time> {
      *
      * @return el tiempo en formato HH:MM:SS.
      */
-    private String formatHour() {
+    protected String formatHour() {
         String str = null;
 
         boolean negative = isNegative();
@@ -109,7 +157,6 @@ public class Time implements Comparable<Time> {
             sS = ":" + sS;
         }
 
-
         str = hS + ":" + mS + sS;
 
         if (negative) {
@@ -128,7 +175,7 @@ public class Time implements Comparable<Time> {
      * @return la hora convertida a <code>Time</code>
      * @throws IllegalArgumentException
      */
-    private static Time parseHour(String hour) throws IllegalArgumentException {
+    protected static Time parseHour(String hour) throws IllegalArgumentException {
         Time t = null;
 
         if (hour != null) {
@@ -259,14 +306,37 @@ public class Time implements Comparable<Time> {
         return parseHour(string);
     }
 
+//    @Override
+//    public String toString() {
+//        String result = formatHour();
+//
+//        if(min != null || max != null) {
+//            String minS = "null";
+//            if (min != null) minS = min.formatHour();
+//
+//            String maxS = "null";
+//            if (max != null) maxS = max.formatHour();
+//
+//            result += "[" + minS + "-" + maxS + "]";
+//        }
+//
+//        return result;
+//    }
+
+//    public static Time parse(String string) {
+//        String hour = string.split("\\[")[0];
+//        return parseHour(hour);
+//    }
+
+
     @Override
     public int compareTo(Time time) {
         if (time != null) {
-            if (this.getTimeAsSeconds() > time.getTimeAsSeconds()) {
+            if (this.asSeconds() > time.asSeconds()) {
                 return 1;
-            } else if (this.getTimeAsSeconds() == time.getTimeAsSeconds()) {
+            } else if (this.asSeconds() == time.asSeconds()) {
                 return 0;
-            } else if (this.getTimeAsSeconds() < time.getTimeAsSeconds()) {
+            } else if (this.asSeconds() < time.asSeconds()) {
                 return -1;
             }
         }
@@ -274,19 +344,66 @@ public class Time implements Comparable<Time> {
     }
 
     public boolean greaterThan(Time time) {
-        return this.getTimeAsSeconds() > time.getTimeAsSeconds();
+        return this.asSeconds() > time.asSeconds();
     }
 
     public boolean greaterOrEqualTo(Time time) {
-        return this.getTimeAsSeconds() >= time.getTimeAsSeconds();
+        return this.asSeconds() >= time.asSeconds();
     }
 
     public boolean lessThan(Time time) {
-        return this.getTimeAsSeconds() < time.getTimeAsSeconds();
+        return this.asSeconds() < time.asSeconds();
     }
 
     public boolean lessOrEqualTo(Time time) {
-        return this.getTimeAsSeconds() <= time.getTimeAsSeconds();
+        return this.asSeconds() <= time.asSeconds();
+    }
+
+    public boolean isInRange(Time min, Time max) {
+        boolean inRange = true;
+        if (min != null) inRange = greaterOrEqualTo(min);
+        if (max != null) inRange = inRange && lessOrEqualTo(max);
+        return inRange;
+    }
+
+    /**
+     * Devuelve el tiempo mayor.
+     * <br> Si solo hay un tiempo no nulo, será considerado el mayor.
+     */
+    public static Time findMajorValue(Time t1, Time t2) {
+        Time minor = null;
+        if (t1 != null && t2 != null) {
+            if (t1.greaterOrEqualTo(t2)) {
+                minor = t1;
+            } else {
+                minor = t2;
+            }
+        } else if (t1 != null) {
+            minor = t1;
+        } else if (t2 != null) {
+            minor = t2;
+        }
+        return Time.copy(minor);
+    }
+
+    /**
+     * Devuelve el tiempo menor.
+     * <br> Si solo hay un tiempo no nulo, será considerado el menor.
+     */
+    public static Time findMinorValue(Time t1, Time t2) {
+        Time major = null;
+        if (t1 != null && t2 != null) {
+            if (t1.lessOrEqualTo(t2)) {
+                major = t1;
+            } else {
+                major = t2;
+            }
+        } else if (t1 != null) {
+            major = t1;
+        } else if (t2 != null) {
+            major = t2;
+        }
+        return Time.copy(major);
     }
 
     @Override

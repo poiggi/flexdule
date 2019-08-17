@@ -1,119 +1,651 @@
 package com.flexdule.android.control;
 
-import android.app.TimePickerDialog;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.text.TextUtils;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.flexdule.R;
+import com.flexdule.android.manager.AndroidActivityAccessManager;
+import com.flexdule.android.util.AndroidLog;
 import com.flexdule.android.util.AppTimePickerDialog;
+import com.flexdule.android.util.K;
 import com.flexdule.android.util.U;
 import com.flexdule.core.dtos.Activity;
-import com.flexdule.core.dtos.Time;
-import com.flexdule.core.util.CU;
+import com.flexdule.core.dtos.ActivityVars;
+import com.flexdule.core.dtos.Limits;
+import com.flexdule.core.dtos.NX;
+import com.flexdule.core.manager.ActivityAccessManager;
+import com.flexdule.core.manager.ScheduleActivitiesManager;
+import com.flexdule.core.util.AppColors;
+import com.flexdule.core.util.CK;
+import com.flexdule.core.util.CoreLog;
+import com.flexdule.core.util.Time;
 
-public class ActivityEditActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public class ActivityEditActivity extends AppCompatActivity {
+    private static final String tag = ActivityEditActivity.class.getSimpleName();
 
-    Time time = new Time();
+    Activity activity;
+    ActivityVars conf;
+    Limits limits;
+
+    ActivityAccessManager actM;
+    ScheduleActivitiesManager schActM;
+    AppColors colors = new AppColors();
+
+    EditText editName;
+    Switch flexibleS, flexibleD, flexibleF;
+    LinearLayout editLayout;
+    CardView cardView;
+    LinearLayout optionSn, optionSx, optionDn, optionDx, optionFn, optionFx;
+    TextView labelOptionSn, labelOptionSx, labelOptionDn, labelOptionDx, labelOptionFn,
+            labelOptionFx;
+    TextView ghostSn, ghostSx, ghostDn, ghostDx, ghostFn, ghostFx;
+
+
+    boolean dataBindFinished;
+
+    /**
+     * Se guardan los últimos tiempos establecidos para las variables, diferenciando entre sus
+     * formas flexibles y la no flexible, de modo que si se modifica el modo (flexible o no), se
+     * restoren los datos. Para evitar incoherencias, solo se guardan los datos del último grupo
+     * de variables que se esté operando (S, D o F): si se edita un grupo, se limpian los datos
+     * del resto de grupos.
+     */
+    Time lastS, lastSn, lastSx;
+    Time lastD, lastDn, lastDx;
+    Time lastF, lastFn, lastFx;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_edit);
+        Log.i(tag, "==========[ BEGIN onCreate ]==========");
 
-        setFlexibleListeners();
+        initUiVars();
 
-        LinearLayout l = findViewById(R.id.optionDn);
-        l.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppTimePickerDialog d = new AppTimePickerDialog(ActivityEditActivity.this, "Duración inventada minmaxima", new Time("0:10"), new Time("23:45"), false, time);
-                d.show();
+        // Se inician los managers
+        try {
+            actM = new AndroidActivityAccessManager(getApplicationContext());
+            CoreLog coreLog = new AndroidLog(ScheduleActivitiesManager.class.getSimpleName());
+            schActM = new ScheduleActivitiesManager(coreLog);
+        } catch (Exception e) {
+            Log.e(tag, "Error initializing managers, in onCreate(): " + e);
+            e.printStackTrace();
+        }
 
-            }
-        });
+        recoverData();
+        initFlexibleListeners();
+        initDataBind();
 
-
+        Log.i(tag, "==========[ END onCreate ]==========");
     }
 
-    public void setFlexibleListeners() {
+    @Override
+    protected void onPause() {
+        if (activity != null) saveOnExit();
+        super.onPause();
+    }
+
+    private void recoverData() {
+        Log.i(tag, "BEGIN recoverData()");
+
+        Intent intent = getIntent();
+        activity = (Activity) intent.getExtras().getSerializable(K.SERIALIZED_ACTIVITY);
+        conf = activity.getConfigVars();
+        limits = activity.getLimits();
+
+        Log.i(tag, "END recoverData(). activity = " + activity);
+    }
+
+    private void initUiVars() {
+        Log.i(tag, "BEGIN initUiVars()");
+        editName = findViewById(R.id.editName);
+        editLayout = findViewById(R.id.editLayout);
+        cardView = findViewById(R.id.cardView);
+        flexibleS = findViewById(R.id.flexibleS);
+        flexibleD = findViewById(R.id.flexibleD);
+        flexibleF = findViewById(R.id.flexibleF);
+        optionSn = findViewById(R.id.optionSn);
+        optionSx = findViewById(R.id.optionSx);
+        optionDn = findViewById(R.id.optionDn);
+        optionDx = findViewById(R.id.optionDx);
+        optionFn = findViewById(R.id.optionFn);
+        optionFx = findViewById(R.id.optionFx);
+        labelOptionSn = findViewById(R.id.labelOptionSn);
+        labelOptionSx = findViewById(R.id.labelOptionSx);
+        labelOptionDn = findViewById(R.id.labelOptionDn);
+        labelOptionDx = findViewById(R.id.labelOptionDx);
+        labelOptionFn = findViewById(R.id.labelOptionFn);
+        labelOptionFx = findViewById(R.id.labelOptionFx);
+        ghostSn = findViewById(R.id.ghostSn);
+        ghostSx = findViewById(R.id.ghostSx);
+        ghostDn = findViewById(R.id.ghostDn);
+        ghostDx = findViewById(R.id.ghostDx);
+        ghostFn = findViewById(R.id.ghostFn);
+        ghostFx = findViewById(R.id.ghostFx);
+        Log.i(tag, "END initUiVars()");
+    }
+
+    private void initDataBind() {
+        Log.i(tag, "BEGIN initDataBind()");
+
+        if (activity.getName() != null) editName.setText(activity.getName());
+
+        if (activity.getColor() == null) activity.setColor(AppColors.COLOR_WHITE);
+        updateColor();
+
+        // Si N y X coinciden y la noFlexibilidad es viable, se establece
+        if ((conf.getSn() != null && conf.getSn().equals(conf.getSx()))
+                || (conf.getSn() == null && conf.getSx() == null)
+                && schActM.validateDisableFlexible(CK.S, activity)) {
+            setS(conf.getSn());
+            flexibleS.setChecked(false);
+        } else {
+            setSn(conf.getSn());
+            setSx(conf.getSx());
+        }
+
+        if ((conf.getDn() != null && conf.getDn().equals(conf.getDx()))
+                || (conf.getDn() == null && conf.getDx() == null)
+                && schActM.validateDisableFlexible(CK.D, activity)) {
+            setD(conf.getDn());
+            flexibleD.setChecked(false);
+        } else {
+            setDn(conf.getDn());
+            setDx(conf.getDx());
+        }
+
+        if ((conf.getFn() != null && conf.getFn().equals(conf.getFx()))
+                || (conf.getFn() == null && conf.getFx() == null)
+                && schActM.validateDisableFlexible(CK.F, activity)) {
+            setF(conf.getFn());
+            flexibleF.setChecked(false);
+        } else {
+            setFn(conf.getFn());
+            setFx(conf.getFx());
+        }
+
+        dataBindFinished = true;
+
+        Log.i(tag, "END initDataBind()");
+    }
+
+
+    private void initFlexibleListeners() {
+        Log.i(tag, "BEGIN initFlexibleListeners()");
 
         // Flexible S
-        Switch sS = findViewById(R.id.optionSwitchS);
-        sS.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        flexibleS.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                LinearLayout l = findViewById(R.id.optionSx);
-                TextView tv = findViewById(R.id.labelOptionSn);
-
+                Log.i(tag, "trying to change flexible S to " + isChecked);
+                // Si los lasts decada caso son no nulos y válidos, se restablecen. Si no, a null
                 if (isChecked) {
-                    l.setVisibility(View.VISIBLE);
-                    tv.setText("Hora de Inicio Mínima");
+                    optionSx.setVisibility(View.VISIBLE);
+                    labelOptionSn.setText("Hora de Inicio Mínima");
+
+                    if (lastSn != null) {
+                        NX minMaxSn = schActM.calcMinMaxS(CK.SN, activity, CK.N);
+                        if (lastSn.isInRange(minMaxSn.getN(), minMaxSn.getX())) setSn(lastSn);
+                        else setSn(null);
+                    } else {
+                        setSn(null);
+                    }
+
+                    if (lastSx != null) {
+                        NX minMaxSx = schActM.calcMinMaxS(CK.SX, activity, CK.X);
+                        if (lastSx.isInRange(minMaxSx.getN(), minMaxSx.getX())) setSx(lastSx);
+                        else setSx(null);
+                    } else {
+                        setSx(null);
+                    }
+
                 } else {
-                    l.setVisibility(View.GONE);
-                    tv.setText("Hora de Inicio");
+                    if (validateAndAmendDisableFlexible(CK.S)) {
+                        optionSx.setVisibility(View.GONE);
+                        labelOptionSn.setText("Hora de Inicio");
+
+                        if (lastS != null) {
+                            NX minMaxS = schActM.calcNoFlexibleMinMax(CK.S, activity);
+                            if (lastS.isInRange(minMaxS.getN(), minMaxS.getX())) setS(lastS);
+                            else setS(null);
+                        } else {
+                            setS(null);
+                        }
+                    }
                 }
             }
         });
 
         // Flexible D
-        Switch sD = findViewById(R.id.optionSwitchD);
-        sD.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        flexibleD.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                LinearLayout l = findViewById(R.id.optionDx);
-                TextView tv = findViewById(R.id.labelOptionDn);
-
+                Log.i(tag, "trying to change flexible D to " + isChecked);
                 if (isChecked) {
-                    l.setVisibility(View.VISIBLE);
-                    tv.setText("Duración Mínima");
+                    optionDx.setVisibility(View.VISIBLE);
+                    labelOptionDn.setText("Duración Mínima");
+
+                    if (lastDn != null) {
+                        NX minMaxDn = schActM.calcMinMaxD(CK.DN, activity, CK.N);
+                        if (lastDn.isInRange(minMaxDn.getN(), minMaxDn.getX())) setDn(lastDn);
+                        else setDn(null);
+                    } else {
+                        setDn(null);
+                    }
+
+                    if (lastDx != null) {
+                        NX minMaxDx = schActM.calcMinMaxD(CK.DX, activity, CK.X);
+                        if (lastDx.isInRange(minMaxDx.getN(), minMaxDx.getX())) setDx(lastDx);
+                        else setDx(null);
+                    } else {
+                        setDx(null);
+                    }
+
                 } else {
-                    l.setVisibility(View.GONE);
-                    tv.setText("Duración");
+                    if (validateAndAmendDisableFlexible(CK.D)) {
+                        optionDx.setVisibility(View.GONE);
+                        labelOptionDn.setText("Duración");
+
+                        if (lastD != null) {
+                            NX minMaxD = schActM.calcNoFlexibleMinMax(CK.D, activity);
+                            if (lastD.isInRange(minMaxD.getN(), minMaxD.getX())) setD(lastD);
+                            else setD(null);
+                        } else {
+                            setD(null);
+                        }
+                    }
                 }
             }
         });
 
         // Flexible F
-        Switch sF = findViewById(R.id.optionSwitchF);
-        sF.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        flexibleF.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                LinearLayout l = findViewById(R.id.optionFx);
-                TextView tv = findViewById(R.id.labelOptionFn);
-
+                Log.i(tag, "trying to change flexible F to " + isChecked);
                 if (isChecked) {
-                    l.setVisibility(View.VISIBLE);
-                    tv.setText("Hora de Finalización Mínima");
+                    optionFx.setVisibility(View.VISIBLE);
+                    labelOptionFn.setText("Hora de Finalización Mínima");
+
+                    if (lastFn != null) {
+                        NX minMaxFn = schActM.calcMinMaxF(CK.FN, activity, CK.N);
+                        if (lastFn.isInRange(minMaxFn.getN(), minMaxFn.getX())) setFn(lastFn);
+                        else setFn(null);
+                    } else {
+                        setFn(null);
+                    }
+
+                    if (lastFx != null) {
+                        NX minMaxFx = schActM.calcMinMaxF(CK.FX, activity, CK.X);
+                        if (lastFx.isInRange(minMaxFx.getN(), minMaxFx.getX())) setFx(lastFx);
+                        else setFx(null);
+                    } else {
+                        setFx(null);
+                    }
+
                 } else {
-                    l.setVisibility(View.GONE);
-                    tv.setText("Hora de Finalización");
+                    if (validateAndAmendDisableFlexible(CK.F)) {
+                        optionFx.setVisibility(View.GONE);
+                        labelOptionFn.setText("Hora de Finalización");
+
+                        if (lastF != null) {
+                            NX minMaxF = schActM.calcNoFlexibleMinMax(CK.F, activity);
+                            if (lastF.isInRange(minMaxF.getN(), minMaxF.getX())) setF(lastF);
+                            else setF(null);
+                        } else {
+                            setF(null);
+                        }
+                    }
                 }
             }
         });
 
-
+        Log.i(tag, "END initFlexibleListeners()");
     }
 
+    private void saveOnExit() {
+        Log.i(tag, "BEGIN saveOnExit(). activity= " + activity);
+        boolean save = false;
+        Long saved = null;
+
+        activity.setName(editName.getText().toString());
+
+        // Si es nueva actividad sin editar, se desecha
+        if (activity.getIdActivity() == null) {
+            boolean name = !TextUtils.isEmpty(activity.getName());
+            boolean sn = conf.getSn() != null;
+            boolean sx = conf.getSx() != null;
+            boolean dn = conf.getDn() != null;
+            boolean dx = conf.getDx() != null;
+            boolean fn = conf.getFn() != null;
+            boolean fx = conf.getFx() != null;
+            boolean color = !"ffffff".equals(activity.getColor());
+            save = name || sn || sx || dn || dx || fn || fx || color;
+            if (!save) U.toast("Actividad vacía desechada", getApplicationContext());
+        } else {
+            save = true;
+        }
+
+        if (save) {
+            try {
+                saved = actM.saveActivity(activity);
+            } catch (Exception e) {
+                e.printStackTrace();
+                U.toast("Error al guardar el horario", getApplicationContext());
+            }
+        }
+
+        Log.i(tag, "BEGIN saveOnExit(). saved= " + saved);
+    }
+
+
     public void onClickDelete(View view) {
+        Log.i(tag, "BEGIN onClickDelete()");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Eliminar actividad?");
+        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                try {
+                    actM.deleteActivityById(activity.getIdActivity());
+                    activity = null; // Se elimina de memoria para que no se guarde al salir
+                    finish();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = builder.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.DKGRAY);
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.DKGRAY);
+        TextView tv = dialog.findViewById(android.R.id.message);
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
     }
 
     public void onClickBack(View view) {
+        finish();
     }
 
     public void onClickColor(View view) {
-        U.toast(time+"", getApplicationContext());
+        activity.setColor(colors.getNextColor());
+        updateColor();
+        Log.i(tag, "DONE onClickColor(). color= " + activity.getColor());
     }
 
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
+    private void updateColor() {
+        int color = Color.parseColor("#" + activity.getColor());
+        editLayout.setBackgroundColor(color);
+        cardView.setCardBackgroundColor(color);
     }
 
+    private void setS(Time time) {
+        conf.setSn(Time.copy(time));
+        conf.setSx(Time.copy(time));
+        timeLabel(ghostSn, time);
+        lastS = Time.copy(time);
+    }
+
+    private void setSn(Time time) {
+        conf.setSn(Time.copy(time));
+        timeLabel(ghostSn, time);
+        lastSn = Time.copy(time);
+    }
+
+    private void setSx(Time time) {
+        conf.setSx(Time.copy(time));
+        timeLabel(ghostSx, time);
+        lastSx = Time.copy(time);
+    }
+
+    private void setD(Time time) {
+        conf.setDn(Time.copy(time));
+        conf.setDx(Time.copy(time));
+        timeLabel(ghostDn, time);
+        lastD = Time.copy(time);
+    }
+
+    private void setDn(Time time) {
+        conf.setDn(Time.copy(time));
+        timeLabel(ghostDn, time);
+        lastDn = Time.copy(time);
+    }
+
+    private void setDx(Time time) {
+        conf.setDx(Time.copy(time));
+        timeLabel(ghostDx, time);
+        lastDx = Time.copy(time);
+    }
+
+    private void setF(Time time) {
+        conf.setFn(Time.copy(time));
+        conf.setFx(Time.copy(time));
+        timeLabel(ghostFn, time);
+        lastF = Time.copy(time);
+    }
+
+    private void setFn(Time time) {
+        conf.setFn(Time.copy(time));
+        timeLabel(ghostFn, time);
+        lastFn = Time.copy(time);
+    }
+
+    private void setFx(Time time) {
+        conf.setFx(Time.copy(time));
+        timeLabel(ghostFx, time);
+        lastFx = Time.copy(time);
+    }
+
+    private void timeLabel(TextView label, Time time) {
+        if (time != null) label.setText(time.toString());
+        else label.setText("-");
+    }
+
+    private void cleanLasts(String var) {
+        if (dataBindFinished) { // solo se limpiaran los "last" tras el bindeo
+            switch (var) {
+                case CK.S:
+                    lastD = null;
+                    lastDn = null;
+                    lastDx = null;
+                    lastF = null;
+                    lastFn = null;
+                    lastFx = null;
+                    break;
+                case CK.D:
+                    lastS = null;
+                    lastSn = null;
+                    lastSx = null;
+                    lastF = null;
+                    lastFn = null;
+                    lastFx = null;
+                    break;
+                case CK.F:
+                    lastS = null;
+                    lastSn = null;
+                    lastSx = null;
+                    lastD = null;
+                    lastDn = null;
+                    lastDx = null;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid var argument");
+            }
+        }
+        Log.i(tag, "DONE cleanLasts(). var= " + var);
+    }
+
+    private boolean validateAndAmendDisableFlexible(String var) {
+        Log.i(tag, "BEGIN validateAndAmendDisableFlexible(). var= " + var);
+
+        boolean validated = true;
+
+        if(dataBindFinished) {
+            validated = schActM.validateDisableFlexible(var, activity);
+            if (!validated) {
+                switch (var) {
+                    case CK.S:
+                        flexibleS.setChecked(true);
+                        break;
+                    case CK.D:
+                        flexibleD.setChecked(true);
+                        break;
+                    case CK.F:
+                        flexibleF.setChecked(true);
+                        break;
+                }
+
+                U.toast("Debe ser flexible. Otros tiempos constriñen el cambio.",
+                        getApplicationContext(), 2000);
+            }
+        }
+        Log.i(tag, "END validateAndAmendDisableFlexible(). validated= " + validated);
+        return validated;
+    }
+
+
+    public void onClickSn(View view) {
+        Log.d(tag, "DONE onClickSn()");
+        NX minMax;
+        if (flexibleS.isChecked()) {
+            minMax = schActM.calcMinMaxS(CK.SN, activity, CK.N);
+        } else {
+            minMax = schActM.calcNoFlexibleMinMax(CK.S, activity);
+        }
+
+        AppTimePickerDialog d = new AppTimePickerDialog(ActivityEditActivity.this,
+                labelOptionSn.getText().toString(),
+                minMax.getN(), minMax.getX(),
+                false,
+                conf.getSn());
+        d.addListener(new AppTimePickerDialog.AppTimePickerListener() {
+            @Override
+            public void onTimePicked(Time time) {
+                if (flexibleS.isChecked()) setSn(time);
+                else setS(time);
+            }
+        });
+        d.show();
+    }
+
+    public void onClickDn(View view) {
+        Log.d(tag, "DONE onClickDn()");
+        NX minMax;
+        if (flexibleD.isChecked()) {
+            minMax = schActM.calcMinMaxD(CK.DN, activity, CK.N);
+        } else {
+            minMax = schActM.calcNoFlexibleMinMax(CK.D, activity);
+        }
+
+        AppTimePickerDialog d = new AppTimePickerDialog(ActivityEditActivity.this,
+                labelOptionDn.getText().toString(),
+                minMax.getN(), minMax.getX(),
+                true,
+                conf.getDn());
+        d.addListener(new AppTimePickerDialog.AppTimePickerListener() {
+            @Override
+            public void onTimePicked(Time time) {
+                if (flexibleD.isChecked()) setDn(time);
+                else setD(time);
+            }
+        });
+        d.show();
+    }
+
+    public void onClickFn(View view) {
+        Log.d(tag, "DONE onClickFn()");
+        NX minMax;
+        if (flexibleF.isChecked()) {
+            minMax = schActM.calcMinMaxF(CK.FN, activity, CK.N);
+        } else {
+            minMax = schActM.calcNoFlexibleMinMax(CK.F, activity);
+        }
+
+        AppTimePickerDialog d = new AppTimePickerDialog(ActivityEditActivity.this,
+                labelOptionFn.getText().toString(),
+                minMax.getN(), minMax.getX(),
+                false,
+                conf.getFn());
+        d.addListener(new AppTimePickerDialog.AppTimePickerListener() {
+            @Override
+            public void onTimePicked(Time time) {
+                if (flexibleF.isChecked()) setFn(time);
+                else setF(time);
+            }
+        });
+        d.show();
+    }
+
+    public void onClickSx(View view) {
+        Log.d(tag, "DONE onClickSx()");
+        NX minMax = schActM.calcMinMaxS(CK.SX, activity, CK.X);
+        AppTimePickerDialog d = new AppTimePickerDialog(ActivityEditActivity.this,
+                labelOptionSn.getText().toString(),
+                minMax.getN(), minMax.getX(),
+                false,
+                conf.getSx());
+        d.addListener(new AppTimePickerDialog.AppTimePickerListener() {
+            @Override
+            public void onTimePicked(Time time) {
+                setSx(time);
+            }
+        });
+        d.show();
+    }
+
+    public void onClickDx(View view) {
+        Log.d(tag, "DONE onClickDx()");
+        NX minMax = schActM.calcMinMaxD(CK.DX, activity, CK.X);
+        AppTimePickerDialog d = new AppTimePickerDialog(ActivityEditActivity.this,
+                labelOptionDx.getText().toString(),
+                minMax.getN(), minMax.getX(),
+                true,
+                conf.getDx());
+        d.addListener(new AppTimePickerDialog.AppTimePickerListener() {
+            @Override
+            public void onTimePicked(Time time) {
+                setDx(time);
+            }
+        });
+        d.show();
+    }
+
+    public void onClickFx(View view) {
+        Log.d(tag, "DONE onClickFx()");
+        NX minMax = schActM.calcMinMaxF(CK.FX, activity, CK.X);
+        AppTimePickerDialog d = new AppTimePickerDialog(ActivityEditActivity.this,
+                labelOptionFx.getText().toString(),
+                minMax.getN(), minMax.getX(),
+                false,
+                conf.getFx());
+        d.addListener(new AppTimePickerDialog.AppTimePickerListener() {
+            @Override
+            public void onTimePicked(Time time) {
+                setFx(time);
+            }
+        });
+        d.show();
+    }
 
 }
