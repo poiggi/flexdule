@@ -1,6 +1,6 @@
 package com.flexdule.android.util;
 
-public class K {
+public class AK {
 
     /**
      * Bundle keys

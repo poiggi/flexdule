@@ -56,7 +56,7 @@ public class AppTimePickerDialog extends Dialog implements View.OnClickListener 
     }
 
     private void initTitle() {
-        String minTime = "", maxTime = "";
+        String minTime = "0:00 ", maxTime = " 23:59";
         if (min != null) minTime = min.toString();
         if (max != null) maxTime = max.toString();
 
@@ -153,12 +153,12 @@ public class AppTimePickerDialog extends Dialog implements View.OnClickListener 
 
     protected void setMin(){
         setPickerTime(min);
-        U.toast("mínimo "+min, getContext(), 500);
+        AU.toast("mínimo "+min, getContext(), 500);
     }
 
     protected void setMax(){
         setPickerTime(max);
-        U.toast("máximo "+max, getContext(), 500);
+        AU.toast("máximo "+max, getContext(), 500);
     }
 
     public void setPickerTime(Time time) {

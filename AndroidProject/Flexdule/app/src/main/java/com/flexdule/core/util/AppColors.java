@@ -47,7 +47,7 @@ public class AppColors {
 
     public static String getRandomColor() {
         List<String> colors = getColors();
-        int i = CU.getRandomNumberInRange(0, colors.size() - 1);
+        int i = C.getRandomNumberInRange(0, colors.size() - 1);
         return getColors().get(i);
     }
 }

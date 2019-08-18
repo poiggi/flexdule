@@ -19,8 +19,8 @@ import com.flexdule.android.manager.AndroidCookieAccessManager;
 import com.flexdule.android.manager.AndroidScheduleAccessManager;
 import com.flexdule.android.util.AndroidLog;
 import com.flexdule.android.util.DebugU;
-import com.flexdule.android.util.K;
-import com.flexdule.android.util.U;
+import com.flexdule.android.util.AK;
+import com.flexdule.android.util.AU;
 import com.flexdule.core.dtos.Activity;
 import com.flexdule.core.dtos.Cookie;
 import com.flexdule.core.dtos.Schedule;
@@ -29,7 +29,7 @@ import com.flexdule.core.manager.CookieAccesManager;
 import com.flexdule.core.manager.ScheduleAccessManager;
 import com.flexdule.core.manager.ScheduleActivitiesManager;
 import com.flexdule.core.util.AppColors;
-import com.flexdule.core.util.CK;
+import com.flexdule.core.util.K;
 import com.flexdule.core.util.CoreLog;
 import com.flexdule.core.util.Time;
 
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.e(tag, "Error onCreate: " + e);
-            U.toast("Error onCreate" + e, this);
+            AU.toast("Error onCreate" + e, this);
             e.printStackTrace();
         }
         Log.i(tag, "==========[ END onCreate ]==========");
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.e(tag, "Error onCreate: " + e);
-            U.toast("Error onCreate" + e, this);
+            AU.toast("Error onCreate" + e, this);
             e.printStackTrace();
         }
 
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
     public void findUsingSchedule() {
         Log.i(tag, "BEGIN findUsingSchedule()");
         try {
-            cooUsingSchedule = cooM.findCookieByName(CK.COOKIE_USING_SCHEDULE);
+            cooUsingSchedule = cooM.findCookieByName(K.COOKIE_USING_SCHEDULE);
             boolean createCookie = false;
             boolean createdSchedule = false;
 
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 String idSchedule = schedule.getIdSchedule().toString();
                 Log.i(tag, "Saving cooUsingSchedule: " + idSchedule);
                 cooUsingSchedule = new Cookie();
-                cooUsingSchedule.setName(CK.COOKIE_USING_SCHEDULE);
+                cooUsingSchedule.setName(K.COOKIE_USING_SCHEDULE);
                 cooUsingSchedule.setValue(idSchedule);
                 cooM.saveCookie(cooUsingSchedule);
             }
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "click edit", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, ScheduleEditActivity.class);
-        intent.putExtra(K.EXTRA_ID_SCHEDULE, schedule.getIdSchedule());
+        intent.putExtra(AK.EXTRA_ID_SCHEDULE, schedule.getIdSchedule());
         startActivity(intent);
     }
 
@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         // Se lanza el intent con la nueva actividad
         Intent intent = new Intent(this, ActivityEditActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(K.SERIALIZED_ACTIVITY, newActivity);
+        bundle.putSerializable(AK.SERIALIZED_ACTIVITY, newActivity);
         intent.putExtras(bundle);
 
         Log.i(tag, "END onClickAdd(). bundle= " + bundle + ", intent= " + intent);
@@ -321,65 +321,65 @@ public class MainActivity extends AppCompatActivity {
 //        ac1.setIdSchedule(schedule.getIdSchedule());
 //        ac1.setName("extra");
 //        ac1.setPositionInSchedule(activities.size());
-//        ac1.setColor(AppColors.getColors().get(CK.COLOR_WHITE));
-//        ac1.getConfigVars().setSn(CU.hourToDur(null));
-//        ac1.getConfigVars().setSx(CU.hourToDur(null));
-//        ac1.getConfigVars().setDn(CU.hourToDur("0:10"));
-//        ac1.getConfigVars().setDx(CU.hourToDur("0:10"));
-//        ac1.getConfigVars().setFn(CU.hourToDur(null));
-//        ac1.getConfigVars().setFx(CU.hourToDur(null));
+//        ac1.setColor(AppColors.getColors().get(K.COLOR_WHITE));
+//        ac1.getConfigVars().setSn(C.hourToDur(null));
+//        ac1.getConfigVars().setSx(C.hourToDur(null));
+//        ac1.getConfigVars().setDn(C.hourToDur("0:10"));
+//        ac1.getConfigVars().setDx(C.hourToDur("0:10"));
+//        ac1.getConfigVars().setFn(C.hourToDur(null));
+//        ac1.getConfigVars().setFx(C.hourToDur(null));
 //        activities.add(ac1);
 //
 //        Activity ac2 = new Activity();
 //        ac2.setIdSchedule(schedule.getIdSchedule());
 //        ac2.setName("extra");
 //        ac2.setPositionInSchedule(activities.size());
-//        ac2.setColor(AppColors.getColors().get(CK.COLOR_WHITE));
-//        ac2.getConfigVars().setSn(CU.hourToDur(null));
-//        ac2.getConfigVars().setSx(CU.hourToDur(null));
-//        ac2.getConfigVars().setDn(CU.hourToDur("0:10"));
-//        ac2.getConfigVars().setDx(CU.hourToDur("0:10"));
-//        ac2.getConfigVars().setFn(CU.hourToDur(null));
-//        ac2.getConfigVars().setFx(CU.hourToDur(null));
+//        ac2.setColor(AppColors.getColors().get(K.COLOR_WHITE));
+//        ac2.getConfigVars().setSn(C.hourToDur(null));
+//        ac2.getConfigVars().setSx(C.hourToDur(null));
+//        ac2.getConfigVars().setDn(C.hourToDur("0:10"));
+//        ac2.getConfigVars().setDx(C.hourToDur("0:10"));
+//        ac2.getConfigVars().setFn(C.hourToDur(null));
+//        ac2.getConfigVars().setFx(C.hourToDur(null));
 //        activities.add(ac2);
 //
 //        Activity ac3 = new Activity();
 //        ac3.setIdSchedule(schedule.getIdSchedule());
 //        ac3.setName("extra");
 //        ac3.setPositionInSchedule(activities.size());
-//        ac3.setColor(AppColors.getColors().get(CK.COLOR_WHITE));
-//        ac3.getConfigVars().setSn(CU.hourToDur(null));
-//        ac3.getConfigVars().setSx(CU.hourToDur(null));
-//        ac3.getConfigVars().setDn(CU.hourToDur("0:10"));
-//        ac3.getConfigVars().setDx(CU.hourToDur("0:10"));
-//        ac3.getConfigVars().setFn(CU.hourToDur(null));
-//        ac3.getConfigVars().setFx(CU.hourToDur(null));
+//        ac3.setColor(AppColors.getColors().get(K.COLOR_WHITE));
+//        ac3.getConfigVars().setSn(C.hourToDur(null));
+//        ac3.getConfigVars().setSx(C.hourToDur(null));
+//        ac3.getConfigVars().setDn(C.hourToDur("0:10"));
+//        ac3.getConfigVars().setDx(C.hourToDur("0:10"));
+//        ac3.getConfigVars().setFn(C.hourToDur(null));
+//        ac3.getConfigVars().setFx(C.hourToDur(null));
 //        activities.add(ac3);
 //
 //        Activity ac4 = new Activity();
 //        ac4.setIdSchedule(schedule.getIdSchedule());
 //        ac4.setName("extra");
 //        ac4.setPositionInSchedule(activities.size());
-//        ac4.setColor(AppColors.getColors().get(CK.COLOR_WHITE));
-//        ac4.getConfigVars().setSn(CU.hourToDur(null));
-//        ac4.getConfigVars().setSx(CU.hourToDur(null));
-//        ac4.getConfigVars().setDn(CU.hourToDur("0:10"));
-//        ac4.getConfigVars().setDx(CU.hourToDur("0:10"));
-//        ac4.getConfigVars().setFn(CU.hourToDur(null));
-//        ac4.getConfigVars().setFx(CU.hourToDur(null));
+//        ac4.setColor(AppColors.getColors().get(K.COLOR_WHITE));
+//        ac4.getConfigVars().setSn(C.hourToDur(null));
+//        ac4.getConfigVars().setSx(C.hourToDur(null));
+//        ac4.getConfigVars().setDn(C.hourToDur("0:10"));
+//        ac4.getConfigVars().setDx(C.hourToDur("0:10"));
+//        ac4.getConfigVars().setFn(C.hourToDur(null));
+//        ac4.getConfigVars().setFx(C.hourToDur(null));
 //        activities.add(ac4);
 //
 //        Activity ac5 = new Activity();
 //        ac5.setIdSchedule(schedule.getIdSchedule());
 //        ac5.setName("extra");
 //        ac5.setPositionInSchedule(activities.size());
-//        ac5.setColor(AppColors.getColors().get(CK.COLOR_WHITE));
-//        ac5.getConfigVars().setSn(CU.hourToDur(null));
-//        ac5.getConfigVars().setSx(CU.hourToDur(null));
-//        ac5.getConfigVars().setDn(CU.hourToDur("0:10"));
-//        ac5.getConfigVars().setDx(CU.hourToDur("0:10"));
-//        ac5.getConfigVars().setFn(CU.hourToDur(null));
-//        ac5.getConfigVars().setFx(CU.hourToDur(null));
+//        ac5.setColor(AppColors.getColors().get(K.COLOR_WHITE));
+//        ac5.getConfigVars().setSn(C.hourToDur(null));
+//        ac5.getConfigVars().setSx(C.hourToDur(null));
+//        ac5.getConfigVars().setDn(C.hourToDur("0:10"));
+//        ac5.getConfigVars().setDx(C.hourToDur("0:10"));
+//        ac5.getConfigVars().setFn(C.hourToDur(null));
+//        ac5.getConfigVars().setFx(C.hourToDur(null));
 //        activities.add(ac5);
 //
 //        actM.save(activities);

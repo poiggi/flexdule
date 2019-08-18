@@ -17,8 +17,8 @@ import android.widget.Toast;
 
 import com.flexdule.R;
 import com.flexdule.android.manager.AndroidScheduleAccessManager;
-import com.flexdule.android.util.K;
-import com.flexdule.android.util.U;
+import com.flexdule.android.util.AK;
+import com.flexdule.android.util.AU;
 import com.flexdule.core.dtos.Schedule;
 import com.flexdule.core.manager.ScheduleAccessManager;
 import com.flexdule.core.util.AppColors;
@@ -44,7 +44,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
         try {
             schM = new AndroidScheduleAccessManager(getApplicationContext());
             Intent intent = getIntent();
-            Integer id = intent.getExtras().getInt(K.EXTRA_ID_SCHEDULE);
+            Integer id = intent.getExtras().getInt(AK.EXTRA_ID_SCHEDULE);
             Log.i(tag, "id = " + id);
             if (id != null) {
                 schedule = schM.findScheduleById(id);
@@ -85,11 +85,11 @@ public class ScheduleEditActivity extends AppCompatActivity {
         } else {
             if (schedule.getIdSchedule() != null) {
                 // Si el nombre no es válido, pero es edición, se guarda sin el nombre
-                U.toast("No se puede guardar horario sin un nombre", getApplicationContext());
+                AU.toast("No se puede guardar horario sin un nombre", getApplicationContext());
                 saveScheduleEdit = true;
             } else {
                 // Si el nombre no es válido y es creación, se desecha
-                U.toast("Horario sin nombre desechado", getApplicationContext());
+                AU.toast("Horario sin nombre desechado", getApplicationContext());
             }
         }
 
@@ -98,7 +98,7 @@ public class ScheduleEditActivity extends AppCompatActivity {
                 schM.saveSchedule(schedule);
             } catch (Exception e) {
                 e.printStackTrace();
-                U.toast("Error al guardar el horario", getApplicationContext());
+                AU.toast("Error al guardar el horario", getApplicationContext());
             }
         }
 

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Clase de constantes pertenecientes al Core
  */
-public class CK {
+public class K {
 
     public static final int DISPLAY_HOUR = 1;
     public static final int DISPLAY_TEXT = 2;

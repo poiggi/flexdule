@@ -1,14 +1,11 @@
 package com.flexdule.core.util;
 
-import java.time.Duration;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Clase de útils pertenecientes al Core
  */
-public class CU {
+public class C {
 
 
     public static int getRandomNumberInRange(int min, int max) {
@@ -22,14 +19,14 @@ public class CU {
     public static String getNTag(String var){
         String varN;
         switch (var) {
-            case CK.S:
-                varN = CK.SN;
+            case K.S:
+                varN = K.SN;
                 break;
-            case CK.D:
-                varN = CK.DN;
+            case K.D:
+                varN = K.DN;
                 break;
-            case CK.F:
-                varN = CK.FN;
+            case K.F:
+                varN = K.FN;
                 break;
             default:
                 throw new IllegalArgumentException("Invalid var argument.");
@@ -40,14 +37,14 @@ public class CU {
     public static String getXTag(String var){
         String varX;
         switch (var) {
-            case CK.S:
-                varX = CK.SX;
+            case K.S:
+                varX = K.SX;
                 break;
-            case CK.D:
-                varX = CK.DX;
+            case K.D:
+                varX = K.DX;
                 break;
-            case CK.F:
-                varX = CK.FX;
+            case K.F:
+                varX = K.FX;
                 break;
             default:
                 throw new IllegalArgumentException("Invalid var argument.");

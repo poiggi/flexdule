@@ -1,6 +1,6 @@
 package com.flexdule.core.dtos;
 
-import com.flexdule.core.util.CK;
+import com.flexdule.core.util.K;
 import com.flexdule.core.util.Time;
 
 import java.io.Serializable;
@@ -19,14 +19,14 @@ public class ActivitySide implements Serializable {
         vars = ac.getConfigVars();
 
         switch (side){
-            case CK.N:
+            case K.N:
                 s = vars.getSn();
                 d = vars.getDn();
                 f = vars.getFn();
                 limitS = l.getS().getN();
                 limitF = l.getF().getN();
                 break;
-            case CK.X:
+            case K.X:
                 s = vars.getSx();
                 d = vars.getDx();
                 f = vars.getFx();

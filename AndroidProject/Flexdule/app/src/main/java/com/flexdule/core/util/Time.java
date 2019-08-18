@@ -1,6 +1,7 @@
 package com.flexdule.core.util;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -306,29 +307,6 @@ public class Time implements Comparable<Time>, Serializable {
         return parseHour(string);
     }
 
-//    @Override
-//    public String toString() {
-//        String result = formatHour();
-//
-//        if(min != null || max != null) {
-//            String minS = "null";
-//            if (min != null) minS = min.formatHour();
-//
-//            String maxS = "null";
-//            if (max != null) maxS = max.formatHour();
-//
-//            result += "[" + minS + "-" + maxS + "]";
-//        }
-//
-//        return result;
-//    }
-
-//    public static Time parse(String string) {
-//        String hour = string.split("\\[")[0];
-//        return parseHour(hour);
-//    }
-
-
     @Override
     public int compareTo(Time time) {
         if (time != null) {
@@ -386,6 +364,18 @@ public class Time implements Comparable<Time>, Serializable {
         return Time.copy(minor);
     }
 
+    public static Time findMajorValue(List<Time> times) {
+        Time major = null;
+        if (times.size() == 1) {
+            major = Time.copy(times.get(0));
+        } else {
+            for (Time time: times) {
+                major = findMajorValue(time, major);
+            }
+        }
+        return major;
+    }
+
     /**
      * Devuelve el tiempo menor.
      * <br> Si solo hay un tiempo no nulo, será considerado el menor.
@@ -404,6 +394,18 @@ public class Time implements Comparable<Time>, Serializable {
             major = t2;
         }
         return Time.copy(major);
+    }
+
+    public static Time findMinorValue(List<Time> times) {
+        Time minor = null;
+        if (times.size() == 1) {
+            minor = Time.copy(times.get(0));
+        } else {
+            for (Time time: times) {
+                minor = findMinorValue(time, minor);
+            }
+        }
+        return minor;
     }
 
     @Override

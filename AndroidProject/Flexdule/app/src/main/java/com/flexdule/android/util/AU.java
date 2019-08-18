@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class U {
+public class AU {
 
     public static void changeBackgroundColor(Drawable background, String rgbColor) {
         if (background instanceof ShapeDrawable) {

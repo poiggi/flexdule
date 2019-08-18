@@ -19,10 +19,10 @@ import android.widget.TextView;
 
 import com.flexdule.R;
 import com.flexdule.android.manager.AndroidActivityAccessManager;
+import com.flexdule.android.util.AK;
+import com.flexdule.android.util.AU;
 import com.flexdule.android.util.AndroidLog;
 import com.flexdule.android.util.AppTimePickerDialog;
-import com.flexdule.android.util.K;
-import com.flexdule.android.util.U;
 import com.flexdule.core.dtos.Activity;
 import com.flexdule.core.dtos.ActivityVars;
 import com.flexdule.core.dtos.Limits;
@@ -30,8 +30,8 @@ import com.flexdule.core.dtos.NX;
 import com.flexdule.core.manager.ActivityAccessManager;
 import com.flexdule.core.manager.ScheduleActivitiesManager;
 import com.flexdule.core.util.AppColors;
-import com.flexdule.core.util.CK;
 import com.flexdule.core.util.CoreLog;
+import com.flexdule.core.util.K;
 import com.flexdule.core.util.Time;
 
 public class ActivityEditActivity extends AppCompatActivity {
@@ -104,7 +104,7 @@ public class ActivityEditActivity extends AppCompatActivity {
         Log.i(tag, "BEGIN recoverData()");
 
         Intent intent = getIntent();
-        activity = (Activity) intent.getExtras().getSerializable(K.SERIALIZED_ACTIVITY);
+        activity = (Activity) intent.getExtras().getSerializable(AK.SERIALIZED_ACTIVITY);
         conf = activity.getConfigVars();
         limits = activity.getLimits();
 
@@ -151,7 +151,7 @@ public class ActivityEditActivity extends AppCompatActivity {
         // Si N y X coinciden y la noFlexibilidad es viable, se establece
         if ((conf.getSn() != null && conf.getSn().equals(conf.getSx()))
                 || (conf.getSn() == null && conf.getSx() == null)
-                && schActM.validateDisableFlexible(CK.S, activity)) {
+                && schActM.validateDisableFlexible(K.S, activity)) {
             setS(conf.getSn());
             flexibleS.setChecked(false);
         } else {
@@ -161,7 +161,7 @@ public class ActivityEditActivity extends AppCompatActivity {
 
         if ((conf.getDn() != null && conf.getDn().equals(conf.getDx()))
                 || (conf.getDn() == null && conf.getDx() == null)
-                && schActM.validateDisableFlexible(CK.D, activity)) {
+                && schActM.validateDisableFlexible(K.D, activity)) {
             setD(conf.getDn());
             flexibleD.setChecked(false);
         } else {
@@ -171,7 +171,7 @@ public class ActivityEditActivity extends AppCompatActivity {
 
         if ((conf.getFn() != null && conf.getFn().equals(conf.getFx()))
                 || (conf.getFn() == null && conf.getFx() == null)
-                && schActM.validateDisableFlexible(CK.F, activity)) {
+                && schActM.validateDisableFlexible(K.F, activity)) {
             setF(conf.getFn());
             flexibleF.setChecked(false);
         } else {
@@ -199,7 +199,7 @@ public class ActivityEditActivity extends AppCompatActivity {
                     labelOptionSn.setText("Hora de Inicio Mínima");
 
                     if (lastSn != null) {
-                        NX minMaxSn = schActM.calcMinMaxS(CK.SN, activity, CK.N);
+                        NX minMaxSn = schActM.calcMinMaxSn(activity, true);
                         if (lastSn.isInRange(minMaxSn.getN(), minMaxSn.getX())) setSn(lastSn);
                         else setSn(null);
                     } else {
@@ -207,7 +207,7 @@ public class ActivityEditActivity extends AppCompatActivity {
                     }
 
                     if (lastSx != null) {
-                        NX minMaxSx = schActM.calcMinMaxS(CK.SX, activity, CK.X);
+                        NX minMaxSx = schActM.calcMinMaxSx(activity, true);
                         if (lastSx.isInRange(minMaxSx.getN(), minMaxSx.getX())) setSx(lastSx);
                         else setSx(null);
                     } else {
@@ -215,12 +215,12 @@ public class ActivityEditActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    if (validateAndAmendDisableFlexible(CK.S)) {
+                    if (validateAndAmendDisableFlexible(K.S)) {
                         optionSx.setVisibility(View.GONE);
                         labelOptionSn.setText("Hora de Inicio");
 
                         if (lastS != null) {
-                            NX minMaxS = schActM.calcNoFlexibleMinMax(CK.S, activity);
+                            NX minMaxS = schActM.calcNoFlexibleMinMax(K.S, activity);
                             if (lastS.isInRange(minMaxS.getN(), minMaxS.getX())) setS(lastS);
                             else setS(null);
                         } else {
@@ -241,7 +241,7 @@ public class ActivityEditActivity extends AppCompatActivity {
                     labelOptionDn.setText("Duración Mínima");
 
                     if (lastDn != null) {
-                        NX minMaxDn = schActM.calcMinMaxD(CK.DN, activity, CK.N);
+                        NX minMaxDn = schActM.calcMinMaxDn(activity, true);
                         if (lastDn.isInRange(minMaxDn.getN(), minMaxDn.getX())) setDn(lastDn);
                         else setDn(null);
                     } else {
@@ -249,7 +249,7 @@ public class ActivityEditActivity extends AppCompatActivity {
                     }
 
                     if (lastDx != null) {
-                        NX minMaxDx = schActM.calcMinMaxD(CK.DX, activity, CK.X);
+                        NX minMaxDx = schActM.calcMinMaxDx(activity, true);
                         if (lastDx.isInRange(minMaxDx.getN(), minMaxDx.getX())) setDx(lastDx);
                         else setDx(null);
                     } else {
@@ -257,12 +257,12 @@ public class ActivityEditActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    if (validateAndAmendDisableFlexible(CK.D)) {
+                    if (validateAndAmendDisableFlexible(K.D)) {
                         optionDx.setVisibility(View.GONE);
                         labelOptionDn.setText("Duración");
 
                         if (lastD != null) {
-                            NX minMaxD = schActM.calcNoFlexibleMinMax(CK.D, activity);
+                            NX minMaxD = schActM.calcNoFlexibleMinMax(K.D, activity);
                             if (lastD.isInRange(minMaxD.getN(), minMaxD.getX())) setD(lastD);
                             else setD(null);
                         } else {
@@ -283,7 +283,7 @@ public class ActivityEditActivity extends AppCompatActivity {
                     labelOptionFn.setText("Hora de Finalización Mínima");
 
                     if (lastFn != null) {
-                        NX minMaxFn = schActM.calcMinMaxF(CK.FN, activity, CK.N);
+                        NX minMaxFn = schActM.calcMinMaxFn(activity, true);
                         if (lastFn.isInRange(minMaxFn.getN(), minMaxFn.getX())) setFn(lastFn);
                         else setFn(null);
                     } else {
@@ -291,7 +291,7 @@ public class ActivityEditActivity extends AppCompatActivity {
                     }
 
                     if (lastFx != null) {
-                        NX minMaxFx = schActM.calcMinMaxF(CK.FX, activity, CK.X);
+                        NX minMaxFx = schActM.calcMinMaxFx(activity, true);
                         if (lastFx.isInRange(minMaxFx.getN(), minMaxFx.getX())) setFx(lastFx);
                         else setFx(null);
                     } else {
@@ -299,12 +299,12 @@ public class ActivityEditActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    if (validateAndAmendDisableFlexible(CK.F)) {
+                    if (validateAndAmendDisableFlexible(K.F)) {
                         optionFx.setVisibility(View.GONE);
                         labelOptionFn.setText("Hora de Finalización");
 
                         if (lastF != null) {
-                            NX minMaxF = schActM.calcNoFlexibleMinMax(CK.F, activity);
+                            NX minMaxF = schActM.calcNoFlexibleMinMax(K.F, activity);
                             if (lastF.isInRange(minMaxF.getN(), minMaxF.getX())) setF(lastF);
                             else setF(null);
                         } else {
@@ -336,7 +336,7 @@ public class ActivityEditActivity extends AppCompatActivity {
             boolean fx = conf.getFx() != null;
             boolean color = !"ffffff".equals(activity.getColor());
             save = name || sn || sx || dn || dx || fn || fx || color;
-            if (!save) U.toast("Actividad vacía desechada", getApplicationContext());
+            if (!save) AU.toast("Actividad vacía desechada", getApplicationContext());
         } else {
             save = true;
         }
@@ -346,7 +346,7 @@ public class ActivityEditActivity extends AppCompatActivity {
                 saved = actM.saveActivity(activity);
             } catch (Exception e) {
                 e.printStackTrace();
-                U.toast("Error al guardar el horario", getApplicationContext());
+                AU.toast("Error al guardar el horario", getApplicationContext());
             }
         }
 
@@ -465,7 +465,7 @@ public class ActivityEditActivity extends AppCompatActivity {
     private void cleanLasts(String var) {
         if (dataBindFinished) { // solo se limpiaran los "last" tras el bindeo
             switch (var) {
-                case CK.S:
+                case K.S:
                     lastD = null;
                     lastDn = null;
                     lastDx = null;
@@ -473,7 +473,7 @@ public class ActivityEditActivity extends AppCompatActivity {
                     lastFn = null;
                     lastFx = null;
                     break;
-                case CK.D:
+                case K.D:
                     lastS = null;
                     lastSn = null;
                     lastSx = null;
@@ -481,7 +481,7 @@ public class ActivityEditActivity extends AppCompatActivity {
                     lastFn = null;
                     lastFx = null;
                     break;
-                case CK.F:
+                case K.F:
                     lastS = null;
                     lastSn = null;
                     lastSx = null;
@@ -501,22 +501,22 @@ public class ActivityEditActivity extends AppCompatActivity {
 
         boolean validated = true;
 
-        if(dataBindFinished) {
+        if (dataBindFinished) {
             validated = schActM.validateDisableFlexible(var, activity);
             if (!validated) {
                 switch (var) {
-                    case CK.S:
+                    case K.S:
                         flexibleS.setChecked(true);
                         break;
-                    case CK.D:
+                    case K.D:
                         flexibleD.setChecked(true);
                         break;
-                    case CK.F:
+                    case K.F:
                         flexibleF.setChecked(true);
                         break;
                 }
 
-                U.toast("Debe ser flexible. Otros tiempos constriñen el cambio.",
+                AU.toast("Debe ser flexible. Otros tiempos constriñen el cambio.",
                         getApplicationContext(), 2000);
             }
         }
@@ -529,9 +529,9 @@ public class ActivityEditActivity extends AppCompatActivity {
         Log.d(tag, "DONE onClickSn()");
         NX minMax;
         if (flexibleS.isChecked()) {
-            minMax = schActM.calcMinMaxS(CK.SN, activity, CK.N);
+            minMax = schActM.calcMinMaxSn(activity, true);
         } else {
-            minMax = schActM.calcNoFlexibleMinMax(CK.S, activity);
+            minMax = schActM.calcNoFlexibleMinMax(K.S, activity);
         }
 
         AppTimePickerDialog d = new AppTimePickerDialog(ActivityEditActivity.this,
@@ -553,9 +553,9 @@ public class ActivityEditActivity extends AppCompatActivity {
         Log.d(tag, "DONE onClickDn()");
         NX minMax;
         if (flexibleD.isChecked()) {
-            minMax = schActM.calcMinMaxD(CK.DN, activity, CK.N);
+            minMax = schActM.calcMinMaxDn(activity, true);
         } else {
-            minMax = schActM.calcNoFlexibleMinMax(CK.D, activity);
+            minMax = schActM.calcNoFlexibleMinMax(K.D, activity);
         }
 
         AppTimePickerDialog d = new AppTimePickerDialog(ActivityEditActivity.this,
@@ -577,9 +577,9 @@ public class ActivityEditActivity extends AppCompatActivity {
         Log.d(tag, "DONE onClickFn()");
         NX minMax;
         if (flexibleF.isChecked()) {
-            minMax = schActM.calcMinMaxF(CK.FN, activity, CK.N);
+            minMax = schActM.calcMinMaxFn(activity, true);
         } else {
-            minMax = schActM.calcNoFlexibleMinMax(CK.F, activity);
+            minMax = schActM.calcNoFlexibleMinMax(K.F, activity);
         }
 
         AppTimePickerDialog d = new AppTimePickerDialog(ActivityEditActivity.this,
@@ -599,9 +599,9 @@ public class ActivityEditActivity extends AppCompatActivity {
 
     public void onClickSx(View view) {
         Log.d(tag, "DONE onClickSx()");
-        NX minMax = schActM.calcMinMaxS(CK.SX, activity, CK.X);
+        NX minMax = schActM.calcMinMaxSx(activity, true);
         AppTimePickerDialog d = new AppTimePickerDialog(ActivityEditActivity.this,
-                labelOptionSn.getText().toString(),
+                labelOptionSx.getText().toString(),
                 minMax.getN(), minMax.getX(),
                 false,
                 conf.getSx());
@@ -616,7 +616,7 @@ public class ActivityEditActivity extends AppCompatActivity {
 
     public void onClickDx(View view) {
         Log.d(tag, "DONE onClickDx()");
-        NX minMax = schActM.calcMinMaxD(CK.DX, activity, CK.X);
+        NX minMax = schActM.calcMinMaxDx(activity, true);
         AppTimePickerDialog d = new AppTimePickerDialog(ActivityEditActivity.this,
                 labelOptionDx.getText().toString(),
                 minMax.getN(), minMax.getX(),
@@ -633,7 +633,7 @@ public class ActivityEditActivity extends AppCompatActivity {
 
     public void onClickFx(View view) {
         Log.d(tag, "DONE onClickFx()");
-        NX minMax = schActM.calcMinMaxF(CK.FX, activity, CK.X);
+        NX minMax = schActM.calcMinMaxFx(activity, true);
         AppTimePickerDialog d = new AppTimePickerDialog(ActivityEditActivity.this,
                 labelOptionFx.getText().toString(),
                 minMax.getN(), minMax.getX(),
