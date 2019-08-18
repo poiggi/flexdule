@@ -3,18 +3,17 @@ package com.flexdule.android.manager;
 import android.content.Context;
 import android.util.Log;
 
+import com.flexdule.core.util.Time;
 import com.flexdule.core.manager.ActivityAccessManager;
 import com.flexdule.core.dtos.Activity;
 import com.flexdule.core.dtos.ActivityVars;
 import com.flexdule.android.model.sqlite.daos.ActivityDao;
 import com.flexdule.android.model.sqlite.entities.ActivityBean;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AndroidActivityAccessManager implements ActivityAccessManager {
-
     private static final String tag = AndroidActivityAccessManager.class.getSimpleName();
 
     public AndroidActivityAccessManager(Context context) throws Exception {
@@ -136,22 +135,13 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
             ac.setPositionInSchedule(activityBean.getPositionInSchedule());
 
             ActivityVars durs = new ActivityVars();
-            if (activityBean.getSn() != null) durs.setSn(Duration.parse(activityBean.getSn()));
-            if (activityBean.getSx() != null) durs.setSx(Duration.parse(activityBean.getSx()));
-            if (activityBean.getDn() != null) durs.setDn(Duration.parse(activityBean.getDn()));
-            if (activityBean.getDx() != null) durs.setDx(Duration.parse(activityBean.getDx()));
-            if (activityBean.getFn() != null) durs.setFn(Duration.parse(activityBean.getFn()));
-            if (activityBean.getFx() != null) durs.setFx(Duration.parse(activityBean.getFx()));
+            if (activityBean.getSn() != null) durs.setSn(Time.parse(activityBean.getSn()));
+            if (activityBean.getSx() != null) durs.setSx(Time.parse(activityBean.getSx()));
+            if (activityBean.getDn() != null) durs.setDn(Time.parse(activityBean.getDn()));
+            if (activityBean.getDx() != null) durs.setDx(Time.parse(activityBean.getDx()));
+            if (activityBean.getFn() != null) durs.setFn(Time.parse(activityBean.getFn()));
+            if (activityBean.getFx() != null) durs.setFx(Time.parse(activityBean.getFx()));
             ac.setConfigVars(durs);
-
-            ActivityVars dursF = new ActivityVars();
-            if (activityBean.getSn() != null) dursF.setSn(Duration.parse(activityBean.getSn()));
-            if (activityBean.getSx() != null) dursF.setSx(Duration.parse(activityBean.getSx()));
-            if (activityBean.getDn() != null) dursF.setDn(Duration.parse(activityBean.getDn()));
-            if (activityBean.getDx() != null) dursF.setDx(Duration.parse(activityBean.getDx()));
-            if (activityBean.getFn() != null) dursF.setFn(Duration.parse(activityBean.getFn()));
-            if (activityBean.getFx() != null) dursF.setFx(Duration.parse(activityBean.getFx()));
-            ac.setFinalVars(dursF);
         }
         return ac;
     }

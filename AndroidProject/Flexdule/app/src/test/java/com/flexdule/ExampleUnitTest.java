@@ -1,15 +1,10 @@
 package com.flexdule;
 
-import com.flexdule.core.dtos.ActivityVars;
-import com.flexdule.core.dtos.NX;
-import com.flexdule.core.util.AppColors;
-import com.flexdule.core.util.CU;
 import com.flexdule.core.dtos.Activity;
+import com.flexdule.core.dtos.ActivityVars;
+import com.flexdule.core.util.Time;
 
 import org.junit.Test;
-
-import java.time.Duration;
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
 
@@ -26,18 +21,8 @@ public class ExampleUnitTest {
 
         try {
 
-            ActivityVars var1 = new ActivityVars();
-            var1.setFn(Duration.ofHours(1));
-            Activity ac = new Activity();
-            ac.setFinalVars(var1);
-            ac.setConfigVars(var1);
-            System.out.println(ac);
-
-            var1.setFn(Duration.ofHours(2));
-            System.out.println(ac);
-
-            ac.getFinalVars().setFn(Duration.ofHours(3));
-            System.out.println(ac);
+            boolean b = false || true && true;
+            System.out.println(b);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,4 +30,5 @@ public class ExampleUnitTest {
 
         assertTrue(true);
     }
+
 }

@@ -8,41 +8,37 @@ import java.util.Objects;
 // getters y setters directos de atributos, por referencia antinula ( es decir en caso de nulo la referencia es al hijo final)
 // acceso directo a los hijos finales de los atributos, por referencia
 // copyValues y copyRefs completos de su misma clase
-public class ActivityVars implements Serializable {
+public class Limits implements Serializable {
 
     private NX s;
-    private NX d;
     private NX f;
 
-    public ActivityVars() {
+    public Limits() {
         cleanInit();
     }
 
-    public ActivityVars(ActivityVars av) {
-        copyValues(av);
+    public Limits(Limits ls) {
+        copyValues(ls);
     }
 
     public void cleanInit(){
         s = new NX();
-        d = new NX();
         f = new NX();
     }
 
-    public void copyValues(ActivityVars av){
-        if(av != null){
-            s.copyValues(av.getS());
-            d.copyValues(av.getD());
-            f.copyValues(av.getF());
+    public void copyValues(Limits ls){
+        if(ls != null){
+            s.copyValues(ls.getS());
+            f.copyValues(ls.getF());
         }else{
             cleanInit();
         }
     }
 
-    public void copyRefs(ActivityVars av){
-        if(av != null){
-            s = av.getS();
-            d = av.getD();
-            f = av.getF();
+    public void copyRefs(Limits ls){
+        if(ls != null){
+            s = ls.getS();
+            f = ls.getF();
         }else{
             cleanInit();
         }
@@ -54,14 +50,6 @@ public class ActivityVars implements Serializable {
 
     public void setS(NX s) {
         this.s.copyRefs(s);
-    }
-
-    public NX getD() {
-        return d;
-    }
-
-    public void setD(NX d) {
-        this.d.copyRefs(d);
     }
 
     public NX getF() {
@@ -80,14 +68,6 @@ public class ActivityVars implements Serializable {
         this.s.setX(time);
     }
 
-    public void setDn(Time time) {
-        this.d.setN(time);
-    }
-
-    public void setDx(Time time) {
-        this.d.setX(time);
-    }
-
     public void setFn(Time time) {
         this.f.setN(time);
     }
@@ -104,14 +84,6 @@ public class ActivityVars implements Serializable {
         return this.s.getX();
     }
 
-    public Time getDn() {
-        return this.d.getN();
-    }
-
-    public Time getDx() {
-        return this.d.getX();
-    }
-
     public Time getFn() {
         return this.f.getN();
     }
@@ -122,24 +94,24 @@ public class ActivityVars implements Serializable {
 
     @Override
     public String toString() {
-        return "ActivityVars{ " +
-                "Sn=" + getSn() + ", Sx=" + getSx() + ", " +
-                "Dn=" + getDn() + ", Dx=" + getDx() + ", " +
-                "Fn=" + getFn() + ", Fx=" + getFx() + " }";
+        return "Limits{" +
+                "s=" + s +
+                ", f=" + f +
+                '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ActivityVars that = (ActivityVars) o;
-        return Objects.equals(s, that.s) &&
-                Objects.equals(d, that.d) &&
-                Objects.equals(f, that.f);
+        Limits limits = (Limits) o;
+        return Objects.equals(s, limits.s) &&
+                Objects.equals(f, limits.f);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(s, d, f);
+        return Objects.hash(s, f);
     }
+
 }

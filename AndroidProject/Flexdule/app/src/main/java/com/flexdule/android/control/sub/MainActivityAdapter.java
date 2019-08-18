@@ -1,11 +1,12 @@
-package com.flexdule.android.control;
+package com.flexdule.android.control.sub;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -17,13 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flexdule.R;
-import com.flexdule.android.util.U;
-import com.flexdule.core.util.CK;
-import com.flexdule.core.util.CU;
+import com.flexdule.android.control.ActivityEditActivity;
+import com.flexdule.android.util.AK;
 import com.flexdule.core.dtos.Activity;
 import com.flexdule.core.dtos.NX;
+import com.flexdule.core.util.K;
+import com.flexdule.core.util.Time;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +44,8 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
     @Override
     public MainActivityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_card_activity, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_card_activity,
+                parent, false);
         return new MainActivityViewHolder(v);
     }
 
@@ -79,24 +81,31 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         gradientDrawable.setColor(Color.parseColor("#" + ac.getColor()));
 
         // Inicio
-        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getS(), ac.getConfigVars().getS(), h.textS1, h.textS2, CK.DISPLAY_HOUR);
+        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getS(), ac.getConfigVars().getS(),
+                h.textS1, h.textS2, K.DISPLAY_HOUR);
         // Duración
-        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getD(), ac.getConfigVars().getD(), h.textD1, h.textD2, CK.DISPLAY_STRING);
+        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getD(), ac.getConfigVars().getD(),
+                h.textD1, h.textD2, K.DISPLAY_TEXT);
         // Finalización
-        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getF(), ac.getConfigVars().getF(), h.textF1, h.textF2, CK.DISPLAY_HOUR);
+        bindDurationPairsToLayout(ctxt, ac.getFinalVars().getF(), ac.getConfigVars().getF(),
+                h.textF1, h.textF2, K.DISPLAY_HOUR);
 
     }
 
-    public void bindDurationPairsToLayout(Context ctxt, NX fin, NX conf, TextView tv1, TextView tv2, int displayMode) {
+    public void bindDurationPairsToLayout(Context ctxt, NX fin, NX conf, TextView tv1,
+                                          TextView tv2, int displayMode) {
 
         boolean bold = false;
 
         if (fin.getN() != null || fin.getX() != null) {
 
-            if (fin.getN() != null && fin.getN().equals(fin.getX())) {
-                // Si las dos variables son iguales, se muestra solo una etiqueta
+            boolean finalVarsEqual = fin.getN() != null && fin.getN().equals(fin.getX());
+            boolean configVarsEqual = conf.getN() != null && conf.getN().equals(conf.getX());
+            boolean configVarsNull = conf.getN() == null && conf.getX() == null;
+            if ((finalVarsEqual && configVarsNull) || configVarsEqual) {
 
-                if (fin.getN().equals(conf.getN()) && fin.getX().equals(conf.getX())) bold = true;
+                if (fin.getN() != null && fin.getN().equals(conf.getN())
+                        && fin.getX() != null && fin.getX().equals(conf.getX())) bold = true;
                 bindDurationToLabel(fin.getN(), tv1, displayMode, bold);
                 tv2.setVisibility(View.GONE);
 
@@ -120,17 +129,17 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         }
     }
 
-    public void bindDurationToLabel(Duration dur, TextView tv, int displayMode, boolean bold) {
+    public void bindDurationToLabel(Time time, TextView tv, int displayMode, boolean bold) {
         String s;
         int align = View.TEXT_ALIGNMENT_TEXT_END;
         tv.setVisibility(View.VISIBLE);
 
-        if (dur != null) {
-            if (displayMode == CK.DISPLAY_STRING) {
-                s = CU.durToString(dur);
+        if (time != null) {
+            if (displayMode == K.DISPLAY_TEXT) {
+                s = time.formatText();
                 align = View.TEXT_ALIGNMENT_CENTER;
             } else {
-                s = CU.durToHour(dur);
+                s = time.toString();
             }
         } else {
             align = View.TEXT_ALIGNMENT_CENTER;
@@ -201,17 +210,31 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         }
 
         public void onCardClick() {
-            Toast.makeText(card.getContext(), "clic en card " + getAdapterPosition() + " de " + activity.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(card.getContext(),
+                    "clic en card " + getAdapterPosition() + " de " + activity.getName(),
+                    Toast.LENGTH_SHORT).show();
         }
 
         public void onActionClick() {
-            Toast.makeText(card.getContext(), "clic en action " + getAdapterPosition() + " de " + activity.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(card.getContext(),
+                    "clic en action " + getAdapterPosition() + " de " + activity.getName(),
+                    Toast.LENGTH_SHORT).show();
         }
 
         public void onEditClick() {
-            Toast.makeText(card.getContext(), "clic en edit " + getAdapterPosition() + " de " + activity.getName(), Toast.LENGTH_SHORT).show();
-        }
+            Toast.makeText(card.getContext(),
+                    "clic en edit " + getAdapterPosition() + " de " + activity.getName(),
+                    Toast.LENGTH_SHORT).show();
 
+            Intent intent = new Intent(card.getContext(), ActivityEditActivity.class);
+            Bundle bundle = new Bundle();
+
+            bundle.putBoolean(AK.IS_EDITION, true);
+            bundle.putSerializable(AK.SERIALIZED_ACTIVITY, activity);
+
+            intent.putExtras(bundle);
+            card.getContext().startActivity(intent);
+        }
     }
 
 }
