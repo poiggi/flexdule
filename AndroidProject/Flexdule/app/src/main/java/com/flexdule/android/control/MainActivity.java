@@ -9,43 +9,43 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.flexdule.R;
 import com.flexdule.android.control.sub.MainActivityAdapter;
 import com.flexdule.android.manager.AndroidActivityAccessManager;
 import com.flexdule.android.manager.AndroidCookieAccessManager;
 import com.flexdule.android.manager.AndroidScheduleAccessManager;
-import com.flexdule.android.util.AndroidLog;
-import com.flexdule.android.util.DebugU;
 import com.flexdule.android.util.AK;
 import com.flexdule.android.util.AU;
+import com.flexdule.android.util.AndroidLog;
+import com.flexdule.android.util.DebugU;
 import com.flexdule.core.dtos.Activity;
 import com.flexdule.core.dtos.Cookie;
 import com.flexdule.core.dtos.Schedule;
 import com.flexdule.core.manager.ActivityAccessManager;
-import com.flexdule.core.manager.CookieAccesManager;
 import com.flexdule.core.manager.ScheduleAccessManager;
 import com.flexdule.core.manager.ScheduleActivitiesManager;
 import com.flexdule.core.util.AppColors;
-import com.flexdule.core.util.K;
 import com.flexdule.core.util.CoreLog;
+import com.flexdule.core.util.K;
 import com.flexdule.core.util.Time;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String tag = MainActivity.class.getName();
+    private static final String tag = MainActivity.class.getSimpleName();
 
     private RecyclerView.LayoutManager layoutManager;
     private TextView textViewDelay;
     RecyclerView recyclerView;
+    LinearLayout addAdvice;
 
     private final boolean debugMode = true;
 
-    CookieAccesManager cooM;
+    AndroidCookieAccessManager cooM;
     ScheduleAccessManager schM;
     ActivityAccessManager actM;
     ScheduleActivitiesManager scheduleActivitiesManager;
@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             // Se instancia el layout
             textViewDelay = findViewById(R.id.textViewDelay);
+            addAdvice = findViewById(R.id.addAdvice);
 
             // Se instancia el RecyclerView
             layoutManager = new LinearLayoutManager(this);
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             scheduleActivitiesManager = new ScheduleActivitiesManager(log);
 
             // Se gestiona la información
-            manageData();
+            recoverData();
 
         } catch (Exception e) {
             Log.e(tag, "Error onCreate: " + e);
@@ -92,11 +93,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        manageData();
+        recoverData();
     }
 
-    public void manageData() {
-        Log.i(tag, "BEGIN manageData()");
+    public void recoverData() {
+        Log.i(tag, "BEGIN recoverData()");
         try {
             debugActionsBegin();
 
@@ -110,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
             // Se recuperan las actividades del horario
             if (!sampleCreated)
                 activities = actM.findActivitiesBySchedule(schedule.getIdSchedule());
+
+            // Se añade el aviso si vacío
+            if (activities.size() != 0) addAdvice.setVisibility(View.GONE);
+            else addAdvice.setVisibility(View.VISIBLE);
 
             // Se calcula el contexto del horario
             scheduleActivitiesManager.calcContext(activities);
@@ -134,12 +139,13 @@ public class MainActivity extends AppCompatActivity {
             recyclerView.setAdapter(mAdapter);
 
         } catch (Exception e) {
-            Log.e(tag, "Error onCreate: " + e);
-            AU.toast("Error onCreate" + e, this);
+            Log.e(tag, "Error in recoverData(): " + e);
+            AU.toast("Error in recoverData(): " + e, this);
             e.printStackTrace();
         }
 
-        Log.i(tag, "END manageData(). schedule=" + schedule + ", delay=" + delay + ", activities=" + activities);
+        Log.i(tag, "END recoverData(). schedule=" + schedule + ", delay=" + delay + ", activities" +
+                "=" + activities);
     }
 
     public void findUsingSchedule() {
@@ -152,7 +158,8 @@ public class MainActivity extends AppCompatActivity {
             if (cooUsingSchedule != null) {
                 int idSchedule = Integer.valueOf(cooUsingSchedule.getValue());
                 schedule = schM.findScheduleById(idSchedule);
-                Log.i(tag, "Searching schedule by cooUsingSchedule: " + idSchedule + ", schedule= " + schedule);
+                Log.i(tag, "Searching schedule by cooUsingSchedule: " + idSchedule + ", schedule=" +
+                        " " + schedule);
 
             } else {
                 Log.w(tag, "cooUsingSchedule not found.");
@@ -174,44 +181,33 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (schedule != null && createCookie) {
-
-                String idSchedule = schedule.getIdSchedule().toString();
-                Log.i(tag, "Saving cooUsingSchedule: " + idSchedule);
-                cooUsingSchedule = new Cookie();
-                cooUsingSchedule.setName(K.COOKIE_USING_SCHEDULE);
-                cooUsingSchedule.setValue(idSchedule);
-                cooM.saveCookie(cooUsingSchedule);
+                cooM.saveCooUsingSchedule(schedule.getIdSchedule());
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i(tag, "END findUsingSchedule(). schedule= " + schedule + ", cooUsingSchedule=" + cooUsingSchedule);
+        Log.i(tag,
+                "END findUsingSchedule(). schedule= " + schedule + ", cooUsingSchedule=" + cooUsingSchedule);
     }
 
 
     public void onClickMenu(View v) {
         Log.i(tag, "BEGIN onClickMenu()");
-        Toast.makeText(this, "click menu", Toast.LENGTH_SHORT).show();
     }
 
     public void onClickChange(View v) {
         Log.i(tag, "BEGIN onClickChange()");
-        Toast.makeText(this, "click change", Toast.LENGTH_SHORT).show();
 
-        try {
-            DebugU.printAllDb(v.getContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Intent intent = new Intent(this, ScheduleListActivity.class);
+        startActivity(intent);
     }
 
     public void onClickEdit(View v) {
         Log.i(tag, "BEGIN onClickEdit()");
-        Toast.makeText(this, "click edit", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, ScheduleEditActivity.class);
-        intent.putExtra(AK.EXTRA_ID_SCHEDULE, schedule.getIdSchedule());
+        intent.putExtra(AK.KEY_ID_SCHEDULE, schedule.getIdSchedule());
         startActivity(intent);
     }
 
@@ -235,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
         // Se lanza el intent con la nueva actividad
         Intent intent = new Intent(this, ActivityEditActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(AK.SERIALIZED_ACTIVITY, newActivity);
+        bundle.putSerializable(AK.KEY_SERIALIZED_ACTIVITY, newActivity);
         intent.putExtras(bundle);
 
         Log.i(tag, "END onClickAdd(). bundle= " + bundle + ", intent= " + intent);
