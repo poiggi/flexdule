@@ -35,7 +35,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
-                    android:onClick="onClickMenu"
+                    android:onClick="onClickMenu2"
                     app:layout_constraintBottom_toTopOf="@+id/textViewTitle"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -44,12 +44,13 @@
 
                 <TextView
                     android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="46dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="serif"
+                    android:fontFamily="@font/calligraffitti"
                     android:gravity="center"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
                     android:text="Flexdule"
                     android:textColor="@android:color/primary_text_light"
                     android:textColorLink="?attr/colorPrimaryDark"
@@ -109,7 +110,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="13pt"
-        app:srcCompat="@drawable/add_dark" />
+        app:srcCompat="@drawable/add_dark"
+        android:focusable="true" />
 
 
 </android.support.constraint.ConstraintLayout>

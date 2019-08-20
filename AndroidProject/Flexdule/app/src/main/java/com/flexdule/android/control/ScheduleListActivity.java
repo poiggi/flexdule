@@ -1,26 +1,24 @@
 package com.flexdule.android.control;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.PopupMenu;
 
 import com.flexdule.R;
-import com.flexdule.android.control.sub.MainActivityAdapter;
 import com.flexdule.android.control.sub.ScheduleListAdapter;
 import com.flexdule.android.manager.AndroidScheduleAccessManager;
-import com.flexdule.android.util.AK;
 import com.flexdule.android.util.AU;
 import com.flexdule.core.dtos.Schedule;
 import com.flexdule.core.manager.ScheduleAccessManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ScheduleListActivity extends AppCompatActivity {
@@ -80,11 +78,34 @@ public class ScheduleListActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickMenu(View view) {
-    }
-
     public void onClicKAdd(View view) {
         Intent intent = new Intent(this, ScheduleEditActivity.class);
         startActivity(intent);
+    }
+
+    public void onClickMenu2(View view) {
+        Log.i(tag, "BEGIN onClickMenu()");
+        PopupMenu popup = new PopupMenu(this, view);
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.help:
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https" +
+                                "://github.com/poiggi/flexdule"));
+                        startActivity(browserIntent);
+                        return true;
+                    case R.id.sync:
+                        AU.toast("Función disponible próximamente", ScheduleListActivity.this,
+                                1000);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.app_menu, popup.getMenu());
+        popup.show();
     }
 }

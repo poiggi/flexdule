@@ -3,7 +3,8 @@ package com.flexdule.core.dtos;
 import java.io.Serializable;
 
 
-// algunos getters y setters directos de atributos, por referencia antinula ( es decir en caso de nulo la referencia es al hijo final)
+// algunos getters y setters directos de atributos, por referencia antinula ( es decir en caso de
+// nulo la referencia es al hijo final)
 public class Activity implements Serializable {
 
     private Integer idActivity;
@@ -16,6 +17,17 @@ public class Activity implements Serializable {
     private Limits limits = new Limits();
 
     public Activity() {
+    }
+
+    public Activity(Activity ac) {
+        idActivity = ac.getIdActivity();
+        idSchedule = ac.getIdSchedule();
+        name = ac.getName();
+        color = ac.getColor();
+        positionInSchedule = ac.getPositionInSchedule();
+        configVars = new ActivityVars(ac.getConfigVars());
+        finalVars = new ActivityVars(ac.getFinalVars());
+        limits = new Limits(ac.getLimits());
     }
 
     public Integer getIdActivity() {
@@ -63,9 +75,9 @@ public class Activity implements Serializable {
     }
 
     public void setConfigVars(ActivityVars configVars) {
-        if(configVars != null) {
+        if (configVars != null) {
             this.configVars = configVars;
-        }else{
+        } else {
             this.configVars.setS(null);
             this.configVars.setD(null);
             this.configVars.setF(null);
@@ -77,9 +89,9 @@ public class Activity implements Serializable {
     }
 
     public void setFinalVars(ActivityVars finalVars) {
-        if(finalVars != null) {
+        if (finalVars != null) {
             this.finalVars = finalVars;
-        }else{
+        } else {
             this.finalVars.setS(null);
             this.finalVars.setD(null);
             this.finalVars.setF(null);
@@ -91,9 +103,9 @@ public class Activity implements Serializable {
     }
 
     public void setLimits(Limits limits) {
-        if(limits != null){
+        if (limits != null) {
             this.limits = limits;
-        }else{
+        } else {
             this.limits.setS(null);
             this.limits.setF(null);
         }

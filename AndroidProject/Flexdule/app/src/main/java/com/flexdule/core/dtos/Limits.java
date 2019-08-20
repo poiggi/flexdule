@@ -5,7 +5,8 @@ import com.flexdule.core.util.Time;
 import java.io.Serializable;
 import java.util.Objects;
 
-// getters y setters directos de atributos, por referencia antinula ( es decir en caso de nulo la referencia es al hijo final)
+// getters y setters directos de atributos, por referencia antinula ( es decir en caso de nulo la
+// referencia es al hijo final)
 // acceso directo a los hijos finales de los atributos, por referencia
 // copyValues y copyRefs completos de su misma clase
 public class Limits implements Serializable {
@@ -18,28 +19,29 @@ public class Limits implements Serializable {
     }
 
     public Limits(Limits ls) {
+        cleanInit();
         copyValues(ls);
     }
 
-    public void cleanInit(){
+    public void cleanInit() {
         s = new NX();
         f = new NX();
     }
 
-    public void copyValues(Limits ls){
-        if(ls != null){
+    public void copyValues(Limits ls) {
+        if (ls != null) {
             s.copyValues(ls.getS());
             f.copyValues(ls.getF());
-        }else{
+        } else {
             cleanInit();
         }
     }
 
-    public void copyRefs(Limits ls){
-        if(ls != null){
+    public void copyRefs(Limits ls) {
+        if (ls != null) {
             s = ls.getS();
             f = ls.getF();
-        }else{
+        } else {
             cleanInit();
         }
     }

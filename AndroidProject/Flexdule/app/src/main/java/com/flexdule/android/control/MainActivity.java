@@ -2,14 +2,18 @@ package com.flexdule.android.control;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.flexdule.R;
@@ -20,7 +24,6 @@ import com.flexdule.android.manager.AndroidScheduleAccessManager;
 import com.flexdule.android.util.AK;
 import com.flexdule.android.util.AU;
 import com.flexdule.android.util.AndroidLog;
-import com.flexdule.android.util.DebugU;
 import com.flexdule.core.dtos.Activity;
 import com.flexdule.core.dtos.Cookie;
 import com.flexdule.core.dtos.Schedule;
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i(tag, "==========[ BEGIN onCreate ]==========");
+        Log.i(tag, "==========[ BEGIN onCreate " + tag + " ]==========");
 
         try {
             // Se instancia el layout
@@ -87,13 +90,15 @@ public class MainActivity extends AppCompatActivity {
             AU.toast("Error onCreate" + e, this);
             e.printStackTrace();
         }
-        Log.i(tag, "==========[ END onCreate ]==========");
+        Log.i(tag, "==========[ END onCreate " + tag + " ]==========");
     }
 
     @Override
     public void onResume() {
+        Log.i(tag, "==========[ BEGIN onResume " + tag + " ]==========");
         super.onResume();
         recoverData();
+        Log.i(tag, "==========[ END onResume " + tag + " ]==========");
     }
 
     public void recoverData() {
@@ -194,6 +199,26 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickMenu(View v) {
         Log.i(tag, "BEGIN onClickMenu()");
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.help:
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/poiggi/flexdule"));
+                        startActivity(browserIntent);
+                        return true;
+                    case R.id.sync:
+                        AU.toast("Función disponible próximamente", MainActivity.this, 1000);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.app_menu, popup.getMenu());
+        popup.show();
     }
 
     public void onClickChange(View v) {
@@ -301,87 +326,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void debugActionsBegin() throws Exception {
-        Log.i(tag, "BEGIN debugActionsBegin:");
-        DebugU.printAllDb(getApplicationContext());
+        Log.i(tag, "BEGIN debugActionsBegin()");
 
 
-        Log.i(tag, "END debugActionsBegin:");
+        Log.i(tag, "END debugActionsBegin()");
     }
 
     public void debugActionsEnd() throws Exception {
-        Log.i(tag, "BEGIN debugActionsEnd:");
-//        schM.deleteById(1);
+        Log.i(tag, "BEGIN debugActionsEnd()");
 
-//
-//        Activity ac1 = new Activity();
-//        ac1.setIdSchedule(schedule.getIdSchedule());
-//        ac1.setName("extra");
-//        ac1.setPositionInSchedule(activities.size());
-//        ac1.setColor(AppColors.getColors().get(K.COLOR_WHITE));
-//        ac1.getConfigVars().setSn(C.hourToDur(null));
-//        ac1.getConfigVars().setSx(C.hourToDur(null));
-//        ac1.getConfigVars().setDn(C.hourToDur("0:10"));
-//        ac1.getConfigVars().setDx(C.hourToDur("0:10"));
-//        ac1.getConfigVars().setFn(C.hourToDur(null));
-//        ac1.getConfigVars().setFx(C.hourToDur(null));
-//        activities.add(ac1);
-//
-//        Activity ac2 = new Activity();
-//        ac2.setIdSchedule(schedule.getIdSchedule());
-//        ac2.setName("extra");
-//        ac2.setPositionInSchedule(activities.size());
-//        ac2.setColor(AppColors.getColors().get(K.COLOR_WHITE));
-//        ac2.getConfigVars().setSn(C.hourToDur(null));
-//        ac2.getConfigVars().setSx(C.hourToDur(null));
-//        ac2.getConfigVars().setDn(C.hourToDur("0:10"));
-//        ac2.getConfigVars().setDx(C.hourToDur("0:10"));
-//        ac2.getConfigVars().setFn(C.hourToDur(null));
-//        ac2.getConfigVars().setFx(C.hourToDur(null));
-//        activities.add(ac2);
-//
-//        Activity ac3 = new Activity();
-//        ac3.setIdSchedule(schedule.getIdSchedule());
-//        ac3.setName("extra");
-//        ac3.setPositionInSchedule(activities.size());
-//        ac3.setColor(AppColors.getColors().get(K.COLOR_WHITE));
-//        ac3.getConfigVars().setSn(C.hourToDur(null));
-//        ac3.getConfigVars().setSx(C.hourToDur(null));
-//        ac3.getConfigVars().setDn(C.hourToDur("0:10"));
-//        ac3.getConfigVars().setDx(C.hourToDur("0:10"));
-//        ac3.getConfigVars().setFn(C.hourToDur(null));
-//        ac3.getConfigVars().setFx(C.hourToDur(null));
-//        activities.add(ac3);
-//
-//        Activity ac4 = new Activity();
-//        ac4.setIdSchedule(schedule.getIdSchedule());
-//        ac4.setName("extra");
-//        ac4.setPositionInSchedule(activities.size());
-//        ac4.setColor(AppColors.getColors().get(K.COLOR_WHITE));
-//        ac4.getConfigVars().setSn(C.hourToDur(null));
-//        ac4.getConfigVars().setSx(C.hourToDur(null));
-//        ac4.getConfigVars().setDn(C.hourToDur("0:10"));
-//        ac4.getConfigVars().setDx(C.hourToDur("0:10"));
-//        ac4.getConfigVars().setFn(C.hourToDur(null));
-//        ac4.getConfigVars().setFx(C.hourToDur(null));
-//        activities.add(ac4);
-//
-//        Activity ac5 = new Activity();
-//        ac5.setIdSchedule(schedule.getIdSchedule());
-//        ac5.setName("extra");
-//        ac5.setPositionInSchedule(activities.size());
-//        ac5.setColor(AppColors.getColors().get(K.COLOR_WHITE));
-//        ac5.getConfigVars().setSn(C.hourToDur(null));
-//        ac5.getConfigVars().setSx(C.hourToDur(null));
-//        ac5.getConfigVars().setDn(C.hourToDur("0:10"));
-//        ac5.getConfigVars().setDx(C.hourToDur("0:10"));
-//        ac5.getConfigVars().setFn(C.hourToDur(null));
-//        ac5.getConfigVars().setFx(C.hourToDur(null));
-//        activities.add(ac5);
-//
-//        actM.save(activities);
 
-        DebugU.printAllDb(getApplicationContext());
-        Log.i(tag, "END debugActionsEnd:");
+        Log.i(tag, "END debugActionsEnd()");
     }
 
 }
