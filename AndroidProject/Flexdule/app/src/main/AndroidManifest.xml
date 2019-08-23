@@ -7,9 +7,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/fxd_round"
+        android:icon="@mipmap/ic_launcher_fxd"
         android:label="Flexdule"
-        android:roundIcon="@mipmap/ic_launcher_fxd"
+        android:roundIcon="@mipmap/fxd_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".android.control.ScheduleListActivity"></activity>
