@@ -24,7 +24,9 @@ public class ScheduleActivitiesManager {
 
     public void calcContext(List<Activity> acs) {
         log.i("BEGIN calcContext()");
-        log.d("calcContext() activities = " + acs);
+        for (Activity ac : acs) {
+            log.d("begin calcContext: " + ac.toString());
+        }
 
         // Se extraen las variables finales de las de configuración
         for (Activity ac : acs) {
@@ -66,7 +68,16 @@ public class ScheduleActivitiesManager {
             log.d("end innerWithLimtis: " + ac.toString());
         }
 
-        log.i("END calcContext():");
+        log.i("END calcContext()");
+    }
+
+    public void cleanContext(List<Activity> acs){
+        log.i("BEGIN cleanContext()");
+        for (Activity ac : acs) {
+            ac.setLimits(null);
+            ac.setFinalVars(null);
+        }
+        log.i("END cleanContext()");
     }
 
     public void calcFinalFromConfig(Activity ac) {
@@ -254,7 +265,7 @@ public class ScheduleActivitiesManager {
                 }
 
                 if (v.getSx() == null) {
-                    Time t = calcMinMaxSx(ac, true).getN();
+                    Time t = calcMinMaxSx(ac, true).getX();
                     if (t != null) {
                         found = true;
                         v.setSx(t);
@@ -262,7 +273,7 @@ public class ScheduleActivitiesManager {
                 }
 
                 if (v.getDn() == null) {
-                    Time t = calcMinMaxDn(ac, true).getX();
+                    Time t = calcMinMaxDn(ac, true).getN();
                     if (t != null) {
                         found = true;
                         v.setDn(t);
@@ -278,7 +289,7 @@ public class ScheduleActivitiesManager {
                 }
 
                 if (v.getFn() == null) {
-                    Time t = calcMinMaxFn(ac, true).getX();
+                    Time t = calcMinMaxFn(ac, true).getN();
                     if (t != null) {
                         found = true;
                         v.setFn(t);
@@ -327,54 +338,54 @@ public class ScheduleActivitiesManager {
 
     public Time calcSn(ActivityVars v) {
         Time sn = null;
-        if (v.getSn() == null && v.getFx() != null && v.getDx() != null) {
-            sn = Time.sub(v.getFx(), v.getDx());
-            log.i("found Sn= " + sn + "= (Fx)" + v.getFx() + " - (Dx)" + v.getDx());
+        if (v.getSn() == null && v.getFn() != null && v.getDn() != null) {
+            sn = Time.sub(v.getFn(), v.getDn());
+            log.i("found Sn= " + sn + "= (Fn)" + v.getFn() + " - (Dn)" + v.getDn());
         }
         return sn;
     }
 
     public Time calcSx(ActivityVars v) {
         Time sx = null;
-        if (v.getSx() == null && v.getFn() != null && v.getDn() != null) {
-            sx = Time.sub(v.getFn(), v.getDn());
-            log.i("found Sx= " + sx + "= (Fn)" + v.getFn() + " - (Dn)" + v.getDn());
+        if (v.getSx() == null && v.getFx() != null && v.getDx() != null) {
+            sx = Time.sub(v.getFx(), v.getDx());
+            log.i("found Sx= " + sx + "= (Fx)" + v.getFx() + " - (Dx)" + v.getDx());
         }
         return sx;
     }
 
     public Time calcDn(ActivityVars v) {
         Time dn = null;
-        if (v.getDn() == null && v.getFn() != null && v.getSx() != null) {
-            dn = Time.sub(v.getFn(), v.getSx());
-            log.i("found Dn= " + dn + "= (Fn)" + v.getFn() + " - (Sx)" + v.getSx());
+        if (v.getDn() == null && v.getFn() != null && v.getSn() != null) {
+            dn = Time.sub(v.getFn(), v.getSn());
+            log.i("found Dn= " + dn + "= (Fn)" + v.getFn() + " - (Sn)" + v.getSn());
         }
         return dn;
     }
 
     public Time calcDx(ActivityVars v) {
         Time dx = null;
-        if (v.getDx() == null && v.getFx() != null && v.getSn() != null) {
-            dx = Time.sub(v.getFx(), v.getSn());
-            log.i("found Dx= " + dx + "= (Fx)" + v.getFx() + " - (Sn)" + v.getSn());
+        if (v.getDx() == null && v.getFx() != null && v.getSx() != null) {
+            dx = Time.sub(v.getFx(), v.getSx());
+            log.i("found Dx= " + dx + "= (Fx)" + v.getFx() + " - (Sx)" + v.getSx());
         }
         return dx;
     }
 
     public Time calcFn(ActivityVars v) {
         Time fn = null;
-        if (v.getFn() == null && v.getSx() != null && v.getDn() != null) {
-            fn = Time.sum(v.getSx(), v.getDn());
-            log.i("found Fn= " + fn + "= (Sx)" + v.getSx() + " + (Dn)" + v.getDn());
+        if (v.getFn() == null && v.getSn() != null && v.getDn() != null) {
+            fn = Time.sum(v.getSn(), v.getDn());
+            log.i("found Fn= " + fn + "= (Sn)" + v.getSn() + " + (Dn)" + v.getDn());
         }
         return fn;
     }
 
     public Time calcFx(ActivityVars v) {
         Time fx = null;
-        if (v.getFx() == null && v.getSn() != null && v.getDx() != null) {
-            fx = Time.sum(v.getSn(), v.getDx());
-            log.i("found Fx= " + fx + "= (Sn)" + v.getSn() + " + (Dx)" + v.getDx());
+        if (v.getFx() == null && v.getSx() != null && v.getDx() != null) {
+            fx = Time.sum(v.getSx(), v.getDx());
+            log.i("found Fx= " + fx + "= (Sx)" + v.getSx() + " + (Dx)" + v.getDx());
         }
         return fx;
     }
@@ -418,6 +429,8 @@ Otra variable afectante
 
             if (objV.getFn() != null) {
                 found = Time.copy(objV.getFn());
+            } else if(objV.getSn() != null){
+                found = Time.sum(objV.getDn(), objV.getSn());
             } else {
                 log.d("Need to find object limit first...");
                 Time objLim = calcLimitSn(acs, objectIndex);
@@ -443,6 +456,8 @@ Otra variable afectante
 
             if (objV.getFx() != null) {
                 found = Time.copy(objV.getFx());
+            } else if(objV.getSx() != null){
+                found = Time.sum(objV.getDx(), objV.getSx());
             } else {
                 log.d("Need to find object limit first...");
                 Time objLim = calcLimitSx(acs, objectIndex);
@@ -468,6 +483,8 @@ Otra variable afectante
 
             if (objV.getSn() != null) {
                 found = Time.copy(objV.getSn());
+            } else if(objV.getFn() != null){
+                found = Time.sum(objV.getDn(), objV.getFn());
             } else {
                 log.d("Need to find object limit first...");
                 Time objLim = calcLimitFn(acs, objectIndex);
@@ -493,6 +510,8 @@ Otra variable afectante
 
             if (objV.getSx() != null) {
                 found = Time.copy(objV.getSx());
+            } else if(objV.getFx() != null){
+                found = Time.sum(objV.getDx(), objV.getFx());
             } else {
                 log.d("Need to find object limit first...");
                 Time objLim = calcLimitFx(acs, objectIndex);
@@ -627,7 +646,6 @@ Otra variable afectante
         v.setSn(null);
         if (!isFlexible) v.setSx(null);
         calcActivityVars(ac, K.CONF);
-        fillEmptyLimits(lim);
 
         if (v.getSn() != null) {
             n = Time.copy(v.getSn());
@@ -648,9 +666,6 @@ Otra variable afectante
             maxs.add(lim.getFn()); // Límite opuesto
             log.d("limitFn= " + lim.getFn());
             if (isFlexible && v.getSx() != null) { // Gemela lado contrario
-                // limitante (FLEXIBLE
-                // solo)
-                maxs.add(v.getSx());
                 log.d("Sx= " + v.getSx());
             }
             maxs.add(v.getFn()); // Variable opuesta
@@ -658,11 +673,11 @@ Otra variable afectante
             maxs.add(v.getFx()); // Variable opuesta lado contrario
             log.d("Fx= " + v.getFx());
             if (v.getDn() != null) { // Otra variable afectante: Dn
-                if (v.getFn() != null) {
-                    Time t = Time.sub(v.getFn(), v.getDn());
-                    maxs.add(t);
-                    log.d("Fn-Dn= " + t);
-                }
+//                if (v.getFn() != null) {
+//                    Time t = Time.sub(v.getFn(), v.getDn());
+//                    maxs.add(t);
+//                    log.d("Fn-Dn= " + t);
+//                }
                 if (v.getFx() != null) {
                     Time t = Time.sub(v.getFx(), v.getDn());
                     maxs.add(t);
@@ -704,7 +719,6 @@ Otra variable afectante
         v.setSx(null);
         if (!isFlexible) v.setSn(null);
         calcActivityVars(ac, K.CONF);
-        fillEmptyLimits(lim);
 
         if (v.getSx() != null) {
             n = Time.copy(v.getSx());
@@ -734,21 +748,21 @@ Otra variable afectante
             log.d("LimitFx= " + lim.getFx());
             maxs.add(v.getFx()); // Var opuesta
             log.d("Fx= " + v.getFx());
-            maxs.add(lim.getFn()); // Límite opuesto lado contrario
-            log.d("LimitFn= " + lim.getFn());
-            maxs.add(v.getFn()); // Var opuesta lado contrario
-            log.d("Fn= " + v.getFn());
+//            maxs.add(lim.getFn()); // Límite opuesto lado contrario
+//            log.d("LimitFn= " + lim.getFn());
+//            maxs.add(v.getFn()); // Var opuesta lado contrario
+//            log.d("Fn= " + v.getFn());
             if (v.getDn() != null) { // Variable lado contrario afectante: Dn
                 if (v.getFx() != null) {
                     Time t = Time.sub(v.getFx(), v.getDn());
                     maxs.add(t); // con final
                     log.d("Fx-Dn= " + t);
                 }
-//                if (lim.getFx() != null) {
-//                    Time t = Time.sub(lim.getFx(), v.getDn());
-//                    maxs.add(t); // con límite op
-//                    log.d("limitFx-Dn= " + t);
-//                }
+                if (lim.getFx() != null) {
+                    Time t = Time.sub(lim.getFx(), v.getDn());
+                    maxs.add(t); // con límite op
+                    log.d("limitFx-Dn= " + t);
+                }
 //                if (lim.getFn() != null) {
 //                    Time t = Time.sub(lim.getFn(), v.getDn());
 //                    maxs.add(t); // límite vecino
@@ -780,7 +794,6 @@ Otra variable afectante
         v.setDn(null);
         if (!isFlexible) v.setDx(null);
         calcActivityVars(ac, K.CONF);
-        fillEmptyLimits(lim);
 
         if (v.getDn() != null) {
             n = Time.copy(v.getDn());
@@ -794,22 +807,10 @@ Otra variable afectante
             // limit X
             log.d("Finding Max...");
             List<Time> maxs = new ArrayList<>();
+            maxs.add(v.getDx());
+            log.d("Dx= " + v.getDx());
+
             if (v.getSx() != null) {
-//                if (v.getFn() != null) { // = DN
-//                    Time t = Time.sub(v.getFn(), v.getSx());
-//                    maxs.add(t);
-//                    log.d("Fn-Sx= " + t);
-//                }
-                if (lim.getFn() != null) {
-                    Time t = Time.sub(lim.getFn(), v.getSx());
-                    maxs.add(t);
-                    log.d("limitFn-Sx= " + t);
-                }
-                if (v.getFx() != null) {
-                    Time t = Time.sub(v.getFx(), v.getSx());
-                    maxs.add(t);
-                    log.d("Fx-Sx= " + t);
-                }
                 if (lim.getFx() != null) {
                     Time t = Time.sub(lim.getFx(), v.getSx());
                     maxs.add(t);
@@ -817,16 +818,6 @@ Otra variable afectante
                 }
             }
             if (lim.getSx() != null) {
-                if (v.getFn() != null) {
-                    Time t = Time.sub(v.getFn(), lim.getSx());
-                    maxs.add(t);
-                    log.d("Fn-limitSx= " + t);
-                }
-                if (lim.getFn() != null) {
-                    Time t = Time.sub(lim.getFn(), lim.getSx());
-                    maxs.add(t);
-                    log.d("limitFn-limitSx= " + t);
-                }
                 if (v.getFx() != null) {
                     Time t = Time.sub(v.getFx(), lim.getSx());
                     maxs.add(t);
@@ -839,21 +830,11 @@ Otra variable afectante
                 }
             }
             if (v.getSn() != null) {
-                if (v.getFn() != null) {
-                    Time t = Time.sub(v.getFn(), v.getSn());
-                    maxs.add(t);
-                    log.d("Fn-Sn= " + t);
-                }
                 if (lim.getFn() != null) {
                     Time t = Time.sub(lim.getFn(), v.getSn());
                     maxs.add(t);
                     log.d("limitFn-Sn= " + t);
                 }
-//                if (v.getFx() != null) { // Dx
-//                    Time t = Time.sub(v.getFx(), v.getSn());
-//                    maxs.add(t);
-//                    log.d("Fx-Sn= " + t);
-//                }
                 if (lim.getFx() != null) {
                     Time t = Time.sub(lim.getFx(), v.getSn());
                     maxs.add(t);
@@ -882,7 +863,6 @@ Otra variable afectante
                     log.d("limitFx-limitSn= " + t);
                 }
             }
-            maxs.add(v.getDx()); // Gemela lado contrario limitante (FLEXIBLE solo)
             log.d("Dx= " + v.getDx());
 
             x = Time.findMinorValue(maxs);
@@ -892,6 +872,7 @@ Otra variable afectante
         NX minMax = new NX();
         minMax.setN(n);
         minMax.setX(x);
+        fillEmptyMinMax(minMax);
         log.i("END calcMinMaxDn(). minMax= " + minMax);
         return minMax;
     }
@@ -908,7 +889,6 @@ Otra variable afectante
         v.setDx(null);
         if (!isFlexible) v.setDn(null);
         calcActivityVars(ac, K.CONF);
-        fillEmptyLimits(lim);
 
         if (v.getDx() != null) {
             n = Time.copy(v.getDx());
@@ -918,17 +898,20 @@ Otra variable afectante
 
             // limit S
             log.d("Finding Min...");
-
-            List<Time> mins = new ArrayList<>();
-            mins.add(v.getDn());// Variable opuesta
-            log.d("Dn= " + v.getDn());
-            if (v.getFx() != null) {
-                if (v.getFn() != null) {
-                    Time t = Time.sub(v.getFx(), v.getFn());
-                    t = Time.sum(t, v.getDn());
-                    mins.add(t);
-                    log.d("Fx-Fn+Dn= " + t);
-                }
+            if(v.getDn()!=null){
+                n = Time.copy(v.getDn());
+                log.d("Dn= " + v.getDn());
+                log.d("found Dx min= (Dn)" + v.getDn());
+            }
+//            List<Time> mins = new ArrayList<>();
+//            mins.add(v.getDn());// Variable opuesta
+//            if (v.getFx() != null) {
+//                if (v.getFn() != null) {
+//                    Time t = Time.sub(v.getFx(), v.getFn());
+//                    t = Time.sum(t, v.getDn());
+//                    mins.add(t);
+//                    log.d("Fx-Fn+Dn= " + t);
+//                }
 //                if (lim.getFn() != null) {
 //                    Time t = Time.sub(v.getFx(), lim.getFn());
 //                    t = Time.sum(t, v.getDn());
@@ -937,7 +920,7 @@ Otra variable afectante
 //                        log.d("Fx-limitFn+Dn= " + t);
 //                    }
 //                }
-            }
+//            }
 //            else if (lim.getFx() != null) {
 //                if (v.getFn() != null) {
 //                    Time t = Time.sub(lim.getFx(), v.getFn());
@@ -955,13 +938,13 @@ Otra variable afectante
 //                }
 //            }
 
-            if (v.getSx() != null) {
-                if (v.getSn() != null) {
-                    Time t = Time.sub(v.getSx(), v.getSn());
-                    t = Time.sum(t, v.getDn());
-                    mins.add(t);
-                    log.d("Sx-Sn+Dn= " + t);
-                }
+//            if (v.getSx() != null) {
+//                if (v.getSn() != null) {
+//                    Time t = Time.sub(v.getSx(), v.getSn());
+//                    t = Time.sum(t, v.getDn());
+//                    mins.add(t);
+//                    log.d("Sx-Sn+Dn= " + t);
+//                }
 //                if (lim.getSn() != null) {
 //                    Time t = Time.sub(v.getSx(), lim.getSn());
 //                    t = Time.sum(t, v.getDn());
@@ -970,7 +953,7 @@ Otra variable afectante
 //                        log.d("Sx-limitSn+Dn= " + t);
 //                    }
 //                }
-            }
+//            }
 //            else if (lim.getSx() != null) {
 //                if (v.getSn() != null) {
 //                    Time t = Time.sub(lim.getSx(), v.getSn());
@@ -988,8 +971,8 @@ Otra variable afectante
 //
 //                }
 //            }
-            n = Time.findMajorValue(mins);
-            if (n != null) log.d("found Fn min= " + n + " (major of above)");
+//            n = Time.findMajorValue(mins);
+//            if (n != null) log.d("found Fn min= " + n + " (major of above)");
 
             // limit X
             log.d("Finding Max...");
@@ -1007,6 +990,15 @@ Otra variable afectante
                     log.d("limitFx-Sn= " + t);
                 }
             }
+
+            if (v.getSx() != null) {
+                if (lim.getFx() != null) {
+                    Time t = Time.sub(lim.getFx(), v.getSx());
+                    maxs.add(t);
+                    log.d("limitFx-Sx= " + t);
+                }
+            }
+
             if (lim.getSn() != null) {
                 if (v.getFx() != null) {
                     Time t = Time.sub(v.getFx(), lim.getSn());
@@ -1027,6 +1019,7 @@ Otra variable afectante
         NX minMax = new NX();
         minMax.setN(n);
         minMax.setX(x);
+        fillEmptyMinMax(minMax);
         log.i("END calcMinMaxDx(). minMax= " + minMax);
         return minMax;
     }
@@ -1043,7 +1036,6 @@ Otra variable afectante
         v.setFn(null);
         if (!isFlexible) v.setFx(null);
         calcActivityVars(ac, K.CONF);
-        fillEmptyLimits(lim);
 
         if (v.getFn() != null) {
             n = Time.copy(v.getFn());
@@ -1058,17 +1050,14 @@ Otra variable afectante
             log.d("Sn= " + v.getSn());
             mins.add(lim.getSn());// Límite opuesto
             log.d("limitSn= " + lim.getSn());
-            mins.add(v.getSx());// Variable opuesta lado contrario
-            log.d("Sx= " + v.getSx());
-            mins.add(lim.getSx());// Límite opuesto lado contrario
-            log.d("limitSx= " + lim.getSx());
             if (v.getDn() != null) { // Otra variable afectante: Dn
-                if (v.getSn() != null) {
-                    Time t = Time.sum(v.getSn(), v.getDn());
+                if (lim.getSn() != null) { // ??
+                    Time t = Time.sum(lim.getSn(), v.getDn());
                     mins.add(t);
-                    log.d("Sn+Dn= " + t);
+                    log.d("limitSn+Dn= " + t);
                 }
             }
+
             n = Time.findMajorValue(mins);
             if (n != null) log.d("found Fn min= " + n + " (major of above)");
 
@@ -1082,20 +1071,6 @@ Otra variable afectante
             log.d("Fx= " + v.getFx());
             maxs.add(lim.getFx()); // Límite vecino contrario
             log.d("limitFx= " + lim.getFx());
-            if (v.getDn() != null) { // Otra variable afectante: Dn
-                // Var opuesta
-                if (v.getSn() != null) {
-                    Time t = Time.sum(v.getSn(), v.getDn());
-                    maxs.add(t);
-                    log.d("Sn-Dn= " + t);
-                }
-                // Límite opuesto
-//                if (lim.getSn() != null) {
-//                    Time t = Time.sum(lim.getSn(), v.getDn());
-//                    maxs.add(t);
-//                    log.d("limitSn-Dn= " + t);
-//                }
-            }
 
             x = Time.findMinorValue(maxs);
             if (x != null) log.d("found Fn max= " + x + " (minor of above)");
@@ -1120,7 +1095,6 @@ Otra variable afectante
         v.setFx(null);
         if (!isFlexible) v.setFn(null);
         calcActivityVars(ac, K.CONF);
-        fillEmptyLimits(lim);
 
         if (v.getFx() != null) {
             n = Time.copy(v.getFx());
@@ -1142,7 +1116,11 @@ Otra variable afectante
             mins.add(lim.getSn()); // Límite opuesto lado contrario
             log.d("limitSn= " + v.getSn());
             if (v.getDn() != null) { // Otra variable afectante: Dn
-                if (lim.getSx() != null) { // ??
+                if (v.getSx() != null) {
+                    Time t = Time.sum(v.getSx(), v.getDn());
+                    mins.add(t);
+                    log.d("Sx-Dn= " + t);
+                } else if (lim.getSx() != null) {
                     Time t = Time.sum(lim.getSx(), v.getDn());
                     mins.add(t);
                     log.d("limitSx-Dn= " + t);
@@ -1150,22 +1128,31 @@ Otra variable afectante
                 if (v.getSn() != null) {
                     Time t = Time.sum(v.getSn(), v.getDn());
                     mins.add(t);
-                    log.d("Sn-Dn= " + t);
-                }
-                if (lim.getSn() != null) { // ??
+                    log.d("Sn+Dn= " + t);
+                } else if (lim.getSn() != null) { // ??
                     Time t = Time.sum(lim.getSn(), v.getDn());
                     mins.add(t);
                     log.d("limitSn+Dn= " + t);
                 }
             }
             if (v.getDx() != null) { // Otra variable afectante: Dx
-                // [ con Sn son los determinantes ]
-                if (lim.getSn() != null) {
+                if (v.getSn() != null) {
+                    Time t = Time.sum(v.getSn(), v.getDx());
+                    mins.add(t);
+                    log.d("Sn+Dx= " + t);
+
+                } else if (lim.getSn() != null) {
                     Time t = Time.sum(lim.getSn(), v.getDx());
                     mins.add(t);
-                    log.d("limitSn-Dx= " + t);
+                    log.d("limitSn+Dx= " + t);
+                }
+                if (lim.getSx() != null) {
+                    Time t = Time.sum(lim.getSx(), v.getDx());
+                    mins.add(t);
+                    log.d("limitSx+Dx= " + t);
                 }
             }
+
             n = Time.findMajorValue(mins);
             if (n != null) log.d("found Fx min= " + n + " (major of above)");
 
@@ -1193,6 +1180,11 @@ Otra variable afectante
 
         if (l.getFx() == null) l.setFx(Time.copy(scheFin));
         else if (l.getFn().greaterThan(l.getFx())) l.setFn(Time.copy(l.getFx()));
+    }
+
+    public void fillEmptyMinMax(NX minMax){
+        if(minMax.getN() == null) minMax.setN(scheStart);
+        if(minMax.getX() == null) minMax.setX(scheFin);
     }
 
     public List<Time> calcAllDurations(Activity ac) {

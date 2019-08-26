@@ -7,7 +7,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher_fxd"
+        android:icon="@mipmap/fxd"
         android:label="Flexdule"
         android:roundIcon="@mipmap/fxd_round"
         android:supportsRtl="true"

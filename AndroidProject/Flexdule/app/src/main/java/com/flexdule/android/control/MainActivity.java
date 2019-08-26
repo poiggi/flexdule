@@ -247,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
         // Se recalcula el contexto para añadir límites a la nueva actividad
         activities.add(newActivity);
         try {
+            scheduleActivitiesManager.cleanContext(activities);
             scheduleActivitiesManager.calcContext(activities);
         } catch (Exception e) {
             Log.e(tag, "Error in onClickAdd(): " + e);

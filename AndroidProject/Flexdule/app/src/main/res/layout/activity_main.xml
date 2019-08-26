@@ -108,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10pt"
         android:gravity="center"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:visibility="visible">
 
 
@@ -125,7 +125,7 @@
                 android:layout_marginEnd="7dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Pulse"
+                android:text="Pulse en el botón"
                 android:textColor="@android:color/secondary_text_light" />
 
             <ImageView
@@ -135,7 +135,8 @@
                 android:layout_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/add_slim" />
+                app:srcCompat="@drawable/add_slim"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -144,7 +145,24 @@
                 android:layout_marginStart="7dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="para empezar"
+                android:text="del menú superior para"
+                android:textColor="@android:color/secondary_text_light" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="7dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="añadir nuevas actividades al horario"
                 android:textColor="@android:color/secondary_text_light" />
 
         </LinearLayout>
