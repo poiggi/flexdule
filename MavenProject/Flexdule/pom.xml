@@ -1,0 +1,122 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.github.poiggi</groupId>
+  <artifactId>Flexdule</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Flexdule</name>
+  <description>Aplicación de escritorio de Flexdule</description>
+
+
+	<!-- Por defecto Maven usa JDK 1.5 -->
+	<properties>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+	</properties>
+
+	<dependencies>
+
+		<!-- Hibernate -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+			<version>3.5.6-Final</version>
+		</dependency>
+		<!-- Hibernate missing dependency -->
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.12.1.GA</version>
+		</dependency>
+
+		<!-- Driver MySql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.15</version>
+		</dependency>
+		
+		<!-- Driver Oracle -->
+		<!-- INSTALADO EN REPOSITORIO LOCAL -->
+		<dependency>
+		    <groupId>oracle</groupId>
+		    <artifactId>ojdbc14</artifactId>
+		    <version>1.0</version>
+		</dependency>
+		
+		<!-- Logs. Dependency -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>2.11.2</version>
+		</dependency>
+
+		<!-- Layout for Java Swing -->
+		<!-- http://www.miglayout.com/ -->
+		<!-- https://mvnrepository.com/artifact/com.miglayout/miglayout -->
+		<dependency>
+			<groupId>com.miglayout</groupId>
+			<artifactId>miglayout</artifactId>
+			<version>3.7.4</version>
+		</dependency>
+		
+		<!-- Componente DatePicker -->
+		<!-- https://toedter.com/jcalendar/ -->
+		<!-- https://mvnrepository.com/artifact/com.toedter/jcalendar -->
+		<dependency>
+		    <groupId>com.toedter</groupId>
+		    <artifactId>jcalendar</artifactId>
+		    <version>1.4</version>
+		</dependency>
+		
+
+	</dependencies>
+
+	<build>
+		<plugins>
+
+			<!-- GENERACIÓN DEL JAR: Se crea una carpeta con las dependencias -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								${project.build.directory}/libs
+							</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- GENERACIÓN DEL JAR: Se crea el .jar con el MANIFEST -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>libs/</classpathPrefix>
+							<mainClass>
+								desktop.Main
+							</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+  
+</project>
