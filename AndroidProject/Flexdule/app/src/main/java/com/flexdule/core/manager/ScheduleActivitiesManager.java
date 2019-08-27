@@ -104,14 +104,15 @@ public class ScheduleActivitiesManager {
             fin.setDn(Time.copy(conf.getDn()));
 
             //Dx
-            if (conf.getDx() != null) {
-                boolean validDx = true;
-                if (fin.getDn() != null && conf.getDx().lessThan(fin.getDn())) {
-                    log.w("Dx < Dn !");
-                    validDx = false;
-                }
-                if (validDx) fin.setDx(Time.copy(conf.getDx()));
-            }
+//            if (conf.getDx() != null) {
+//                boolean validDx = true;
+//                if (fin.getDn() != null && conf.getDx().lessThan(fin.getDn())) {
+//                    log.w("Dx < Dn !");
+//                    validDx = false;
+//                }
+//                if (validDx)
+                    fin.setDx(Time.copy(conf.getDx()));
+//            }
 
             //Fn
             if (conf.getFn() != null) {
@@ -120,10 +121,10 @@ public class ScheduleActivitiesManager {
                     log.w("Fn < Sn !");
                     validFn = false;
                 }
-                if (fin.getSx() != null && conf.getFn().lessThan(fin.getSx())) {
-                    log.w("Fn < Sx !");
-                    validFn = false;
-                }
+//                if (fin.getSx() != null && conf.getFn().lessThan(fin.getSx())) {
+//                    log.w("Fn < Sx !");
+//                    validFn = false;
+//                }
                 if (validFn) fin.setFn(Time.copy(conf.getFn()));
             }
 
@@ -390,33 +391,6 @@ public class ScheduleActivitiesManager {
         return fx;
     }
 
-
-    /* GUIÓN de cálculo MinMax
-
-Para seleccionar, tener en cuenta la posible convinación de valores existentes, incluyendo
-AUSENCIAS del lado tratado.
-
-Determinantes
-Límite vecino
-
-Gemela lado contrario limitante (FLEXIBLE solo)
-    Calculada
-Límite vecino lado contrario
-
-Variable opuesta
-Limite opuesto
-
-Variable opuesta lado contrario
-Límite opuesto lado contrario
-
-Otra variable afectante
-    (D?)
-        con final
-        con limite
-
-     */
-
-
     public Time calcLimitSn(List<Activity> acs, int subjectIndex) {
         Activity sub = acs.get(subjectIndex);
         log.i("BEGIN calcLimitSn(). subjectIndex = " + subjectIndex + " ( " + sub.getName() + " )");
@@ -524,115 +498,6 @@ Otra variable afectante
         log.i("END calcLimitFx(). found= " + found);
         return found;
     }
-
-//    public Time calcLimitSx(List<Activity> acs, int objectIndex) {
-//        Activity obj = acs.get(objectIndex);
-//        Limits ownLim = obj.getLimits();
-//        log.i("BEGIN calcLimitSx(). objectIndex = " + objectIndex + " ( " + obj.getName() + " )");
-//        int i = objectIndex - 1;
-//        Time found = null;
-//        try {
-//
-//            while (ownLim.getSx() == null && found == null && i >= 0) {
-//                Activity ac = acs.get(i);
-//                log.d("finding Sx from index= " + i + ", activity= " + ac);
-//                ActivityVars v = ac.getFinalVars();
-//                Limits lim = ac.getLimits();
-//
-//                if (v.getFx() != null) {
-//                    found = Time.copy(v.getFx());
-//                } else if (v.getSx() != null && v.getDx() != null)
-//                    found = Time.sum(v.getSx(), v.getDx());
-//                else
-//                    found = Time.copy(v.getSn());
-//
-//
-//                if (found != null && ownLim.getSn() != null && found.lessThan(ownLim.getSn())) {
-//                    found = Time.copy(ownLim.getSn());
-//                    log.d("corrected limitSx= (limitSn)" + found);
-//                }
-//                i--;
-//            }
-//        } catch (Exception e) {
-//            log.e("Error in calcLimitSx():" + e);
-//            throw e;
-//        }
-//        log.i("END calcLimitSx(). existing = " + ownLim.getSx() + ", found= " + found);
-//        return found;
-//    }
-//
-//    public Time calcLimitFn(List<Activity> acs, int objectIndex) {
-//        Activity obj = acs.get(objectIndex);
-//        log.i("BEGIN calcLimitFn(). objectIndex = " + objectIndex + " ( " + obj.getName() + " )");
-//        int i = objectIndex + 1;
-//        Time found = null;
-//        try {
-//
-//
-//            while (found == null && i < acs.size()) {
-//                Activity ac = acs.get(i);
-//                log.d("finding Fn from index= " + i + ", activity= " + ac);
-//                ActivityVars v = ac.getFinalVars();
-//                Limits lim = ac.getLimits();
-//
-//                if (v.getSn() != null) {
-//                    found = Time.copy(v.getSn());
-//                    log.d("found limitFn= (" + i + ".Sn)" + found);
-//                } else if (v.getFn() != null) {
-//                    found = Time.copy(v.getFn());
-//                    log.d("found limitFn= (" + i + ".Fn)" + found);
-//                }
-////                else if (lim.getFn() != null) {
-////                    found = Time.copy(lim.getFn());
-////                    log.d("found limitFn= (" + i + ".limitFn)" + found);
-////                }
-//
-////                if (found != null && ownLim.getFx() != null && found.greaterThan(ownLim.getFx()
-////                )) {
-////                    found = Time.copy(ownLim.getFx());
-////                    log.d("corrected limitFn= (limitFx)" + found);
-////                }
-//                i++;
-//            }
-//        } catch (Exception e) {
-//            log.e("Error in calcLimitFn():" + e);
-//            throw e;
-//        }
-//        log.i("END calcLimitFn(). found= " + found);
-//        return found;
-//    }
-//
-//    public Time calcLimitFx(List<Activity> acs, int objectIndex) {
-//        Activity obj = acs.get(objectIndex);
-//        log.i("BEGIN calcLimitFx(). objectIndex = " + objectIndex + " ( " + obj.getName() + " )");
-//        Time existing = obj.getLimits().getFx();
-//        int i = objectIndex + 1;
-//        Time found = null;
-//        try {
-//
-//            while (existing == null && found == null && i < acs.size()) {
-//                Activity ac = acs.get(i);
-//                log.d("finding Fx from index= " + i + ", activity= " + ac);
-//                ActivityVars v = ac.getFinalVars();
-//                Limits lim = ac.getLimits();
-//
-//                if (v.getSx() != null) {
-//                    found = Time.copy(v.getSx());
-//                } else if (v.getFx() != null) {
-//                    found = Time.copy(v.getFx());
-//                }
-////                else if (lim.getFx() != null) {
-////                    found = Time.copy(lim.getFx());
-////                }
-//                i++;
-//            }
-//        } catch (Exception e) {
-//            log.e("Error in calcLimitFx():" + e);
-//            throw e;
-//        }
-//        log.i("END calcLimitFx(). existing = " + existing + ", found= " + found);
-//        return found;
-//    }
 
     public NX calcMinMaxSn(Activity ac, boolean isFlexible) {
         log.i("BEGIN calcMinMaxSn(). activity= " + ac + ", isFlexible= " + isFlexible);

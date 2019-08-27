@@ -96,13 +96,23 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
             } else {
                 // Se muestran las dos etiquetas
 
-                if (fin.getN() != null && fin.getN().equals(conf.getN())) bold = true;
-                else bold = false;
-                bindDurationToLabel(fin.getN(), tv1, displayMode, bold);
+                boolean nBold;
+                if (fin.getN() != null && fin.getN().equals(conf.getN())) nBold = true;
+                else nBold = false;
 
-                if (fin.getX() != null && fin.getX().equals(conf.getX())) bold = true;
-                else bold = false;
-                bindDurationToLabel(fin.getX(), tv2, displayMode, bold);
+                boolean xBold;
+                if (fin.getX() != null && fin.getX().equals(conf.getX())) xBold = true;
+                else xBold = false;
+
+                // En caso de que la variable menor sea mayor que la mayor, se invierte
+                if(fin.getN() != null && fin.getX()!=null && fin.getN().greaterThan(fin.getX())){
+                    Time aux = Time.copy(fin.getX());
+                    fin.setX(Time.copy(fin.getN()));
+                    fin.setN(aux);
+                }
+
+                bindDurationToLabel(fin.getN(), tv1, displayMode, nBold);
+                bindDurationToLabel(fin.getX(), tv2, displayMode, xBold);
 
             }
         } else {
@@ -131,7 +141,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         }
 
         if (bold) {
-            tv.setTextColor(ContextCompat.getColor(tv.getContext(), R.color.secondary_text_light));
+            tv.setTextColor(ContextCompat.getColor(tv.getContext(), R.color.primary_text_light));
 //            tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
         }
 
