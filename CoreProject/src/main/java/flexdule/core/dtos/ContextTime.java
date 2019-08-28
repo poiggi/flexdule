@@ -1,6 +1,6 @@
-package dtos;
+package flexdule.core.dtos;
 
-import util.Time;
+import flexdule.core.util.Time;
 
 public class ContextTime {
 

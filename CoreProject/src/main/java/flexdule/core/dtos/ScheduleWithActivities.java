@@ -1,4 +1,4 @@
-package dtos;
+package flexdule.core.dtos;
 
 import java.io.Serializable;
 import java.util.List;
