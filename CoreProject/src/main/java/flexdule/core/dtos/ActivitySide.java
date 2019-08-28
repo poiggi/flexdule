@@ -1,9 +1,9 @@
-package dtos;
+package flexdule.core.dtos;
 
 import java.io.Serializable;
 
-import util.K;
-import util.Time;
+import flexdule.core.util.K;
+import flexdule.core.util.Time;
 
 public class ActivitySide implements Serializable {
 

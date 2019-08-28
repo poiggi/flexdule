@@ -1,9 +1,9 @@
-package dtos;
+package flexdule.core.dtos;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-import util.Time;
+import flexdule.core.util.Time;
 
 // getters y setters directos de atributos, por referencia, nulable
 // copyValues y copyRefs completos de su misma clase

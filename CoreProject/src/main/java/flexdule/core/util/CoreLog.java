@@ -1,4 +1,4 @@
-package util;
+package flexdule.core.util;
 
 public interface CoreLog {
 
