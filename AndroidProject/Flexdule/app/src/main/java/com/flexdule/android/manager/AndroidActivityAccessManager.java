@@ -3,15 +3,16 @@ package com.flexdule.android.manager;
 import android.content.Context;
 import android.util.Log;
 
-import com.flexdule.core.util.Time;
-import com.flexdule.core.manager.ActivityAccessManager;
-import com.flexdule.core.dtos.Activity;
-import com.flexdule.core.dtos.ActivityVars;
 import com.flexdule.android.model.sqlite.daos.ActivityDao;
 import com.flexdule.android.model.sqlite.entities.ActivityBean;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import flexdule.core.dtos.Activity;
+import flexdule.core.dtos.ActivityVars;
+import flexdule.core.model.managers.ActivityAccessManager;
+import flexdule.core.util.Time;
 
 public class AndroidActivityAccessManager implements ActivityAccessManager {
     private static final String tag = AndroidActivityAccessManager.class.getSimpleName();
@@ -36,7 +37,7 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
             Log.e(tag, "Error en findActivitiesBySchedule()= " + e);
             throw e;
         }
-        Log.i(tag, "findActivitiesBySchedule(). idSchedule="+idSchedule+" => activities=" + activities);
+        Log.i(tag, "findActivitiesBySchedule(). idSchedule=" + idSchedule + " => activities=" + activities);
         return activities;
     }
 
@@ -65,7 +66,7 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
             Log.e(tag, "Error en saveActivity()= " + e);
             throw e;
         }
-        Log.i(tag, "saveActivity(). activity="+activity+" => result=" + result);
+        Log.i(tag, "saveActivity(). activity=" + activity + " => result=" + result);
         return result;
     }
 
@@ -86,13 +87,13 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
     @Override
     public int deleteActivityById(Integer idActivity) throws Exception {
         Integer result = null;
-        try{
+        try {
             result = getDao().deleteById(idActivity);
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.e(tag, "Error en deleteActivityById()= " + e);
             throw e;
         }
-        Log.i(tag, "deleteActivityById(). idActivity="+idActivity+" => result=" + result);
+        Log.i(tag, "deleteActivityById(). idActivity=" + idActivity + " => result=" + result);
         return result;
     }
 
@@ -100,7 +101,7 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
     public static List<Activity> activityBeansToActivities(List<ActivityBean> activityBeans) {
         List<Activity> acs = new ArrayList<>();
 
-        if(activityBeans!=null) {
+        if (activityBeans != null) {
             for (ActivityBean bean : activityBeans) {
                 Activity ac = activityBeanToActivity(bean);
                 acs.add(ac);
@@ -113,8 +114,8 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
     public static List<ActivityBean> activitiesToActivityBeans(List<Activity> activities) {
         List<ActivityBean> beans = new ArrayList<>();
 
-        if(activities!=null) {
-            for (Activity ac: activities) {
+        if (activities != null) {
+            for (Activity ac : activities) {
                 ActivityBean bean = activityToActivityBean(ac);
                 beans.add(bean);
             }
@@ -122,10 +123,10 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
         return beans;
     }
 
-    public static Activity activityBeanToActivity(ActivityBean activityBean){
+    public static Activity activityBeanToActivity(ActivityBean activityBean) {
         Activity ac = null;
 
-        if(activityBean != null){
+        if (activityBean != null) {
             ac = new Activity();
 
             ac.setIdActivity(activityBean.getIdActivity());
@@ -147,10 +148,10 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
     }
 
 
-    public static ActivityBean activityToActivityBean(Activity activity){
+    public static ActivityBean activityToActivityBean(Activity activity) {
         ActivityBean bean = null;
 
-        if(activity!=null){
+        if (activity != null) {
             bean = new ActivityBean();
 
             bean.setIdActivity(activity.getIdActivity());
@@ -176,10 +177,10 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
     }
 
     private ActivityDao getDao() throws Exception {
-        ActivityDao dao=null;
+        ActivityDao dao = null;
         try {
             dao = AccessContext.getDataBase().getActivityDao();
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e(tag, "Error en getDao()= " + e);
             throw e;
         }

@@ -19,9 +19,10 @@ import com.flexdule.android.manager.AndroidCookieAccessManager;
 import com.flexdule.android.manager.AndroidScheduleAccessManager;
 import com.flexdule.android.util.AK;
 import com.flexdule.android.util.AU;
-import com.flexdule.core.dtos.Schedule;
-import com.flexdule.core.manager.ScheduleAccessManager;
-import com.flexdule.core.util.AppColors;
+
+import flexdule.core.dtos.Schedule;
+import flexdule.core.model.managers.ScheduleAccessManager;
+import flexdule.core.util.AppColors;
 
 public class ScheduleEditActivity extends AppCompatActivity {
     private static final String tag = ScheduleEditActivity.class.getName();

@@ -6,11 +6,11 @@ import android.util.Log;
 import com.flexdule.android.model.sqlite.FlexduleDataBase;
 import com.flexdule.android.model.sqlite.daos.ScheduleDao;
 import com.flexdule.android.model.sqlite.entities.ScheduleBean;
-import com.flexdule.core.dtos.Schedule;
-import com.flexdule.core.manager.ScheduleAccessManager;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import flexdule.core.dtos.Schedule;
+import flexdule.core.model.managers.ScheduleAccessManager;
 
 public class AndroidScheduleAccessManager implements ScheduleAccessManager {
     private static final String tag = AndroidScheduleAccessManager.class.getSimpleName();

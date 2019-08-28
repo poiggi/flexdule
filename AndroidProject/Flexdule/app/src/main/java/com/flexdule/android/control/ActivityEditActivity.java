@@ -23,16 +23,17 @@ import com.flexdule.android.util.AK;
 import com.flexdule.android.util.AU;
 import com.flexdule.android.util.AndroidLog;
 import com.flexdule.android.util.AppTimePickerDialog;
-import com.flexdule.core.dtos.Activity;
-import com.flexdule.core.dtos.ActivityVars;
-import com.flexdule.core.dtos.Limits;
-import com.flexdule.core.dtos.NX;
-import com.flexdule.core.manager.ActivityAccessManager;
-import com.flexdule.core.manager.ScheduleActivitiesManager;
-import com.flexdule.core.util.AppColors;
-import com.flexdule.core.util.CoreLog;
-import com.flexdule.core.util.K;
-import com.flexdule.core.util.Time;
+
+import flexdule.core.dtos.Activity;
+import flexdule.core.dtos.ActivityVars;
+import flexdule.core.dtos.Limits;
+import flexdule.core.dtos.NX;
+import flexdule.core.model.managers.ActivityAccessManager;
+import flexdule.core.model.managers.ScheduleActivitiesManager;
+import flexdule.core.util.AppColors;
+import flexdule.core.util.CoreLog;
+import flexdule.core.util.K;
+import flexdule.core.util.Time;
 
 public class ActivityEditActivity extends AppCompatActivity {
     private static final String tag = ActivityEditActivity.class.getSimpleName();
@@ -460,40 +461,6 @@ public class ActivityEditActivity extends AppCompatActivity {
     private void timeLabel(TextView label, Time time) {
         if (time != null) label.setText(time.toString());
         else label.setText("-");
-    }
-
-    private void cleanLasts(String var) {
-        if (dataBindFinished) { // solo se limpiaran los "last" tras el bindeo
-            switch (var) {
-                case K.S:
-                    lastD = null;
-                    lastDn = null;
-                    lastDx = null;
-                    lastF = null;
-                    lastFn = null;
-                    lastFx = null;
-                    break;
-                case K.D:
-                    lastS = null;
-                    lastSn = null;
-                    lastSx = null;
-                    lastF = null;
-                    lastFn = null;
-                    lastFx = null;
-                    break;
-                case K.F:
-                    lastS = null;
-                    lastSn = null;
-                    lastSx = null;
-                    lastD = null;
-                    lastDn = null;
-                    lastDx = null;
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid var argument");
-            }
-        }
-        Log.i(tag, "DONE cleanLasts(). var= " + var);
     }
 
     private boolean validateAndAmendDisableFlexible(String var) {

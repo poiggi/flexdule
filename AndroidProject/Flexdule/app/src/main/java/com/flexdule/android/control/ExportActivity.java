@@ -12,14 +12,15 @@ import com.flexdule.android.control.sub.SendSchedulesRequestTask;
 import com.flexdule.android.manager.AndroidActivityAccessManager;
 import com.flexdule.android.manager.AndroidScheduleAccessManager;
 import com.flexdule.android.util.AU;
-import com.flexdule.core.dtos.Activity;
-import com.flexdule.core.dtos.Schedule;
-import com.flexdule.core.dtos.ScheduleWithActivities;
-import com.flexdule.core.manager.ActivityAccessManager;
-import com.flexdule.core.manager.ScheduleAccessManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import flexdule.core.dtos.Activity;
+import flexdule.core.dtos.Schedule;
+import flexdule.core.dtos.ScheduleWithActivities;
+import flexdule.core.model.managers.ActivityAccessManager;
+import flexdule.core.model.managers.ScheduleAccessManager;
 
 public class ExportActivity extends AppCompatActivity implements HelloRequestTask.HelloRequestTaskListener, SendSchedulesRequestTask.SendSchedulesRequestTaskListener {
     private static final String tag = ExportActivity.class.getSimpleName();

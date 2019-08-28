@@ -4,9 +4,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.flexdule.android.util.Client;
-import com.flexdule.core.dtos.ScheduleWithActivities;
 
 import java.util.List;
+
+import flexdule.core.dtos.ScheduleWithActivities;
 
 public class SendSchedulesRequestTask extends AsyncTask<String, Void, Boolean> {
     private static final String tag = SendSchedulesRequestTask.class.getSimpleName();

@@ -1,12 +1,12 @@
 package com.flexdule.android.util;
 
-import com.flexdule.core.dtos.ScheduleWithActivities;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
+
+import flexdule.core.dtos.ScheduleWithActivities;
 
 
 public class Client {
