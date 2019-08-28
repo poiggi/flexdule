@@ -1,4 +1,4 @@
-package connection;
+package flexdule.desktop.connection;
 
 import java.io.IOException;
 import java.net.ServerSocket;
