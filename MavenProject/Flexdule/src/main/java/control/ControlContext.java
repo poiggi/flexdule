@@ -1,4 +1,4 @@
-package desktop.control;
+package control;
 
 import java.awt.Color;
 
@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import desktop.view.BaseFrame;
+import view.BaseFrame;
 
 public class ControlContext {
 

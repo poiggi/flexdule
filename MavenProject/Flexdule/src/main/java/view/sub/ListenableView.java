@@ -1,4 +1,4 @@
-package desktop.view.sub;
+package view.sub;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
