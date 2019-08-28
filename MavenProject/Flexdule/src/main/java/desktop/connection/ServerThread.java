@@ -89,7 +89,7 @@ public class ServerThread extends Thread {
 	private void helloService() {
 		log.info("BEGIN helloService()");
 		try {
-			String helloRequest = (String) ois.readObject();
+			Boolean helloRequest = (Boolean) ois.readObject();
 			log.info("helloRequest= " + helloRequest);
 			oos.writeObject(helloRequest);
 			oos.flush();
