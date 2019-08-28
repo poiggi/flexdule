@@ -1,4 +1,4 @@
-package view;
+package flexdule.desktop.view;
 
 import java.awt.CardLayout;
 import java.awt.Color;

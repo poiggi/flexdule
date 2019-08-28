@@ -1,10 +1,10 @@
-package control;
+package flexdule.desktop.control;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import connection.Server;
+import flexdule.desktop.connection.Server;
 
 public class Main {
 	private static Logger log = LoggerFactory.getLogger(Main.class);

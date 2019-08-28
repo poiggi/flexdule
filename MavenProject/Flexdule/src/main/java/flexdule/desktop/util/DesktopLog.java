@@ -1,8 +1,8 @@
-package util;
+package flexdule.desktop.util;
 
 import org.slf4j.Logger;
 
-import util.CoreLog;
+import flexdule.core.util.CoreLog;
 
 public class DesktopLog implements CoreLog {
 	private Logger log;
