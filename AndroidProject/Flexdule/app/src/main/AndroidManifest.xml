@@ -2,24 +2,32 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.flexdule">
 
+
+    <!--android:debuggable="true"-->
+
     <application
         android:allowBackup="true"
-        android:debuggable="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@mipmap/fxd"
+        android:label="Flexdule"
+        android:roundIcon="@mipmap/fxd_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".android.control.ActivityEditActivity"></activity>
-        <activity android:name=".android.control.ScheduleEditActivity"></activity>
+        <activity android:name=".android.control.ScheduleListActivity"></activity>
+        <activity android:name=".android.control.ActivityEditActivity" />
+        <activity android:name=".android.control.ScheduleEditActivity" />
         <activity
             android:name=".android.control.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

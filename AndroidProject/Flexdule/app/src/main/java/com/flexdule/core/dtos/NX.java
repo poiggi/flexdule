@@ -21,8 +21,8 @@ public class NX implements Serializable {
 
     public void copyValues(NX nx) {
         if (nx != null) {
-            this.n.copyValue(nx.getN());
-            this.x.copyValue(nx.getX());
+            if(nx.getN()!=null) n = Time.copy(nx.getN());
+            if(nx.getX()!=null) x = Time.copy(nx.getX());
         } else {
             this.n = null;
             this.x = null;
@@ -34,8 +34,8 @@ public class NX implements Serializable {
             n = nx.getN();
             x = nx.getX();
         } else {
-            this.n = null;
-            this.x = null;
+            n = null;
+            x = null;
         }
     }
 

@@ -19,7 +19,7 @@ public interface ScheduleDao {
     @Query("SELECT * FROM Schedule WHERE idSchedule = :idSchedule")
     public ScheduleBean findById(Integer idSchedule);
 
-    @Query("SELECT * FROM Schedule")
+    @Query("SELECT * FROM Schedule ORDER BY name")
     public List<ScheduleBean> findAll();
 
     @Insert

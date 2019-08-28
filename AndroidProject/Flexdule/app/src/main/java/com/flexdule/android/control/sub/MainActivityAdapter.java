@@ -7,12 +7,13 @@ import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,12 +30,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapter.MainActivityViewHolder> {
+    private static final String tag = MainActivityAdapter.class.getSimpleName();
 
     private List<Activity> items;
-    private AdapterView.OnItemClickListener onItemClickListener;
 
     public MainActivityAdapter(List<Activity> items) {
-
         if (items != null) {
             this.items = items;
         } else {
@@ -44,25 +44,9 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
     @Override
     public MainActivityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_card_activity,
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_main_activity,
                 parent, false);
         return new MainActivityViewHolder(v);
-    }
-
-    public void updateData(ArrayList<Activity> viewModels) {
-        items.clear();
-        items.addAll(viewModels);
-        notifyDataSetChanged();
-    }
-
-    public void addItem(int position, Activity viewModel) {
-        items.add(position, viewModel);
-        notifyItemInserted(position);
-    }
-
-    public void removeItem(int position) {
-        items.remove(position);
-        notifyItemRemoved(position);
     }
 
     @Override
@@ -112,13 +96,23 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
             } else {
                 // Se muestran las dos etiquetas
 
-                if (fin.getN() != null && fin.getN().equals(conf.getN())) bold = true;
-                else bold = false;
-                bindDurationToLabel(fin.getN(), tv1, displayMode, bold);
+                boolean nBold;
+                if (fin.getN() != null && fin.getN().equals(conf.getN())) nBold = true;
+                else nBold = false;
 
-                if (fin.getX() != null && fin.getX().equals(conf.getX())) bold = true;
-                else bold = false;
-                bindDurationToLabel(fin.getX(), tv2, displayMode, bold);
+                boolean xBold;
+                if (fin.getX() != null && fin.getX().equals(conf.getX())) xBold = true;
+                else xBold = false;
+
+                // En caso de que la variable menor sea mayor que la mayor, se invierte
+                if(fin.getN() != null && fin.getX()!=null && fin.getN().greaterThan(fin.getX())){
+                    Time aux = Time.copy(fin.getX());
+                    fin.setX(Time.copy(fin.getN()));
+                    fin.setN(aux);
+                }
+
+                bindDurationToLabel(fin.getN(), tv1, displayMode, nBold);
+                bindDurationToLabel(fin.getX(), tv2, displayMode, xBold);
 
             }
         } else {
@@ -147,12 +141,13 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         }
 
         if (bold) {
-            tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
+            tv.setTextColor(ContextCompat.getColor(tv.getContext(), R.color.primary_text_light));
+//            tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
         }
 
         tv.setText(s);
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        tv.setTextAlignment(align);
+//        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+//        tv.setTextAlignment(align);
     }
 
     @Override
@@ -210,27 +205,22 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         }
 
         public void onCardClick() {
-            Toast.makeText(card.getContext(),
-                    "clic en card " + getAdapterPosition() + " de " + activity.getName(),
-                    Toast.LENGTH_SHORT).show();
+            //TODO implementar, de momento sustituye al edit
+            Intent intent = new Intent(card.getContext(), ActivityEditActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(AK.KEY_SERIALIZED_ACTIVITY, activity);
+
+            intent.putExtras(bundle);
+            card.getContext().startActivity(intent);
         }
 
         public void onActionClick() {
-            Toast.makeText(card.getContext(),
-                    "clic en action " + getAdapterPosition() + " de " + activity.getName(),
-                    Toast.LENGTH_SHORT).show();
         }
 
         public void onEditClick() {
-            Toast.makeText(card.getContext(),
-                    "clic en edit " + getAdapterPosition() + " de " + activity.getName(),
-                    Toast.LENGTH_SHORT).show();
-
             Intent intent = new Intent(card.getContext(), ActivityEditActivity.class);
             Bundle bundle = new Bundle();
-
-            bundle.putBoolean(AK.IS_EDITION, true);
-            bundle.putSerializable(AK.SERIALIZED_ACTIVITY, activity);
+            bundle.putSerializable(AK.KEY_SERIALIZED_ACTIVITY, activity);
 
             intent.putExtras(bundle);
             card.getContext().startActivity(intent);
