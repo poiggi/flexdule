@@ -13,10 +13,11 @@ import com.flexdule.android.control.sub.MainMenu;
 import com.flexdule.android.control.sub.ScheduleListAdapter;
 import com.flexdule.android.manager.AndroidScheduleAccessManager;
 import com.flexdule.android.util.AU;
-import com.flexdule.core.dtos.Schedule;
-import com.flexdule.core.manager.ScheduleAccessManager;
 
 import java.util.List;
+
+import flexdule.core.dtos.Schedule;
+import flexdule.core.model.managers.ScheduleAccessManager;
 
 public class ScheduleListActivity extends AppCompatActivity {
     private static final String tag = ScheduleListActivity.class.getSimpleName();

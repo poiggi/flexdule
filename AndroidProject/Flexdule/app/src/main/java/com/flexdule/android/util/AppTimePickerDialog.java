@@ -10,10 +10,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.flexdule.R;
-import com.flexdule.core.util.Time;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import flexdule.core.util.Time;
 
 public class AppTimePickerDialog extends Dialog implements View.OnClickListener {
     public static final String tag = AppTimePickerDialog.class.getSimpleName();
@@ -69,7 +70,7 @@ public class AppTimePickerDialog extends Dialog implements View.OnClickListener 
         if (spinner) picker.setIs24HourView(true);
         else picker.setIs24HourView(false);
         picker.setIs24HourView(true);
-        if(actual != null){
+        if (actual != null) {
             setPickerTime(actual);
         } else if (min != null) {
             setPickerTime(min);
@@ -80,7 +81,7 @@ public class AppTimePickerDialog extends Dialog implements View.OnClickListener 
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                 validateAndPickChange(hourOfDay, minute);
-                Log.d(tag, "pickerTime= " + picker.getHour() + ":" + picker.getMinute() + ", lastTime="+lastTime);
+                Log.d(tag, "pickerTime= " + picker.getHour() + ":" + picker.getMinute() + ", lastTime=" + lastTime);
             }
         });
     }
@@ -88,7 +89,7 @@ public class AppTimePickerDialog extends Dialog implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        Log.d(tag, "pickerTime= " + picker.getHour() + ":" + picker.getMinute() + ", lastTime="+lastTime);
+        Log.d(tag, "pickerTime= " + picker.getHour() + ":" + picker.getMinute() + ", lastTime=" + lastTime);
 
         switch (v.getId()) {
             case R.id.cancelButton:
@@ -96,7 +97,7 @@ public class AppTimePickerDialog extends Dialog implements View.OnClickListener 
                 dismiss();
                 break;
             case R.id.acceptButton:
-                Time result = new Time(picker.getHour()+":"+picker.getMinute());
+                Time result = new Time(picker.getHour() + ":" + picker.getMinute());
                 Log.i(tag, "Picker: Duration picked= " + result);
                 for (AppTimePickerListener listener : listeners) {
                     listener.onTimePicked(result);
@@ -143,22 +144,22 @@ public class AppTimePickerDialog extends Dialog implements View.OnClickListener 
         } else if (max != null && i.compareTo(max) > 0) {
             Log.d(tag, "picker changed to MAX time");
             setMax();
-        } else{
+        } else {
         }
 
-        if (!repeated){
+        if (!repeated) {
             lastTime = i;
         }
     }
 
-    protected void setMin(){
+    protected void setMin() {
         setPickerTime(min);
-        AU.toast("mínimo "+min, getContext(), 500);
+        AU.toast("mínimo " + min, getContext(), 500);
     }
 
-    protected void setMax(){
+    protected void setMax() {
         setPickerTime(max);
-        AU.toast("máximo "+max, getContext(), 500);
+        AU.toast("máximo " + max, getContext(), 500);
     }
 
     public void setPickerTime(Time time) {

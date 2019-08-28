@@ -6,14 +6,15 @@ import android.util.Log;
 import com.flexdule.android.manager.AndroidActivityAccessManager;
 import com.flexdule.android.manager.AndroidCookieAccessManager;
 import com.flexdule.android.manager.AndroidScheduleAccessManager;
-import com.flexdule.core.dtos.Activity;
-import com.flexdule.core.dtos.Cookie;
-import com.flexdule.core.dtos.Schedule;
-import com.flexdule.core.manager.ActivityAccessManager;
-import com.flexdule.core.manager.CookieAccesManager;
-import com.flexdule.core.manager.ScheduleAccessManager;
 
 import java.util.List;
+
+import flexdule.core.dtos.Activity;
+import flexdule.core.dtos.Cookie;
+import flexdule.core.dtos.Schedule;
+import flexdule.core.model.managers.ActivityAccessManager;
+import flexdule.core.model.managers.CookieAccesManager;
+import flexdule.core.model.managers.ScheduleAccessManager;
 
 public class DebugU {
     private static final String tag = DebugU.class.getName();
