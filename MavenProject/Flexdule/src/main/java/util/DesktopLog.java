@@ -1,8 +1,8 @@
-package desktop.util;
+package util;
 
 import org.slf4j.Logger;
 
-import core.util.CoreLog;
+import util.CoreLog;
 
 public class DesktopLog implements CoreLog {
 	private Logger log;

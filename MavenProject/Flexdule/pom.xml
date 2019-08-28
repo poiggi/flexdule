@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.github.poiggi</groupId>
-  <artifactId>Flexdule</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Flexdule</name>
+  <groupId>com.flexdule</groupId>
+  <artifactId>flexdule-desktop</artifactId>
+  <version>0.1.0</version>
+  <name>flexdule-desktop</name>
   <description>Aplicación de escritorio de Flexdule</description>
 
 
@@ -14,35 +14,6 @@
 	</properties>
 
 	<dependencies>
-
-		<!-- Hibernate -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-annotations</artifactId>
-			<version>3.5.6-Final</version>
-		</dependency>
-		<!-- Hibernate missing dependency -->
-		<dependency>
-			<groupId>javassist</groupId>
-			<artifactId>javassist</artifactId>
-			<version>3.12.1.GA</version>
-		</dependency>
-
-		<!-- Driver MySql -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.15</version>
-		</dependency>
-		
-		<!-- Driver Oracle -->
-		<!-- INSTALADO EN REPOSITORIO LOCAL -->
-		<dependency>
-		    <groupId>oracle</groupId>
-		    <artifactId>ojdbc14</artifactId>
-		    <version>1.0</version>
-		</dependency>
-		
 		<!-- Logs. Dependency -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -64,13 +35,11 @@
 			<version>3.7.4</version>
 		</dependency>
 		
-		<!-- Componente DatePicker -->
-		<!-- https://toedter.com/jcalendar/ -->
-		<!-- https://mvnrepository.com/artifact/com.toedter/jcalendar -->
+		<!-- Flexdule Core -->
 		<dependency>
-		    <groupId>com.toedter</groupId>
-		    <artifactId>jcalendar</artifactId>
-		    <version>1.4</version>
+			<groupId>com.flexdule</groupId>
+			<artifactId>flexdule-core</artifactId>
+			<version>0.1.0</version>
 		</dependency>
 		
 

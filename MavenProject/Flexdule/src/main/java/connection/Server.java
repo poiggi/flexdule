@@ -1,4 +1,4 @@
-package desktop.connection;
+package connection;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -1,4 +1,4 @@
-package desktop.connection;
+package connection;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,7 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import core.dtos.ScheduleWithActivities;
+import dtos.ScheduleWithActivities;
 
 public class ServerThread extends Thread {
 	private static Logger log = LoggerFactory.getLogger(Server.class);
