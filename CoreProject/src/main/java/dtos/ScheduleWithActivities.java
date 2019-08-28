@@ -27,7 +27,12 @@ public class ScheduleWithActivities implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ScheduleWithActivities [schedule=" + schedule + ", activties=" + activties + "]";
+		String s = "ScheduleWithActivities [ schedule=" + schedule + ", activties= ";
+		for (Activity ac : activties) {
+			s += "\n\t" + ac.toString();
+		}
+		s += "]\n";
+		return s;
 	}
 
 }
