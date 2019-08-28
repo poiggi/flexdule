@@ -19,7 +19,7 @@ public class AndroidScheduleAccessManager implements ScheduleAccessManager {
 
     public AndroidScheduleAccessManager(Context context) throws Exception {
         try {
-            AccessContext.createDataBase(context);
+            AccessContext.createDataBaseIfNotExists(context);
         } catch (Exception e) {
             Log.e(tag, "Error in AndroidScheduleAccessManager: " + e);
             throw e;

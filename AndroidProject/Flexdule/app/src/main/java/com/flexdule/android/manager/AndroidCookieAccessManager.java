@@ -18,7 +18,7 @@ public class AndroidCookieAccessManager implements CookieAccesManager {
 
     public AndroidCookieAccessManager(Context context) throws Exception {
         try {
-            AccessContext.createDataBase(context);
+            AccessContext.createDataBaseIfNotExists(context);
         } catch (Exception e) {
             Log.e(tag, "Error in AndroidCookieAccessManager: " + e);
             throw e;

@@ -18,7 +18,7 @@ public class AndroidActivityAccessManager implements ActivityAccessManager {
 
     public AndroidActivityAccessManager(Context context) throws Exception {
         try {
-            AccessContext.createDataBase(context);
+            AccessContext.createDataBaseIfNotExists(context);
         } catch (Exception e) {
             Log.e(tag, "Error in AndroidActivityAccessManager: " + e);
             throw e;

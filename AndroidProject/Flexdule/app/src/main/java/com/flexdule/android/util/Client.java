@@ -2,31 +2,23 @@ package com.flexdule.android.util;
 
 import com.flexdule.core.dtos.ScheduleWithActivities;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.Socket;
 import java.util.List;
 
 
-public class Client implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Client {
 
     public static final int HELLO = 0;
     public static final int SEND_SCHEDULES = 1;
-
-    public static final String TMP_CIFRADO_FILE = "cifradoClient.tmp";
 
     private Socket socketCliente;
     private String IP;
     private int port;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
-    private File StorageDirectory;
-    private String clientStorageFolder = "storageClient";
-    private byte[] claveSimetrica = "Salmon".getBytes();
 
     public Client(String IP, int port) throws Exception {
         this.IP = IP;
