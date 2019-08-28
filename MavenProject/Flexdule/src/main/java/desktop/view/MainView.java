@@ -41,7 +41,7 @@ public class MainView extends ListenableView<MainViewListener> {
 	 * Create the frame.
 	 */
 	public MainView() {
-		setBounds(100, 100, 393, 433);
+		setBounds(100, 100, 363, 313);
 		contentPane = new JPanel();
 		lblHolaaa = new JLabel("Hola Mundo");
 		lblHolaaa.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
