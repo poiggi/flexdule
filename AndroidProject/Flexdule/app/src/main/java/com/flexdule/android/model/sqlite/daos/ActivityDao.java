@@ -19,9 +19,6 @@ public interface ActivityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public List<Long> save(List<ActivityBean> activityBeans);
 
-    @Update
-    public int update(ActivityBean activityBean);
-
     @Query("DELETE FROM Activity WHERE idActivity = :idActivity")
     public int deleteById(Integer idActivity);
 

@@ -104,7 +104,7 @@ public class ActivityEditActivity extends AppCompatActivity {
         Log.i(tag, "BEGIN recoverData()");
 
         Intent intent = getIntent();
-        activity = (Activity) intent.getExtras().getSerializable(AK.SERIALIZED_ACTIVITY);
+        activity = (Activity) intent.getExtras().getSerializable(AK.KEY_SERIALIZED_ACTIVITY);
         conf = activity.getConfigVars();
         limits = activity.getLimits();
 

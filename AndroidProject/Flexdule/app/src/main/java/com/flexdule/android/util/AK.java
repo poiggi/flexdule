@@ -3,11 +3,10 @@ package com.flexdule.android.util;
 public class AK {
 
     /**
-     * Bundle keys
+     * Bundle Constants
      */
-    public static final String EXTRA_ID_SCHEDULE = "extraIdSchedule";
-    public static final String SERIALIZED_ACTIVITY = "serializedActivity";
-    public static final String IS_EDITION = "isEdition";
+    public static final String KEY_ID_SCHEDULE = "IdSchedule";
+    public static final String KEY_SERIALIZED_ACTIVITY = "serializedActivity";
 
 
 }

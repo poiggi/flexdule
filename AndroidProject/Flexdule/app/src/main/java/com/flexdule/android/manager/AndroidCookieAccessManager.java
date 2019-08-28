@@ -7,6 +7,7 @@ import com.flexdule.android.model.sqlite.daos.CookieDao;
 import com.flexdule.android.model.sqlite.entities.CookieBean;
 import com.flexdule.core.dtos.Cookie;
 import com.flexdule.core.manager.CookieAccesManager;
+import com.flexdule.core.util.K;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,5 +142,19 @@ public class AndroidCookieAccessManager implements CookieAccesManager {
             throw e;
         }
         return dao;
+    }
+
+    public void saveCooUsingSchedule(Integer idSchedule){
+        Log.i(tag, "DONE saveCooUsingSchedule(). idSchedule= " + idSchedule);
+
+        try {
+        Cookie cooUsingSchedule = new Cookie();
+        cooUsingSchedule.setName(K.COOKIE_USING_SCHEDULE);
+        cooUsingSchedule.setValue(idSchedule.toString());
+            saveCookie(cooUsingSchedule);
+        } catch (Exception e) {
+            Log.e(tag, "Error in saveCooUsingSchedule(): "+e);
+            e.printStackTrace();
+        }
     }
 }
