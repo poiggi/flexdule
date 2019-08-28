@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.flexdule">
 
-
-    <!--android:debuggable="true"-->
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/fxd"
@@ -12,7 +9,8 @@
         android:roundIcon="@mipmap/fxd_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".android.control.ScheduleListActivity"></activity>
+        <activity android:name=".android.control.ExportActivity"></activity>
+        <activity android:name=".android.control.ScheduleListActivity" />
         <activity android:name=".android.control.ActivityEditActivity" />
         <activity android:name=".android.control.ScheduleEditActivity" />
         <activity
