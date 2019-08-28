@@ -1,7 +1,7 @@
-package desktop.control;
+package control;
 
-import desktop.view.MainView;
-import desktop.view.MainView.MainViewListener;
+import view.MainView;
+import view.MainView.MainViewListener;
 
 public class MainControl implements MainViewListener {
 

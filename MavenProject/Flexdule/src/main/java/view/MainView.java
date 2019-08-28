@@ -1,4 +1,5 @@
-package desktop.view;
+package view;
+
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -10,9 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import desktop.view.MainView.MainViewListener;
-import desktop.view.sub.ListenableView;
 import net.miginfocom.swing.MigLayout;
+import view.MainView.MainViewListener;
+import view.sub.ListenableView;
 
 public class MainView extends ListenableView<MainViewListener> {
 
