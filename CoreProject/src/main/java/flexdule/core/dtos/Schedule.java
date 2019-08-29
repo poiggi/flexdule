@@ -3,8 +3,9 @@ package flexdule.core.dtos;
 import java.io.Serializable;
 
 public class Schedule implements Serializable {
-
-    private Integer idSchedule;
+	
+	private static final long serialVersionUID = -921043329640891000L;
+	private Integer idSchedule;
     private String name;
     private String color;
 

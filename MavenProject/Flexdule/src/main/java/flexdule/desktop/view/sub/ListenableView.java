@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public abstract class ListenableView<T> extends JPanel {
+	private static final long serialVersionUID = -2689319590305684019L;
 
 	protected List<T> listeners = new ArrayList<T>();
 

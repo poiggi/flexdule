@@ -1,13 +1,11 @@
 package flexdule.desktop.view;
 
-
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
@@ -16,8 +14,8 @@ import flexdule.desktop.view.sub.ListenableView;
 import net.miginfocom.swing.MigLayout;
 
 public class MainView extends ListenableView<MainViewListener> {
+	private static final long serialVersionUID = -7168410550803883969L;
 
-	private JPanel contentPane;
 	protected JLabel lblHolaaa;
 
 	/**
@@ -37,13 +35,11 @@ public class MainView extends ListenableView<MainViewListener> {
 		});
 	}
 
-
 	/**
 	 * Create the frame.
 	 */
 	public MainView() {
 		setBounds(100, 100, 363, 313);
-		contentPane = new JPanel();
 		lblHolaaa = new JLabel("Hola Mundo");
 		lblHolaaa.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		lblHolaaa.setHorizontalAlignment(SwingConstants.CENTER);

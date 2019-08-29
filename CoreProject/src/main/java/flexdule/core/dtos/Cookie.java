@@ -3,8 +3,8 @@ package flexdule.core.dtos;
 import java.io.Serializable;
 
 public class Cookie implements Serializable {
-
-    private String label;
+	private static final long serialVersionUID = 7893597018866013737L;
+	private String label;
     private String name;
     private String value;
 

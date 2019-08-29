@@ -3,6 +3,7 @@ package com.flexdule.android.util;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.List;
 
@@ -14,20 +15,26 @@ public class Client {
     public static final int HELLO = 0;
     public static final int SEND_SCHEDULES = 1;
 
+    public static final int TIMEOUT = 200;
+
     private Socket socketCliente;
-    private String IP;
+    private String ip;
     private int port;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
 
     public Client(String IP, int port) throws Exception {
-        this.IP = IP;
+        this.ip = IP;
         this.port = port;
     }
 
     private void connectServer() throws Exception {
         try {
-            socketCliente = new Socket(IP, port);
+//            socketCliente = new Socket(ip, port);
+
+            socketCliente = new Socket();
+            socketCliente.connect(new InetSocketAddress(ip, port), TIMEOUT);
+
             oos = new ObjectOutputStream(socketCliente.getOutputStream());
             ois = new ObjectInputStream(socketCliente.getInputStream());
         } catch (Exception e) {

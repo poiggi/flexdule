@@ -10,7 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class BaseFrame extends JFrame {
-
+	private static final long serialVersionUID = 4846072201999140066L;
+	
 	private JPanel contentPane;
 
 	/**

@@ -6,7 +6,8 @@ import java.io.Serializable;
 
 //algunos getters y setters directos de atributos, por referencia antinula ( es decir en caso de nulo la referencia es al hijo final)
 public class Activity implements Serializable {
-
+	private static final long serialVersionUID = 5042615882753137292L;
+	
 	private Integer idActivity;
 	private Integer idSchedule;
 	private String name;
