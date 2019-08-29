@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.flexdule">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -8,8 +11,9 @@
         android:label="Flexdule"
         android:roundIcon="@mipmap/fxd_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".android.control.ExportActivity"></activity>
+        android:theme="@style/AppTheme.NoActionBar"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".android.control.ExportActivity" />
         <activity android:name=".android.control.ScheduleListActivity" />
         <activity android:name=".android.control.ActivityEditActivity" />
         <activity android:name=".android.control.ScheduleEditActivity" />

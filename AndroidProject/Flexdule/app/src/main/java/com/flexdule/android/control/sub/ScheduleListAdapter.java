@@ -18,13 +18,11 @@ import com.flexdule.android.control.MainActivity;
 import com.flexdule.android.control.ScheduleEditActivity;
 import com.flexdule.android.manager.AndroidCookieAccessManager;
 import com.flexdule.android.util.AK;
-import com.flexdule.core.dtos.Cookie;
-import com.flexdule.core.dtos.Schedule;
-import com.flexdule.core.manager.CookieAccesManager;
-import com.flexdule.core.util.K;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import flexdule.core.dtos.Schedule;
 
 public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapter.ScheduleListViewHolder> {
     private static final String tag = ScheduleListAdapter.class.getSimpleName();
