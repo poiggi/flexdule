@@ -21,19 +21,20 @@ import com.flexdule.android.manager.AndroidScheduleAccessManager;
 import com.flexdule.android.util.AK;
 import com.flexdule.android.util.AU;
 import com.flexdule.android.util.AndroidLog;
-import com.flexdule.core.dtos.Activity;
-import com.flexdule.core.dtos.Cookie;
-import com.flexdule.core.dtos.Schedule;
-import com.flexdule.core.manager.ActivityAccessManager;
-import com.flexdule.core.manager.ScheduleAccessManager;
-import com.flexdule.core.manager.ScheduleActivitiesManager;
-import com.flexdule.core.util.AppColors;
-import com.flexdule.core.util.CoreLog;
-import com.flexdule.core.util.K;
-import com.flexdule.core.util.Time;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import flexdule.core.dtos.Activity;
+import flexdule.core.dtos.Cookie;
+import flexdule.core.dtos.Schedule;
+import flexdule.core.model.managers.ActivityAccessManager;
+import flexdule.core.model.managers.ScheduleAccessManager;
+import flexdule.core.model.managers.ScheduleActivitiesManager;
+import flexdule.core.util.AppColors;
+import flexdule.core.util.CoreLog;
+import flexdule.core.util.K;
+import flexdule.core.util.Time;
 
 public class MainActivity extends AppCompatActivity {
     private static final String tag = MainActivity.class.getSimpleName();

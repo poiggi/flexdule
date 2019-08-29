@@ -11,14 +11,14 @@ public class AccessContext {
 
     private static FlexduleDataBase flexduleDataBase;
 
-    public static void createDataBase(Context context) throws Exception {
+    public static void createDataBaseIfNotExists(Context context) throws Exception {
         try {
             if (flexduleDataBase == null) {
                 Log.i(tag, "Creating new Room Database instance.");
                 flexduleDataBase = Room.databaseBuilder(context, FlexduleDataBase.class, "flexdule-database").allowMainThreadQueries().build();
             }
         } catch (Exception e) {
-            Log.e(tag, "Error in createDataBase: " + e);
+            Log.e(tag, "Error in createDataBaseIfNotExists: " + e);
         }
     }
 

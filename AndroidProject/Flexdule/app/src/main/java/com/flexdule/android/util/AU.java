@@ -3,7 +3,6 @@ package com.flexdule.android.util;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -32,13 +31,13 @@ public class AU {
         }
     }
 
-    public static void toast(String msg, Context context){
-        toast(msg,context, Toast.LENGTH_LONG);
+    public static void toast(String msg, Context context) {
+        toast(msg, context, Toast.LENGTH_LONG);
     }
 
-    public static void toast(String msg, Context context, int length ){
+    public static void toast(String msg, Context context, int length) {
         Toast toast = Toast.makeText(context, msg, length);
-        toast.setGravity(Gravity.BOTTOM , 0, 5);
+        toast.setGravity(Gravity.BOTTOM, 0, 5);
         View view = toast.getView();
 
         //Gets the actual oval background of the Toast then sets the colour filter

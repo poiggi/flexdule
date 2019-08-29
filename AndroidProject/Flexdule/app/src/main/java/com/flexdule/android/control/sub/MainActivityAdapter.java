@@ -3,31 +3,28 @@ package com.flexdule.android.control.sub;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.flexdule.R;
 import com.flexdule.android.control.ActivityEditActivity;
 import com.flexdule.android.util.AK;
-import com.flexdule.core.dtos.Activity;
-import com.flexdule.core.dtos.NX;
-import com.flexdule.core.util.K;
-import com.flexdule.core.util.Time;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import flexdule.core.dtos.Activity;
+import flexdule.core.dtos.NX;
+import flexdule.core.util.K;
+import flexdule.core.util.Time;
 
 public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapter.MainActivityViewHolder> {
     private static final String tag = MainActivityAdapter.class.getSimpleName();
@@ -105,7 +102,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
                 else xBold = false;
 
                 // En caso de que la variable menor sea mayor que la mayor, se invierte
-                if(fin.getN() != null && fin.getX()!=null && fin.getN().greaterThan(fin.getX())){
+                if (fin.getN() != null && fin.getX() != null && fin.getN().greaterThan(fin.getX())) {
                     Time aux = Time.copy(fin.getX());
                     fin.setX(Time.copy(fin.getN()));
                     fin.setN(aux);

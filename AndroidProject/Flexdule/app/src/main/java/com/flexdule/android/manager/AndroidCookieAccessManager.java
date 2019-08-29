@@ -5,12 +5,13 @@ import android.util.Log;
 
 import com.flexdule.android.model.sqlite.daos.CookieDao;
 import com.flexdule.android.model.sqlite.entities.CookieBean;
-import com.flexdule.core.dtos.Cookie;
-import com.flexdule.core.manager.CookieAccesManager;
-import com.flexdule.core.util.K;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import flexdule.core.dtos.Cookie;
+import flexdule.core.model.managers.CookieAccesManager;
+import flexdule.core.util.K;
 
 public class AndroidCookieAccessManager implements CookieAccesManager {
     private static final String tag = AndroidCookieAccessManager.class.getSimpleName();
@@ -18,7 +19,7 @@ public class AndroidCookieAccessManager implements CookieAccesManager {
 
     public AndroidCookieAccessManager(Context context) throws Exception {
         try {
-            AccessContext.createDataBase(context);
+            AccessContext.createDataBaseIfNotExists(context);
         } catch (Exception e) {
             Log.e(tag, "Error in AndroidCookieAccessManager: " + e);
             throw e;

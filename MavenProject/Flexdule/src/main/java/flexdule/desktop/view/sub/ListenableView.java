@@ -1,4 +1,4 @@
-package view.sub;
+package flexdule.desktop.view.sub;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;

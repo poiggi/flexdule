@@ -7,10 +7,22 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.flexdule.R;
+import com.flexdule.android.control.sub.HelloRequestTask;
+import com.flexdule.android.control.sub.SendSchedulesRequestTask;
+import com.flexdule.android.manager.AndroidActivityAccessManager;
+import com.flexdule.android.manager.AndroidScheduleAccessManager;
 import com.flexdule.android.util.AU;
-import com.flexdule.android.util.Client;
 
-public class ExportActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+import flexdule.core.dtos.Activity;
+import flexdule.core.dtos.Schedule;
+import flexdule.core.dtos.ScheduleWithActivities;
+import flexdule.core.model.managers.ActivityAccessManager;
+import flexdule.core.model.managers.ScheduleAccessManager;
+
+public class ExportActivity extends AppCompatActivity implements HelloRequestTask.HelloRequestTaskListener, SendSchedulesRequestTask.SendSchedulesRequestTaskListener {
     private static final String tag = ExportActivity.class.getSimpleName();
 
     EditText exportIp;
@@ -27,25 +39,61 @@ public class ExportActivity extends AppCompatActivity {
 
     public void onClickExport(View view) {
         Log.i(tag, "BEGIN onClickExport()");
+
+        try {
+            ScheduleAccessManager schM = new AndroidScheduleAccessManager(getApplicationContext());
+            ActivityAccessManager actM = new AndroidActivityAccessManager(getApplicationContext());
+
+            List<Schedule> schedules = schM.findAllSchedules();
+            List<ScheduleWithActivities> schedulesWA = new ArrayList<>();
+            for (Schedule sche : schedules) {
+                ScheduleWithActivities schWA = new ScheduleWithActivities();
+                schWA.setSchedule(sche);
+                List<Activity> acs = actM.findActivitiesBySchedule(sche.getIdSchedule());
+                schWA.setActivties(acs);
+                schedulesWA.add(schWA);
+            }
+            Log.i(tag, "schedulesWA= " + schedulesWA);
+
+            SendSchedulesRequestTask task = new SendSchedulesRequestTask(this, schedulesWA);
+            task.execute(exportIp.getText().toString());
+
+        } catch (Exception e) {
+            Log.e(tag, "Error in onClickExport(): " + e);
+            AU.toast("No se han podido recuperar los horarios para exportar." + e, this);
+            e.printStackTrace();
+        }
+
         Log.i(tag, "END onClickExport()");
     }
 
     public void onClickTestConnection(View view) {
-        Log.i(tag, "BEGIN onClickTestConnection() exportIp= " + exportIp.getText());
-        boolean ok = false;
-        try {
-            Client client = new Client(exportIp.getText() + "", 4400);
-            client.helloRequest();
-        } catch (Exception e) {
-            Log.e(tag, "Error in onClickTestConnection(): " + e);
-        }
+        Log.i(tag, "DONE onClickTestConnection() exportIp= " + exportIp.getText());
+        HelloRequestTask task = new HelloRequestTask(this);
+        task.execute(exportIp.getText().toString());
+    }
 
-        if (ok) {
+    @Override
+    public void onHelloRequest(Boolean result) {
+        if (result) {
             AU.toast("Conexión exitosa!", this, 1000);
         } else {
             AU.toast("No se ha podido conectar", this, 1000);
         }
-
-        Log.i(tag, "END onClickTestConnection() ");
     }
+
+    @Override
+    public void onSendSchedulesRequest(Boolean result) {
+        if (result) {
+            AU.toast("Horarios exportados con éxito", this, 2500);
+        } else {
+            AU.toast("No se han podido exportar los horarios", this, 2500);
+        }
+    }
+
+    public void onClickBack(View view) {
+        finish();
+    }
+
+
 }

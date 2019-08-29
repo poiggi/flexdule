@@ -1,4 +1,4 @@
-package view;
+package flexdule.desktop.view;
 
 
 import java.awt.Color;
@@ -11,9 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import flexdule.desktop.view.MainView.MainViewListener;
+import flexdule.desktop.view.sub.ListenableView;
 import net.miginfocom.swing.MigLayout;
-import view.MainView.MainViewListener;
-import view.sub.ListenableView;
 
 public class MainView extends ListenableView<MainViewListener> {
 

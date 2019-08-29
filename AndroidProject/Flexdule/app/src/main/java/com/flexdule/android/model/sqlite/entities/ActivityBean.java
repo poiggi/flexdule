@@ -1,26 +1,23 @@
 package com.flexdule.android.model.sqlite.entities;
 
-import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
-
-import com.flexdule.core.dtos.Schedule;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
-@Entity(tableName = "Activity" ,
-        foreignKeys ={ @ForeignKey(
+@Entity(tableName = "Activity",
+        foreignKeys = {@ForeignKey(
                 onDelete = CASCADE,
                 entity = ScheduleBean.class,
-                parentColumns = "idSchedule",childColumns = "idSchedule")},
-                indices = { @Index("idSchedule"),
-                }
-        )
+                parentColumns = "idSchedule", childColumns = "idSchedule")},
+        indices = {@Index("idSchedule"),
+        }
+)
 public class ActivityBean implements Serializable {
 
     @PrimaryKey(autoGenerate = true)

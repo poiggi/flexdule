@@ -1,7 +1,7 @@
-package control;
+package flexdule.desktop.control;
 
-import view.MainView;
-import view.MainView.MainViewListener;
+import flexdule.desktop.view.MainView;
+import flexdule.desktop.view.MainView.MainViewListener;
 
 public class MainControl implements MainViewListener {
 
