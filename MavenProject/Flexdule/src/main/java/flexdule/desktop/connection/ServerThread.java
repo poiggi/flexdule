@@ -78,7 +78,7 @@ public class ServerThread extends Thread {
 		try {
 			List<ScheduleWithActivities> schedules = (List<ScheduleWithActivities>) ois.readObject();
 			for (ScheduleWithActivities schedule : schedules) {
-				log.info(schedules.toString());
+				log.info(schedule.toString());
 			}
 		} catch (Exception e) {
 			log.error("ERROR in sendSchedulesService(): " + e);

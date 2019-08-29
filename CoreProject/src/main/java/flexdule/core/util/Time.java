@@ -10,8 +10,9 @@ import java.util.regex.Pattern;
  * Representa tiempo en horas, minutos y segundos.
  */
 public class Time implements Comparable<Time>, Serializable {
-
-    /**
+	private static final long serialVersionUID = 2880114258865402397L;
+	
+	/**
      * Duración total en segundos
      */
     protected int s;

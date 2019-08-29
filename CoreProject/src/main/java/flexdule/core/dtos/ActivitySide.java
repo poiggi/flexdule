@@ -6,8 +6,9 @@ import flexdule.core.util.K;
 import flexdule.core.util.Time;
 
 public class ActivitySide implements Serializable {
-
-    public Time s, d, f;
+	private static final long serialVersionUID = -5142660684828226213L;
+	
+	public Time s, d, f;
     public Time limitS, limitF;
 
     public ActivitySide() {
