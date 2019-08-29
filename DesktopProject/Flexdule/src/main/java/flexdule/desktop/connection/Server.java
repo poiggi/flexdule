@@ -1,6 +1,7 @@
 package flexdule.desktop.connection;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -25,14 +26,15 @@ public class Server {
 
 	ServerSocket serverSocket;
 
-	public void startListen() throws Exception {
+	public Thread startListen() throws BindException, Exception {
 		log.info("BEGIN startListen(). port=" + port);
 
+		Thread t = null;
 		try {
 			serverSocket = new ServerSocket(port);
 			log.info("Services started");
 
-			new Thread(new Runnable() {
+			t = new Thread(new Runnable() {
 				@Override
 				public void run() {
 
@@ -44,18 +46,24 @@ public class Server {
 							new ServerThread(socket).start();
 						} catch (Exception e) {
 							log.error("Exception in [Thread]startListen(): " + e);
+							break;
 						}
 					}
 					closeServer();
 				}
-			}).start();
+			});
+			t.start();
 
+		} catch (BindException e) {
+			log.error("Error in startListen(): " + e);
+			throw e;
 		} catch (Exception e) {
 			log.error("Error in startListen(): " + e);
 			closeServer();
 			throw e;
 		}
 		log.info("END startListen()");
+		return t;
 	}
 
 	public void thisIsLastService() {

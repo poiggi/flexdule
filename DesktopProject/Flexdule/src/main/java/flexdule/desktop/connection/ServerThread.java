@@ -1,4 +1,4 @@
-package connection;
+package flexdule.desktop.connection;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,7 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import dtos.ScheduleWithActivities;
+import flexdule.core.dtos.ScheduleWithActivities;
 
 public class ServerThread extends Thread {
 	private static Logger log = LoggerFactory.getLogger(Server.class);
