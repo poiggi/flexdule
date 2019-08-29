@@ -1,4 +1,4 @@
-package flexdule.desktop.connection;
+package connection;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,7 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import flexdule.core.dtos.ScheduleWithActivities;
+import dtos.ScheduleWithActivities;
 
 public class ServerThread extends Thread {
 	private static Logger log = LoggerFactory.getLogger(Server.class);
@@ -78,7 +78,7 @@ public class ServerThread extends Thread {
 		try {
 			List<ScheduleWithActivities> schedules = (List<ScheduleWithActivities>) ois.readObject();
 			for (ScheduleWithActivities schedule : schedules) {
-				log.info(schedule.toString());
+				log.info(schedules.toString());
 			}
 		} catch (Exception e) {
 			log.error("ERROR in sendSchedulesService(): " + e);

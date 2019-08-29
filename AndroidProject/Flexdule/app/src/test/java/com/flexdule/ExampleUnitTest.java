@@ -1,9 +1,5 @@
 package com.flexdule;
 
-import com.flexdule.core.dtos.Activity;
-import com.flexdule.core.dtos.ActivityVars;
-import com.flexdule.core.util.Time;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;

@@ -1,18 +1,16 @@
-package flexdule.desktop.view;
+package view;
 
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class BaseFrame extends JFrame {
-	private static final long serialVersionUID = 4846072201999140066L;
-	
+
 	private JPanel contentPane;
 
 	/**
@@ -49,12 +47,8 @@ public class BaseFrame extends JFrame {
 		setSize(new Dimension(1200, 900));
 		setLocationRelativeTo(null);
 
-		ImageIcon myAppImage = new ImageIcon(this.getClass().getResource("/img/fxd-icon.png"));
-		if (myAppImage != null)
-			setIconImage(myAppImage.getImage());
-
 		setVisible(true);
-		setTitle("Flexdule");
+		setTitle("Hibernate");
 	}
 
 	public void showWarning(String message) {

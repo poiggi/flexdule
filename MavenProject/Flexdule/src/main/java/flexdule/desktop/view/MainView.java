@@ -1,12 +1,12 @@
 package flexdule.desktop.view;
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import flexdule.desktop.view.MainView.MainViewListener;
@@ -30,6 +29,7 @@ public class MainView extends ListenableView<MainViewListener> {
 	protected JLabel labelServerState;
 	protected JLabel labelMessage;
 	protected JLabel lblBtnReconnect;
+
 
 	/**
 	 * Launch the application.
@@ -48,7 +48,6 @@ public class MainView extends ListenableView<MainViewListener> {
 		});
 	}
 
-
 	/**
 	 * Create the frame.
 	 */
@@ -57,6 +56,7 @@ public class MainView extends ListenableView<MainViewListener> {
 		contentPane = new JPanel();
 		setLayout(new MigLayout("", "[100px,grow][180px,grow,center][100px,grow]",
 				"[50px,grow][grow][50px,grow][40px][40px][40px][50px:n,grow][75px,grow]"));
+
 
 		setBackground(Color.WHITE);
 		
