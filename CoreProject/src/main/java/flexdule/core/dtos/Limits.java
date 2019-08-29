@@ -18,6 +18,7 @@ public class Limits implements Serializable {
     }
 
     public Limits(Limits ls) {
+    	cleanInit();
         copyValues(ls);
     }
 

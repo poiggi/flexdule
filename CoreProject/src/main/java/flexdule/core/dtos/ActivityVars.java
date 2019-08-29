@@ -19,31 +19,32 @@ public class ActivityVars implements Serializable {
     }
 
     public ActivityVars(ActivityVars av) {
+        cleanInit();
         copyValues(av);
     }
 
-    public void cleanInit(){
+    public void cleanInit() {
         s = new NX();
         d = new NX();
         f = new NX();
     }
 
-    public void copyValues(ActivityVars av){
-        if(av != null){
+    public void copyValues(ActivityVars av) {
+        if (av != null) {
             s.copyValues(av.getS());
             d.copyValues(av.getD());
             f.copyValues(av.getF());
-        }else{
+        } else {
             cleanInit();
         }
     }
 
-    public void copyRefs(ActivityVars av){
-        if(av != null){
+    public void copyRefs(ActivityVars av) {
+        if (av != null) {
             s = av.getS();
             d = av.getD();
             f = av.getF();
-        }else{
+        } else {
             cleanInit();
         }
     }
