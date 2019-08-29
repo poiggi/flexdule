@@ -78,7 +78,7 @@
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>libs/</classpathPrefix>
 							<mainClass>
-								desktop.Main
+								flexdule.desktop.control.Main
 							</mainClass>
 						</manifest>
 					</archive>
