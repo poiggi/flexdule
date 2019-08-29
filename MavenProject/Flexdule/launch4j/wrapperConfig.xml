@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>D:\GithubRepos\flexdule_desktop\MavenProject\Flexdule\target\flexdule-desktop-0.1.0.jar</jar>
+  <outfile>Flexdule-Exporter.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir></chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>D:\GithubRepos\flexdule_desktop\MavenProject\Flexdule\src\main\resources\img\Fxd.ico</icon>
+  <classPath>
+    <mainClass>flexdule.desktop.control.Main</mainClass>
+    <cp>libs/slf4j-api-1.7.5.jar</cp>
+    <cp>libs/log4j-slf4j-impl-2.11.2.jar</cp>
+    <cp>libs/log4j-api-2.11.2.jar</cp>
+    <cp>libs/log4j-core-2.11.2.jar</cp>
+    <cp>libs/miglayout-3.7.4.jar</cp>
+    <cp>libs/flexdule-core-0.1.0.jar</cp>
+  </classPath>
+  <jre>
+    <path>jre</path>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion>1.7.0</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <runtimeBits>64/32</runtimeBits>
+  </jre>
+</launch4jConfig>
