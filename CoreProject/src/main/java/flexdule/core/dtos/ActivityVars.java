@@ -139,4 +139,5 @@ public class ActivityVars implements Serializable {
 	public int hashCode() {
 		return Objects.hash(s, d, f);
 	}
+
 }
