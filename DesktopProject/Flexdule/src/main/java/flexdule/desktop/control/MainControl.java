@@ -47,9 +47,6 @@ public class MainControl implements MainViewListener {
 		log.info("BEGIN connect()");
 		
 		mainView.setLabelMessage("Conectando a la red...", 60000);
-		if (server != null) {
-			server.closeServer();
-		}
 
 		if (findIp() && startServer()) {
 			mainView.setLabelMessage("Conexión a la red exitosa", 3000);
@@ -86,7 +83,13 @@ public class MainControl implements MainViewListener {
 		boolean inUse = false;
 
 		try {
-			server = new Server(4400);
+
+			if (server == null) {
+				server = new Server(4400);
+			}
+			if (server.getServerSocket() != null && !server.getServerSocket().isClosed()) {
+				server.closeServer();
+			}
 			t = server.startListen();
 		} catch (BindException e) {
 			log.error("ERROR in startServer(): " + e);

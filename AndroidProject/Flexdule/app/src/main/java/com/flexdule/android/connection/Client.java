@@ -1,4 +1,4 @@
-package com.flexdule.android.util;
+package com.flexdule.android.connection;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -15,7 +15,7 @@ public class Client {
     public static final int HELLO = 0;
     public static final int SEND_SCHEDULES = 1;
 
-    public static final int TIMEOUT = 200;
+    public static final int TIMEOUT = 2000;
 
     private Socket socketCliente;
     private String ip;
@@ -30,8 +30,6 @@ public class Client {
 
     private void connectServer() throws Exception {
         try {
-//            socketCliente = new Socket(ip, port);
-
             socketCliente = new Socket();
             socketCliente.connect(new InetSocketAddress(ip, port), TIMEOUT);
 

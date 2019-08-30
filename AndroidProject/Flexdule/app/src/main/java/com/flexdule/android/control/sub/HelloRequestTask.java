@@ -3,7 +3,7 @@ package com.flexdule.android.control.sub;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.flexdule.android.util.Client;
+import com.flexdule.android.connection.Client;
 
 public class HelloRequestTask extends AsyncTask<String, Void, Boolean> {
     private static final String tag = HelloRequestTask.class.getSimpleName();

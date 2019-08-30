@@ -1,10 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.flexdule</groupId>
-  <artifactId>flexdule-desktop</artifactId>
-  <version>0.1.0</version>
-  <name>flexdule-desktop</name>
-  <description>Aplicación de escritorio de Flexdule</description>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.flexdule</groupId>
+	<artifactId>flexdule-desktop</artifactId>
+	<version>0.1.0</version>
+	<name>flexdule-desktop</name>
+	<description>Aplicación de escritorio de Flexdule</description>
 
 
 	<!-- Por defecto Maven usa JDK 1.5 -->
@@ -34,58 +36,43 @@
 			<artifactId>miglayout</artifactId>
 			<version>3.7.4</version>
 		</dependency>
-		
+
 		<!-- Flexdule Core -->
 		<dependency>
 			<groupId>com.flexdule</groupId>
 			<artifactId>flexdule-core</artifactId>
 			<version>0.1.0</version>
 		</dependency>
-		
+
 
 	</dependencies>
 
 	<build>
 		<plugins>
 
-			<!-- GENERACIÓN DEL JAR: Se crea una carpeta con las dependencias -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
+				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>copy-dependencies</id>
-						<phase>prepare-package</phase>
+						<phase>package</phase>
 						<goals>
-							<goal>copy-dependencies</goal>
+							<goal>single</goal>
 						</goals>
-						<configuration>
-							<outputDirectory>
-								${project.build.directory}/libs
-							</outputDirectory>
-						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-			
-			<!-- GENERACIÓN DEL JAR: Se crea el .jar con el MANIFEST -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 					<archive>
 						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>libs/</classpathPrefix>
-							<mainClass>
-								flexdule.desktop.control.Main
-							</mainClass>
+							<mainClass>flexdule.desktop.control.Main</mainClass>
 						</manifest>
 					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
 				</configuration>
 			</plugin>
 
 		</plugins>
 	</build>
-  
+
 </project>

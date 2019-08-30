@@ -15,8 +15,6 @@ public class Server {
 	public static final int KEY_MEDIUM = 1;
 	public static final int KEY_LONG = 2;
 
-
-
 	protected int port;
 	protected boolean stop;
 
@@ -24,15 +22,17 @@ public class Server {
 		this.port = port;
 	}
 
-	ServerSocket serverSocket;
+	private ServerSocket serverSocket;
 
 	public Thread startListen() throws BindException, Exception {
 		log.info("BEGIN startListen(). port=" + port);
 
 		Thread t = null;
 		try {
-			serverSocket = new ServerSocket(port);
-			log.info("Services started");
+			if (serverSocket == null || serverSocket.isClosed()) {
+				serverSocket = new ServerSocket(port);
+			}
+			log.info("Launching services...");
 
 			t = new Thread(new Runnable() {
 				@Override
@@ -81,4 +81,13 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
+
+	public ServerSocket getServerSocket() {
+		return serverSocket;
+	}
+
+	public void setServerSocket(ServerSocket serverSocket) {
+		this.serverSocket = serverSocket;
+	}
+
 }

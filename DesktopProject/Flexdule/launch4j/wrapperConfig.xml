@@ -2,7 +2,7 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>D:\GithubRepos\flexdule_desktop\MavenProject\Flexdule\target\flexdule-desktop-0.1.0.jar</jar>
+  <jar>flexdule-desktop-0.1.0-jar-with-dependencies.jar</jar>
   <outfile>Flexdule-Exporter.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
@@ -13,7 +13,7 @@
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
-  <icon>D:\GithubRepos\flexdule_desktop\MavenProject\Flexdule\src\main\resources\img\Fxd.ico</icon>
+  <icon>Fxd.ico</icon>
   <classPath>
     <mainClass>flexdule.desktop.control.Main</mainClass>
     <cp>libs/slf4j-api-1.7.5.jar</cp>

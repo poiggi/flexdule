@@ -25,7 +25,7 @@ public interface ActivityDao {
     @Query("SELECT * FROM Activity WHERE idActivity = :idActivity")
     public ActivityBean findById(Integer idActivity);
 
-    @Query("SELECT * FROM Activity WHERE idSchedule = :idSchedule order by idSchedule")
+    @Query("SELECT * FROM Activity WHERE idSchedule = :idSchedule order by idActivity")
     public List<ActivityBean> findBySchedule(Integer idSchedule);
 
     @Query("SELECT * FROM Activity")

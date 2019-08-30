@@ -45,7 +45,7 @@ public class BaseFrame extends JFrame {
 
 //		pack();
 //		setMinimumSize(getSize());
-		setSize(new Dimension(1200, 900));
+		setSize(new Dimension(801, 701));
 		setLocationRelativeTo(null);
 
 		ImageIcon myAppImage = new ImageIcon(this.getClass().getResource("/img/fxd-icon.png"));

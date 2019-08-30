@@ -1,2 +1,4 @@
-/target/
-/launch4j/jre
+target/
+launch4j/jre
+**/*.exe
+**/*.jar

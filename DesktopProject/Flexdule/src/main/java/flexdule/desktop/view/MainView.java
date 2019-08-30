@@ -53,7 +53,7 @@ public class MainView extends ListenableView<MainViewListener> {
 	 * Create the frame.
 	 */
 	public MainView() {
-		setBounds(100, 100, 715, 636);
+		setBounds(100, 100, 739, 602);
 		contentPane = new JPanel();
 		setLayout(new MigLayout("", "[100px,grow][180px,grow,center][100px,grow]",
 				"[50px,grow][grow][50px,grow][40px][40px][40px][50px:n,grow][75px,grow]"));

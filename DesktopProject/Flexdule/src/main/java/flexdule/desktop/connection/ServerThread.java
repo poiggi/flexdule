@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import flexdule.core.dtos.ScheduleWithActivities;
+import flexdule.desktop.model.daos.SchedulesWithActivitiesXmlDao;
 
 public class ServerThread extends Thread {
 	private static Logger log = LoggerFactory.getLogger(Server.class);
@@ -76,10 +77,11 @@ public class ServerThread extends Thread {
 	private void sendSchedulesService() {
 		log.info("BEGIN sendSchedulesService()");
 		try {
+
 			List<ScheduleWithActivities> schedules = (List<ScheduleWithActivities>) ois.readObject();
-			for (ScheduleWithActivities schedule : schedules) {
-				log.info(schedules.toString());
-			}
+			log.info("Schedules will be exported to XML: " + schedules);
+			SchedulesWithActivitiesXmlDao.export(schedules);
+
 		} catch (Exception e) {
 			log.error("ERROR in sendSchedulesService(): " + e);
 		}

@@ -3,7 +3,7 @@ package com.flexdule.android.control.sub;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.flexdule.android.util.Client;
+import com.flexdule.android.connection.Client;
 
 import java.util.List;
 
