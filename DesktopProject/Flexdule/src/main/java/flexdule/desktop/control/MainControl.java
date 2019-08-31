@@ -8,10 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import flexdule.desktop.connection.Server;
+import flexdule.desktop.connection.Server.ServerListener;
 import flexdule.desktop.view.MainView;
 import flexdule.desktop.view.MainView.MainViewListener;
 
-public class MainControl implements MainViewListener {
+public class MainControl implements MainViewListener, ServerListener {
 	private static Logger log = LoggerFactory.getLogger(MainView.class);
 
 	protected ControlContext controlContext;
@@ -86,6 +87,7 @@ public class MainControl implements MainViewListener {
 
 			if (server == null) {
 				server = new Server(4400);
+				server.addListener(this);
 			}
 			if (server.getServerSocket() != null && !server.getServerSocket().isClosed()) {
 				server.closeServer();
@@ -111,5 +113,21 @@ public class MainControl implements MainViewListener {
 		return ok;
 	}
 
+	@Override
+	public void onHelloService(Boolean hello) {
+		log.info("DOING onHelloService(). hello= " + hello);
+
+		if (hello == true) {
+			mainView.setLabelMessage("Conexión con dispositivo móvil exitosa!", 5000);
+		}
+
+	}
+
+	@Override
+	public void onSendSchedulesService(String fileName) {
+		log.info("DOING onHelloService(). fileNmae= " + fileName);
+		mainView.setLabelMessage("Se ha exportado con éxito un horario: " + fileName,
+				60000);
+	}
 
 }

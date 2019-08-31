@@ -374,7 +374,7 @@
                 android:paddingStart="10pt"
                 android:paddingTop="2pt"
                 android:paddingBottom="2pt"
-                android:text="Fin"
+                android:text="Finalización"
                 android:textColor="@android:color/secondary_text_light"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"

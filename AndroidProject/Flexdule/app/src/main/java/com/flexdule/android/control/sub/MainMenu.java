@@ -17,15 +17,27 @@ public class MainMenu {
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                Intent browserIntent;
                 switch (item.getItemId()) {
                     case R.id.help:
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/poiggi/flexdule"));
+                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://flexdule.wordpress.com/"));
+                        activity.startActivity(browserIntent);
+                        return true;
+                    case R.id.manual:
+                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://flexdule.wordpress.com/manual/"));
                         activity.startActivity(browserIntent);
                         return true;
                     case R.id.sync:
                         Intent intent = new Intent(activity, ExportActivity.class);
                         activity.startActivity(intent);
                         return true;
+                    case R.id.downloads:
+                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://flexdule.wordpress.com/downloads/"));
+                        activity.startActivity(browserIntent);
+                        return true;
+                    case R.id.about:
+                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://flexdule.wordpress.com/about/"));
+                        activity.startActivity(browserIntent);
                     default:
                         return false;
                 }

@@ -30,6 +30,7 @@ public class MainView extends ListenableView<MainViewListener> {
 	protected JLabel labelServerState;
 	protected JLabel labelMessage;
 	protected JLabel lblBtnReconnect;
+	protected Runnable usingMsg;
 
 	/**
 	 * Launch the application.
@@ -132,9 +133,13 @@ public class MainView extends ListenableView<MainViewListener> {
 			@Override
 			public void run() {
 				try {
+
 					labelMessage.setText(msg);
+					usingMsg = this;
 					Thread.sleep(ms);
-					labelMessage.setText("");
+					if (usingMsg == this)
+						labelMessage.setText("");
+
 				} catch (InterruptedException e) {
 					log.error("ERROR in [setLabelMessage]Thread: " + e);
 					e.printStackTrace();

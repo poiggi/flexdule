@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import flexdule.core.dtos.ScheduleWithActivities;
+import flexdule.desktop.connection.Server.ServerListener;
 import flexdule.desktop.model.daos.SchedulesWithActivitiesXmlDao;
 
 public class ServerThread extends Thread {
@@ -21,11 +23,12 @@ public class ServerThread extends Thread {
 	private Socket socket;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
+	private List<ServerListener> listeners = new ArrayList<>();
 
-	public ServerThread(Socket socket) throws Exception {
+	public ServerThread(Socket socket, List<ServerListener> listeners) throws Exception {
 		log.info("DOING ServerThread()");
 		this.socket = socket;
-
+		this.listeners = listeners;
 		try {
 			// Se crean los ObjectStreams para enviar y recibir datos por el socket:
 			ois = new ObjectInputStream(socket.getInputStream());
@@ -80,7 +83,10 @@ public class ServerThread extends Thread {
 
 			List<ScheduleWithActivities> schedules = (List<ScheduleWithActivities>) ois.readObject();
 			log.info("Schedules will be exported to XML: " + schedules);
-			SchedulesWithActivitiesXmlDao.export(schedules);
+			String result = SchedulesWithActivitiesXmlDao.export(schedules);
+			for (ServerListener listener : listeners) {
+				listener.onSendSchedulesService(result);
+			}
 
 		} catch (Exception e) {
 			log.error("ERROR in sendSchedulesService(): " + e);
@@ -95,12 +101,15 @@ public class ServerThread extends Thread {
 			log.info("helloRequest= " + helloRequest);
 			oos.writeObject(helloRequest);
 			oos.flush();
+			for (ServerListener listener : listeners) {
+				listener.onHelloService(helloRequest);
+			}
+
 		} catch (Exception e) {
 			log.error("ERROR in helloService(): " + e);
 		}
 		log.info("END helloService");
 	}
-
 
 
 }

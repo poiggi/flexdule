@@ -2,8 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/help"
-        android:title="Ayuda" />
+        android:title="Introducción" />
+    <item
+        android:id="@+id/manual"
+        android:title="Manual" />
     <item
         android:id="@+id/sync"
         android:title="Exportar" />
+    <item
+        android:id="@+id/downloads"
+        android:title="Descargas" />
+    <item
+        android:id="@+id/about"
+        android:title="Acerca de" />
 </menu>

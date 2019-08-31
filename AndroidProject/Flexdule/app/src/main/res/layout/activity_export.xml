@@ -33,7 +33,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/frameLayout2"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
 
             <FrameLayout
                 android:id="@+id/frameLayout2"
@@ -68,7 +69,8 @@
         android:textColor="@color/secondary_text_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView2"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/textView7"
@@ -83,7 +85,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:id="@+id/exportIp"
@@ -97,7 +100,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7"
-        tools:ignore="Autofill,LabelFor" />
+        tools:ignore="Autofill,HardcodedText,LabelFor" />
 
     <Button
         android:id="@+id/button"
@@ -109,7 +112,8 @@
         android:text="Probar conexión"
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@+id/space"
-        app:layout_constraintTop_toBottomOf="@+id/exportIp" />
+        app:layout_constraintTop_toBottomOf="@+id/exportIp"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/button2"
@@ -121,7 +125,8 @@
         android:text="Exportar horarios"
         android:textSize="13sp"
         app:layout_constraintStart_toEndOf="@+id/space"
-        app:layout_constraintTop_toBottomOf="@+id/exportIp" />
+        app:layout_constraintTop_toBottomOf="@+id/exportIp"
+        tools:ignore="HardcodedText" />
 
     <Space
         android:id="@+id/space"
